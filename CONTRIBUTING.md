@@ -21,7 +21,7 @@ In rough priority order:
 ### 1. Fork and clone
 
 ```bash
-git clone https://github.com/itismowgli/ai-doc-architect.git
+git clone https://github.com/your-org/ai-doc-architect.git
 cd ai-doc-architect
 ```
 
@@ -76,23 +76,18 @@ Each example file in `examples/` should follow this structure:
 # Example N: [Scenario Title]
 
 ## Context
-
 [Who is this team? What are their constraints? What problem are they solving?]
 
 ## What They Asked Claude
-
 [The actual prompt(s) the user would type]
 
 ## What the Skill Produces
-
 [The architecture / recommendations / output Claude gives]
 
 ## Key Decisions Made
-
 [Why these specific choices for this specific context]
 
 ## What to Watch Out For
-
 [Gotchas specific to this scenario]
 ```
 

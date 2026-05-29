@@ -1231,3 +1231,306 @@ together so the reader can find the field regardless of their language setting.
 | Audit trail described as optional | Audit trails are mandatory in GCP-regulated systems; say so |
 | Screenshots with real study or patient data | Replace with synthetic data or use text descriptions |
 | One guide covering all study phases | Split by phase: pre-screening, enrollment, active, completed |
+
+---
+
+## Section 20: The Book Standard - How Every Manual Must Be Structured
+
+A user manual is a book. Not a reference dump, not a feature list, not a collection of
+release notes. A book has chapters that build on each other. Every chapter is
+self-contained. A reader can open any chapter and get everything they need without
+hunting through other sections.
+
+This section defines the mandatory structure every ADUMAS-generated manual must follow.
+Apply it regardless of the product, platform, or audience.
+
+---
+
+### 20.1 The Mandatory Chapter List
+
+Every complete user manual must include these chapters, in this order:
+
+**Chapter 0: About This Manual**
+- Who this manual is for (all personas listed)
+- How to use this manual (role-specific reading guide)
+- How the product is versioned
+- Where to get help if the manual does not answer your question
+
+**Chapter 1: What Is [Product Name]?**
+- One-paragraph plain-language description of what the product does
+- The problem it solves and for whom
+- How it fits into the broader platform or workflow
+- A "how it all fits together" overview - either a diagram or a numbered narrative of the full workflow from start to finish (e.g. case submission to impact survey)
+- Key concepts: define every term a user will encounter, in plain language, before they encounter it
+
+**Chapter 2: Roles and Permissions**
+- Every role in the system, defined in plain language
+- A permissions matrix: rows = actions, columns = roles, cells = Yes/No/Conditional
+- How roles are assigned (by whom, when, under what conditions)
+- What a user should do if their role seems wrong
+
+**Chapter 3: Getting Started**
+- Prerequisites (access, setup, any configuration required)
+- First login or first-time access
+- A complete end-to-end walkthrough of the most common first task for the primary persona
+- Not a feature tour - a real task, from opening the app to a completed outcome
+
+**Chapter 4+: One chapter per major feature or workflow**
+See Section 20.2 for the mandatory structure of each feature chapter.
+
+**Penultimate chapter: Troubleshooting**
+See Section 20.4 for mandatory content.
+
+**Final chapter: Reference**
+- Glossary of all terms used in the manual
+- Limits and constraints table (file sizes, counts, timeouts, etc.)
+- System messages and toast notifications index
+- Email notifications reference table
+- Keyboard shortcuts (if applicable)
+- Support and escalation contacts
+
+---
+
+### 20.2 Mandatory Structure of Every Feature Chapter
+
+Every chapter covering a feature or workflow must have all of these sections.
+A chapter is not complete if any section is missing.
+
+```
+# Chapter N: [Feature Name]
+
+> **Who this chapter is for:** [Persona list]
+> **What you will be able to do:** [1-2 sentence outcome statement]
+> **Before you start:** [Prerequisites - access, prior steps, required data]
+
+## Overview
+One paragraph. What this feature is, why it exists, what problem it solves.
+Not a list of sub-features. A narrative that gives context.
+
+## [Core task 1 - imperative heading, e.g. "Create a Case Review"]
+### When to use this
+### Before you begin
+### Steps
+(numbered, second person, active voice, each step = one action)
+### What happens next
+(the outcome - what the user sees, what the system does, what email fires)
+### If something goes wrong
+(the most common errors and how to resolve them)
+
+## [Core task 2...]
+(same structure)
+
+## Best Practices
+3-5 specific, actionable recommendations. Not generic advice.
+E.g. "Mark a case urgent only when the clinical decision must be made within 24 hours.
+Overusing urgency flags reduces their impact on panel prioritisation."
+
+## Limits and Constraints
+A table of any limits that apply to this feature specifically.
+| Limit | Value | Notes |
+|---|---|---|
+| Maximum file attachment size | 25 MB | Per file. No limit on number of attachments. |
+| Maximum collaborators per case | 10 | Contact your panel owner to request an exception. |
+
+## Reference: System Messages and Toasts
+A table of every system-generated message a user will see in this feature.
+| Trigger | Message shown | Where shown |
+|---|---|---|
+| Case assigned | "Case reassigned successfully." | Toast |
+| Collaborator accepts | "[Name] accepted the collaborator invitation." | System chat message |
+
+## Related Topics
+Links to other chapters this feature connects to.
+```
+
+---
+
+### 20.3 Role-Specific Reading Guide
+
+Every manual must include a reading guide at the start (Chapter 0 or as a sidebar/callout).
+Users should never have to read chapters that do not apply to them.
+
+Format:
+
+```
+## How to use this manual
+
+Find your role below and read the recommended chapters.
+
+| Your role | Start here | Then read |
+|---|---|---|
+| Clinician (case creator) | Chapter 3 (Getting Started), Chapter 5 (Creating Cases) | Chapter 6 (Case Chat), Chapter 7 (Patient Data Access), Chapter 11 (Impact Survey) |
+| Specialist (reviewer) | Chapter 3 (Getting Started), Chapter 5.3 (Accepting Cases) | Chapter 6 (Case Chat), Chapter 7 (Patient Data Access), Chapter 9 (Support Request) |
+| Panel Leader | Chapter 4 (Roles), Chapter 8 (Reassigning Cases) | Chapter 10 (Panel Dashboard), Chapter 12 (Impact Summary) |
+| Panel Owner | All chapters, starting with Chapter 2 (Roles) | Chapter 13 (Panel Settings - all sections) |
+| Administrator | Chapter 2 (Roles), Chapter 15 (Activity Log) | Chapter 14 (Admin Guide) |
+```
+
+---
+
+### 20.4 Mandatory Troubleshooting Chapter
+
+The troubleshooting chapter is not an FAQ. It is structured by symptom, not by question.
+Every troubleshooting entry has: symptom, likely cause, resolution steps, escalation path.
+
+Required format for each entry:
+
+```
+### [Symptom - what the user observes, not what they think caused it]
+
+**You see:** [Exact description of what the user sees]
+**Likely cause:** [Plain language explanation]
+**To resolve:**
+1. [Step]
+2. [Step]
+**If this does not resolve it:** [Who to contact, what information to provide]
+```
+
+Minimum 8 troubleshooting entries per manual. Derive them from:
+- Support tickets or known issues (if available)
+- Pest feature tests that cover error paths
+- Edge cases documented in the PRD or functional requirements
+- The "if something goes wrong" subsections in each feature chapter (consolidate here)
+
+---
+
+### 20.5 Glossary Requirements
+
+A glossary must appear as the first section of the Reference chapter.
+
+Rules:
+- Define every product-specific term on its first use in the body, AND collect all definitions in the glossary.
+- Write definitions for a reader who has never used the product before.
+- Do not define a term by using the term itself.
+- Sort alphabetically.
+- Cross-link related terms with "See also: [Term]".
+
+Example entry:
+
+```
+**Panel**
+A group of specialists organised around a clinical specialty (e.g. Cardiology, Radiology).
+Cases are submitted to panels for expert review. Each panel has its own members, settings,
+and access controls. A panel must have at least one Panel Owner. See also: Panel Member,
+Panel Leader, Panel Owner.
+```
+
+---
+
+### 20.6 Scenario-Based Writing
+
+Every feature chapter must include at least one scenario that grounds the instructions
+in a realistic clinical or operational context.
+
+A scenario is not an example input. It is a brief narrative that establishes:
+- Who the user is (role + context)
+- What situation they are in
+- What they need to accomplish
+- Why this particular feature is the right tool
+
+Format:
+
+```
+> **Scenario:** Dr. Patel is a cardiologist at Site 01. She has reviewed a patient
+> with an unusual ECG pattern and wants a second opinion from the Cardiac Imaging panel
+> before deciding on the next steps. She needs to create a case review that includes
+> the patient's recent ECG form and a clear clinical question.
+>
+> Follow the steps below to create a case review.
+```
+
+The scenario appears at the top of the relevant task section, before the steps.
+It is set off in a blockquote so it is visually distinct from the instructions.
+
+---
+
+### 20.7 Limits, Constraints, and System Boundaries Reference
+
+Every manual must include a consolidated limits table in the Reference chapter.
+This captures all system constraints so users never discover them by hitting an error.
+
+Derive limits from:
+- FormRequest validation rules (max, min, size, mimes validators in Laravel)
+- Database column constraints (character limits, nullable vs required)
+- Config files (timeout values, SLA thresholds, file size limits)
+- Feature tests that assert boundary conditions
+- PRD implementation decisions section
+
+Table format:
+
+```
+| Feature | Constraint | Value | Notes |
+|---|---|---|---|
+| File attachments | Maximum file size | 25 MB per file | All formats accepted unless listed |
+| File attachments | Blocked file types | .exe, .bat, .sh | Security policy |
+| Case collaborators | Maximum per case | 10 | Contact panel owner for exceptions |
+| AI summary | Timeout | 30 seconds | Regenerate if it does not appear |
+| Panel invitation | Expiry | 7 days | Panel owner can resend expired invitations |
+| Case inactivity | Warning threshold | 14 days | Email sent to case creator |
+| Case inactivity | Auto-close threshold | 30 days | Cannot be reopened; new case required |
+```
+
+---
+
+### 20.8 PHI and Data Privacy Section (Healthcare Platforms)
+
+Any manual for a healthcare or clinical platform must include a dedicated data privacy
+section in Chapter 1 or Chapter 2. It is not optional.
+
+Required content:
+- What data the product can display and to whom
+- What "restricted data" means and who controls access to it
+- How data access requests work (who requests, who approves, what is logged)
+- Audit trail: what is logged, who can view logs, how long logs are retained
+- What users should NOT do (screenshots of patient data, sharing access credentials, etc.)
+- Who to contact if a data access issue occurs
+
+Format this as a dedicated section with a prominent callout:
+
+```
+> **Data sensitivity notice.** [Product name] displays protected health information (PHI).
+> All actions are logged and audited. Do not share screenshots of patient data outside
+> of authorised channels. If you believe data has been accessed inappropriately,
+> contact your site administrator immediately.
+```
+
+---
+
+### 20.9 Completeness Checklist
+
+Before a manual is considered complete, verify every item below. A manual with any
+unchecked item is a draft, not a deliverable.
+
+**Structure**
+- [ ] About This Manual chapter with role-specific reading guide
+- [ ] "What Is [Product]?" chapter with full workflow overview and key concepts
+- [ ] Roles and Permissions chapter with permission matrix
+- [ ] Getting Started chapter with end-to-end first-task walkthrough
+- [ ] One chapter per major feature or workflow
+- [ ] Troubleshooting chapter (minimum 8 entries, symptom-structured)
+- [ ] Reference chapter with glossary, limits table, notifications table, system messages index
+
+**Every feature chapter**
+- [ ] Who-for and what-you-will-learn preamble
+- [ ] Overview paragraph (not a bullet list)
+- [ ] At least one scenario (blockquote format)
+- [ ] All core tasks documented (step-by-step, second person active voice)
+- [ ] "What happens next" outcome for each task
+- [ ] "If something goes wrong" for each task
+- [ ] Best practices section (3-5 specific items)
+- [ ] Limits and constraints table
+- [ ] System messages and toasts reference table
+- [ ] Related topics links
+
+**Content**
+- [ ] Every product-specific term defined in glossary
+- [ ] All role types documented with plain-language definitions
+- [ ] Permission matrix covers all actions in the product
+- [ ] All email notification triggers documented in reference table
+- [ ] All file/data limits documented
+- [ ] All SLA/timeout thresholds documented
+- [ ] PHI/privacy section present (healthcare products only)
+- [ ] No em dashes (hyphens only)
+- [ ] No passive voice in step instructions (every step starts with a verb)
+- [ ] No "click here" link text (all links use destination title)
+- [ ] All screenshots use synthetic data, not real patient or user data

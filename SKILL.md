@@ -120,6 +120,58 @@ These principles come from how the best documentation teams in the industry (Str
 **Continuous improvement over perfection.** The system does not need to generate perfect documentation on day one. It needs a feedback loop: usage analytics, search gap analysis, support ticket correlation, and user ratings should continuously feed back into generation quality.
 
 
+## The Book Standard - Non-Negotiable Output Quality
+
+**A user manual is a book.** Not a feature dump. Not a reference list. A book.
+
+Every generated manual must meet the Book Standard defined in `references/writing-guide.md`
+Section 20. Before delivering any manual, run the completeness checklist (Section 20.9).
+A manual with any unchecked item is a draft, not a deliverable.
+
+### Mandatory chapters (in order)
+
+1. **About This Manual** - who it is for, role-specific reading guide, where to get help
+2. **What Is [Product]?** - plain-language description, full workflow overview (start to finish), key concepts defined
+3. **Roles and Permissions** - every role defined, full permission matrix, how roles are assigned
+4. **Getting Started** - prerequisites, first-task walkthrough end-to-end for the primary persona
+5. **One chapter per major feature or workflow** - not sub-sections buried inside a mega-chapter
+6. **Troubleshooting** - symptom-structured, minimum 8 entries, each with resolution steps and escalation path
+7. **Reference** - glossary, limits and constraints table, system messages index, email notifications table
+
+### Every feature chapter must contain
+
+- Who-for preamble and outcome statement
+- Overview paragraph (narrative, not a bullet list)
+- At least one scenario in blockquote format grounding the instructions in a realistic context
+- All core tasks: step-by-step, second-person active voice, one action per step
+- "What happens next" outcome after each task
+- "If something goes wrong" for each task
+- Best practices (3-5 specific, actionable items)
+- Limits and constraints table
+- System messages and toasts reference table
+- Related topics links
+
+### The split rule
+
+If a section has more than 3 major tasks or its own complex permission model, it is
+its own chapter - not a sub-section. Apply this to the Care Insight example: "Case Chat",
+"Patient Profile", "Support Request", and "Impact Survey" are each their own chapter,
+not sub-sections of "Review Center".
+
+### The scenario rule
+
+Every feature chapter must open with at least one scenario that puts the user in a
+real situation before the instructions begin. A scenario establishes who the user is,
+what situation they are in, and why this feature is the right tool.
+
+### The glossary rule
+
+Define every product-specific term on first use AND collect all definitions in the
+Reference chapter glossary. A reader who skips to any chapter must be able to understand
+every term without reading from the beginning.
+
+---
+
 ## Default Output Format
 
 **All generated user manuals are Markdown files by default.** This is non-negotiable.

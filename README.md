@@ -4,7 +4,7 @@
 > Reads PRDs from Confluence, FRs from Linear or Jira, compares against your codebase, and
 > generates Markdown user manuals automatically.
 
-[![Skill Version](https://img.shields.io/badge/skill-v1.2.0-blue)](./SKILL.md)
+[![Skill Version](https://img.shields.io/badge/skill-v1.4.0-blue)](./SKILL.md)
 [![skills.sh](https://skills.sh/b/itismowgli/ai-doc-architect)](https://skills.sh/itismowgli/ai-doc-architect)
 [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 [![Works with Claude Code](https://img.shields.io/badge/Claude%20Code-supported-blueviolet)](https://code.claude.com/docs/en/skills)
@@ -43,15 +43,15 @@ npx skills add ./ai-doc-architect
 
 ### Options
 
-| Option                    | Description                                                                                      |
-| ------------------------- | ------------------------------------------------------------------------------------------------ |
-| `-g, --global`            | Install to user directory instead of project                                                     |
+| Option | Description |
+|---|---|
+| `-g, --global` | Install to user directory instead of project |
 | `-a, --agent <agents...>` | Target specific agents (e.g., `claude-code`, `codex`). See [Supported Agents](#supported-agents) |
-| `-s, --skill <skills...>` | Install specific skills by name (use `'*'` for all skills)                                       |
-| `-l, --list`              | List available skills without installing                                                         |
-| `--copy`                  | Copy files instead of symlinking to agent directories                                            |
-| `-y, --yes`               | Skip all confirmation prompts                                                                    |
-| `--all`                   | Install all skills to all agents without prompts                                                 |
+| `-s, --skill <skills...>` | Install specific skills by name (use `'*'` for all skills) |
+| `-l, --list` | List available skills without installing |
+| `--copy` | Copy files instead of symlinking to agent directories |
+| `-y, --yes` | Skip all confirmation prompts |
+| `--all` | Install all skills to all agents without prompts |
 
 ### Examples
 
@@ -83,31 +83,31 @@ npx skills add itismowgli/ai-doc-architect --agent '*'
 
 ### Installation Scope
 
-| Scope       | Flag      | Location            | Use Case                                                |
-| ----------- | --------- | ------------------- | ------------------------------------------------------- |
+| Scope | Flag | Location | Use Case |
+|---|---|---|---|
 | **Project** | (default) | `./<agent>/skills/` | Committed with your project; shared with the whole team |
-| **Global**  | `-g`      | `~/<agent>/skills/` | Available across all your projects                      |
+| **Global** | `-g` | `~/<agent>/skills/` | Available across all your projects |
 
 ### Installation Methods
 
 When installing interactively, you can choose:
 
-| Method                    | Description                                                                                                |
-| ------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| **Symlink** (Recommended) | Creates symlinks from each agent to a canonical copy. Single source of truth; easy to update.              |
-| **Copy**                  | Creates independent copies per agent. Use when symlinks are not supported (Windows, some CI environments). |
+| Method | Description |
+|---|---|
+| **Symlink** (Recommended) | Creates symlinks from each agent to a canonical copy. Single source of truth; easy to update. |
+| **Copy** | Creates independent copies per agent. Use when symlinks are not supported (Windows, some CI environments). |
 
 ---
 
 ## Other Commands
 
-| Command                      | Description                                   |
-| ---------------------------- | --------------------------------------------- |
-| `npx skills list`            | List installed skills (alias: `ls`)           |
-| `npx skills find [query]`    | Search for skills interactively or by keyword |
-| `npx skills remove [skills]` | Remove installed skills from agents           |
-| `npx skills update [skills]` | Update installed skills to latest versions    |
-| `npx skills init [name]`     | Create a new SKILL.md template                |
+| Command | Description |
+|---|---|
+| `npx skills list` | List installed skills (alias: `ls`) |
+| `npx skills find [query]` | Search for skills interactively or by keyword |
+| `npx skills remove [skills]` | Remove installed skills from agents |
+| `npx skills update [skills]` | Update installed skills to latest versions |
+| `npx skills init [name]` | Create a new SKILL.md template |
 
 ### `skills list`
 
@@ -155,12 +155,12 @@ npx skills update -p
 npx skills update -y
 ```
 
-| Option          | Description                                                               |
-| --------------- | ------------------------------------------------------------------------- |
-| `-g, --global`  | Only update global skills                                                 |
-| `-p, --project` | Only update project skills                                                |
-| `-y, --yes`     | Skip scope prompt (auto-detect: project if in a project dir, else global) |
-| `[skills...]`   | Update specific skills by name instead of all                             |
+| Option | Description |
+|---|---|
+| `-g, --global` | Only update global skills |
+| `-p, --project` | Only update project skills |
+| `-y, --yes` | Skip scope prompt (auto-detect: project if in a project dir, else global) |
+| `[skills...]` | Update specific skills by name instead of all |
 
 ### `skills remove`
 
@@ -184,13 +184,13 @@ npx skills remove --all
 npx skills rm ai-doc-architect
 ```
 
-| Option         | Description                                     |
-| -------------- | ----------------------------------------------- |
-| `-g, --global` | Remove from global scope instead of project     |
-| `-a, --agent`  | Remove from specific agents (use `'*'` for all) |
-| `-s, --skill`  | Specify skills to remove (use `'*'` for all)    |
-| `-y, --yes`    | Skip confirmation prompts                       |
-| `--all`        | Shorthand for `--skill '*' --agent '*' -y`      |
+| Option | Description |
+|---|---|
+| `-g, --global` | Remove from global scope instead of project |
+| `-a, --agent` | Remove from specific agents (use `'*'` for all) |
+| `-s, --skill` | Specify skills to remove (use `'*'` for all) |
+| `-y, --yes` | Skip confirmation prompts |
+| `--all` | Shorthand for `--skill '*' --agent '*' -y` |
 
 ### `skills init`
 
@@ -355,16 +355,16 @@ ai-doc-architect/
 
 Claude loads only what it needs for each query:
 
-| What Claude loads                           | When                                                                                                    |
-| ------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| `SKILL.md` frontmatter (name + description) | Always - used to decide whether to trigger the skill                                                    |
-| `SKILL.md` body                             | When the skill is triggered                                                                             |
-| `references/architecture.md`                | When designing agents, workflows, or databases                                                          |
-| `references/tech-stack.md`                  | When recommending tech stack, integrations, or deployment model                                         |
-| `references/mcps.md`                        | When the user asks about MCP connections, platform integrations, or the PRD-to-manual workflow          |
-| `references/decision-guide.md`              | When the user asks "should I use X or Y?"                                                               |
-| `references/anti-patterns.md`               | When the user asks what to avoid or is troubleshooting                                                  |
-| `references/writing-guide.md`               | When the user asks about writing quality, plain language, second person, or task-oriented documentation |
+| What Claude loads | When |
+|---|---|
+| `SKILL.md` frontmatter (name + description) | Always - used to decide whether to trigger the skill |
+| `SKILL.md` body | When the skill is triggered |
+| `references/architecture.md` | When designing agents, workflows, or databases |
+| `references/tech-stack.md` | When recommending tech stack, integrations, or deployment model |
+| `references/mcps.md` | When the user asks about MCP connections, platform integrations, or the PRD-to-manual workflow |
+| `references/decision-guide.md` | When the user asks "should I use X or Y?" |
+| `references/anti-patterns.md` | When the user asks what to avoid or is troubleshooting |
+| `references/writing-guide.md` | When the user asks about writing quality, plain language, second person, or task-oriented documentation |
 
 This keeps response time fast. Claude never loads reference files it does not need.
 
@@ -372,37 +372,37 @@ This keeps response time fast. Claude never loads reference files it does not ne
 
 The skill covers a **15-component system** across 5 architectural tiers:
 
-| Tier             | Components                                                         |
-| ---------------- | ------------------------------------------------------------------ |
-| **Ingestion**    | Git webhooks, API schema parsers, UI scrapers, log ingestors       |
-| **Intelligence** | 7 AI agents + Knowledge Graph (Neo4j) + RAG pipeline (pgvector)    |
-| **Generation**   | Multi-persona doc generator, 12 composable skill modules           |
-| **Management**   | Versioning, approval workflows, quality scoring, translation       |
+| Tier | Components |
+|---|---|
+| **Ingestion** | Git webhooks, API schema parsers, UI scrapers, log ingestors |
+| **Intelligence** | 7 AI agents + Knowledge Graph (Neo4j) + RAG pipeline (pgvector) |
+| **Generation** | Multi-persona doc generator, 12 composable skill modules |
+| **Management** | Versioning, approval workflows, quality scoring, translation |
 | **Distribution** | 10+ platform adapters (Notion, Confluence, Slack, GitHub Pages...) |
 
 ### The 7 Agents
 
-| Agent                       | MVP?     | Role                                                     |
-| --------------------------- | -------- | -------------------------------------------------------- |
-| Codebase Analyst            | Optional | Deep static analysis of source code and APIs             |
-| **Commit Intelligence**     | Core     | Understands what changed and what docs are impacted      |
-| **Documentation Generator** | Core     | Writes task-oriented documentation from AI analysis      |
-| Quality Auditor             | Phase 2  | Scores, validates, and flags documentation issues        |
-| Audience Adapter            | Phase 2  | Tailors docs per user role, language, and permissions    |
-| **Distribution and Sync**   | Core     | Publishes to Notion, Confluence, Slack, and more         |
-| Feedback Intelligence       | Phase 3  | Learns from usage analytics to improve quality over time |
+| Agent | MVP? | Role |
+|---|---|---|
+| Codebase Analyst | Optional | Deep static analysis of source code and APIs |
+| **Commit Intelligence** | Core | Understands what changed and what docs are impacted |
+| **Documentation Generator** | Core | Writes task-oriented documentation from AI analysis |
+| Quality Auditor | Phase 2 | Scores, validates, and flags documentation issues |
+| Audience Adapter | Phase 2 | Tailors docs per user role, language, and permissions |
+| **Distribution and Sync** | Core | Publishes to Notion, Confluence, Slack, and more |
+| Feedback Intelligence | Phase 3 | Learns from usage analytics to improve quality over time |
 
 ### MCP Integrations
 
-| MCP           | Phase                      | Primary Use                                            |
-| ------------- | -------------------------- | ------------------------------------------------------ |
-| GitHub MCP    | Core                       | Commit intelligence, PR diffs, release triggers        |
-| Atlassian MCP | Core (if using Confluence) | PRD reading, Confluence publishing, Jira gap tickets   |
-| Notion MCP    | Core (if using Notion)     | Documentation destination for Notion-first teams       |
-| Linear MCP    | Recommended                | FR reading, gap issue creation, status sync            |
-| Slack MCP     | Recommended                | Release notifications, staleness alerts, approval flow |
-| Figma MCP     | Phase 2                    | UI component names and screen annotations              |
-| Intercom MCP  | Phase 3                    | Sync help articles to in-product support widget        |
+| MCP | Phase | Primary Use |
+|---|---|---|
+| GitHub MCP | Core | Commit intelligence, PR diffs, release triggers |
+| Atlassian MCP | Core (if using Confluence) | PRD reading, Confluence publishing, Jira gap tickets |
+| Notion MCP | Core (if using Notion) | Documentation destination for Notion-first teams |
+| Linear MCP | Recommended | FR reading, gap issue creation, status sync |
+| Slack MCP | Recommended | Release notifications, staleness alerts, approval flow |
+| Figma MCP | Phase 2 | UI component names and screen annotations |
+| Intercom MCP | Phase 3 | Sync help articles to in-product support widget |
 
 ---
 
@@ -410,63 +410,62 @@ The skill covers a **15-component system** across 5 architectural tiers:
 
 Skills can be installed to any of these agents:
 
-| Agent                                 | `--agent`                                | Project Path             | Global Path                     |
-| ------------------------------------- | ---------------------------------------- | ------------------------ | ------------------------------- |
-| AiderDesk                             | `aider-desk`                             | `.aider-desk/skills/`    | `~/.aider-desk/skills/`         |
-| Amp, Kimi Code CLI, Replit, Universal | `amp`, `kimi-cli`, `replit`, `universal` | `.agents/skills/`        | `~/.config/agents/skills/`      |
-| Antigravity                           | `antigravity`                            | `.agents/skills/`        | `~/.gemini/antigravity/skills/` |
-| Augment                               | `augment`                                | `.augment/skills/`       | `~/.augment/skills/`            |
-| IBM Bob                               | `bob`                                    | `.bob/skills/`           | `~/.bob/skills/`                |
-| Claude Code                           | `claude-code`                            | `.claude/skills/`        | `~/.claude/skills/`             |
-| OpenClaw                              | `openclaw`                               | `skills/`                | `~/.openclaw/skills/`           |
-| Cline, Dexto, Warp                    | `cline`, `dexto`, `warp`                 | `.agents/skills/`        | `~/.agents/skills/`             |
-| CodeArts Agent                        | `codearts-agent`                         | `.codeartsdoer/skills/`  | `~/.codeartsdoer/skills/`       |
-| CodeBuddy                             | `codebuddy`                              | `.codebuddy/skills/`     | `~/.codebuddy/skills/`          |
-| Codemaker                             | `codemaker`                              | `.codemaker/skills/`     | `~/.codemaker/skills/`          |
-| Code Studio                           | `codestudio`                             | `.codestudio/skills/`    | `~/.codestudio/skills/`         |
-| Codex                                 | `codex`                                  | `.agents/skills/`        | `~/.codex/skills/`              |
-| Command Code                          | `command-code`                           | `.commandcode/skills/`   | `~/.commandcode/skills/`        |
-| Continue                              | `continue`                               | `.continue/skills/`      | `~/.continue/skills/`           |
-| Cortex Code                           | `cortex`                                 | `.cortex/skills/`        | `~/.snowflake/cortex/skills/`   |
-| Crush                                 | `crush`                                  | `.crush/skills/`         | `~/.config/crush/skills/`       |
-| Cursor                                | `cursor`                                 | `.agents/skills/`        | `~/.cursor/skills/`             |
-| Deep Agents                           | `deepagents`                             | `.agents/skills/`        | `~/.deepagents/agent/skills/`   |
-| Devin for Terminal                    | `devin`                                  | `.devin/skills/`         | `~/.config/devin/skills/`       |
-| Droid                                 | `droid`                                  | `.factory/skills/`       | `~/.factory/skills/`            |
-| Firebender                            | `firebender`                             | `.agents/skills/`        | `~/.firebender/skills/`         |
-| ForgeCode                             | `forgecode`                              | `.forge/skills/`         | `~/.forge/skills/`              |
-| Gemini CLI                            | `gemini-cli`                             | `.agents/skills/`        | `~/.gemini/skills/`             |
-| GitHub Copilot                        | `github-copilot`                         | `.agents/skills/`        | `~/.copilot/skills/`            |
-| Goose                                 | `goose`                                  | `.goose/skills/`         | `~/.config/goose/skills/`       |
-| Hermes Agent                          | `hermes-agent`                           | `.hermes/skills/`        | `~/.hermes/skills/`             |
-| Junie                                 | `junie`                                  | `.junie/skills/`         | `~/.junie/skills/`              |
-| iFlow CLI                             | `iflow-cli`                              | `.iflow/skills/`         | `~/.iflow/skills/`              |
-| Kilo Code                             | `kilo`                                   | `.kilocode/skills/`      | `~/.kilocode/skills/`           |
-| Kiro CLI                              | `kiro-cli`                               | `.kiro/skills/`          | `~/.kiro/skills/`               |
-| Kode                                  | `kode`                                   | `.kode/skills/`          | `~/.kode/skills/`               |
-| MCPJam                                | `mcpjam`                                 | `.mcpjam/skills/`        | `~/.mcpjam/skills/`             |
-| Mistral Vibe                          | `mistral-vibe`                           | `.vibe/skills/`          | `~/.vibe/skills/`               |
-| Mux                                   | `mux`                                    | `.mux/skills/`           | `~/.mux/skills/`                |
-| OpenCode                              | `opencode`                               | `.agents/skills/`        | `~/.config/opencode/skills/`    |
-| OpenHands                             | `openhands`                              | `.openhands/skills/`     | `~/.openhands/skills/`          |
-| Pi                                    | `pi`                                     | `.pi/skills/`            | `~/.pi/agent/skills/`           |
-| Qoder                                 | `qoder`                                  | `.qoder/skills/`         | `~/.qoder/skills/`              |
-| Qwen Code                             | `qwen-code`                              | `.qwen/skills/`          | `~/.qwen/skills/`               |
-| Rovo Dev                              | `rovodev`                                | `.rovodev/skills/`       | `~/.rovodev/skills/`            |
-| Roo Code                              | `roo`                                    | `.roo/skills/`           | `~/.roo/skills/`                |
-| Tabnine CLI                           | `tabnine-cli`                            | `.tabnine/agent/skills/` | `~/.tabnine/agent/skills/`      |
-| Trae                                  | `trae`                                   | `.trae/skills/`          | `~/.trae/skills/`               |
-| Trae CN                               | `trae-cn`                                | `.trae/skills/`          | `~/.trae-cn/skills/`            |
-| Windsurf                              | `windsurf`                               | `.windsurf/skills/`      | `~/.codeium/windsurf/skills/`   |
-| Zencoder                              | `zencoder`                               | `.zencoder/skills/`      | `~/.zencoder/skills/`           |
-| Neovate                               | `neovate`                                | `.neovate/skills/`       | `~/.neovate/skills/`            |
-| Pochi                                 | `pochi`                                  | `.pochi/skills/`         | `~/.pochi/skills/`              |
-| AdaL                                  | `adal`                                   | `.adal/skills/`          | `~/.adal/skills/`               |
+| Agent | `--agent` | Project Path | Global Path |
+|---|---|---|---|
+| AiderDesk | `aider-desk` | `.aider-desk/skills/` | `~/.aider-desk/skills/` |
+| Amp, Kimi Code CLI, Replit, Universal | `amp`, `kimi-cli`, `replit`, `universal` | `.agents/skills/` | `~/.config/agents/skills/` |
+| Antigravity | `antigravity` | `.agents/skills/` | `~/.gemini/antigravity/skills/` |
+| Augment | `augment` | `.augment/skills/` | `~/.augment/skills/` |
+| IBM Bob | `bob` | `.bob/skills/` | `~/.bob/skills/` |
+| Claude Code | `claude-code` | `.claude/skills/` | `~/.claude/skills/` |
+| OpenClaw | `openclaw` | `skills/` | `~/.openclaw/skills/` |
+| Cline, Dexto, Warp | `cline`, `dexto`, `warp` | `.agents/skills/` | `~/.agents/skills/` |
+| CodeArts Agent | `codearts-agent` | `.codeartsdoer/skills/` | `~/.codeartsdoer/skills/` |
+| CodeBuddy | `codebuddy` | `.codebuddy/skills/` | `~/.codebuddy/skills/` |
+| Codemaker | `codemaker` | `.codemaker/skills/` | `~/.codemaker/skills/` |
+| Code Studio | `codestudio` | `.codestudio/skills/` | `~/.codestudio/skills/` |
+| Codex | `codex` | `.agents/skills/` | `~/.codex/skills/` |
+| Command Code | `command-code` | `.commandcode/skills/` | `~/.commandcode/skills/` |
+| Continue | `continue` | `.continue/skills/` | `~/.continue/skills/` |
+| Cortex Code | `cortex` | `.cortex/skills/` | `~/.snowflake/cortex/skills/` |
+| Crush | `crush` | `.crush/skills/` | `~/.config/crush/skills/` |
+| Cursor | `cursor` | `.agents/skills/` | `~/.cursor/skills/` |
+| Deep Agents | `deepagents` | `.agents/skills/` | `~/.deepagents/agent/skills/` |
+| Devin for Terminal | `devin` | `.devin/skills/` | `~/.config/devin/skills/` |
+| Droid | `droid` | `.factory/skills/` | `~/.factory/skills/` |
+| Firebender | `firebender` | `.agents/skills/` | `~/.firebender/skills/` |
+| ForgeCode | `forgecode` | `.forge/skills/` | `~/.forge/skills/` |
+| Gemini CLI | `gemini-cli` | `.agents/skills/` | `~/.gemini/skills/` |
+| GitHub Copilot | `github-copilot` | `.agents/skills/` | `~/.copilot/skills/` |
+| Goose | `goose` | `.goose/skills/` | `~/.config/goose/skills/` |
+| Hermes Agent | `hermes-agent` | `.hermes/skills/` | `~/.hermes/skills/` |
+| Junie | `junie` | `.junie/skills/` | `~/.junie/skills/` |
+| iFlow CLI | `iflow-cli` | `.iflow/skills/` | `~/.iflow/skills/` |
+| Kilo Code | `kilo` | `.kilocode/skills/` | `~/.kilocode/skills/` |
+| Kiro CLI | `kiro-cli` | `.kiro/skills/` | `~/.kiro/skills/` |
+| Kode | `kode` | `.kode/skills/` | `~/.kode/skills/` |
+| MCPJam | `mcpjam` | `.mcpjam/skills/` | `~/.mcpjam/skills/` |
+| Mistral Vibe | `mistral-vibe` | `.vibe/skills/` | `~/.vibe/skills/` |
+| Mux | `mux` | `.mux/skills/` | `~/.mux/skills/` |
+| OpenCode | `opencode` | `.agents/skills/` | `~/.config/opencode/skills/` |
+| OpenHands | `openhands` | `.openhands/skills/` | `~/.openhands/skills/` |
+| Pi | `pi` | `.pi/skills/` | `~/.pi/agent/skills/` |
+| Qoder | `qoder` | `.qoder/skills/` | `~/.qoder/skills/` |
+| Qwen Code | `qwen-code` | `.qwen/skills/` | `~/.qwen/skills/` |
+| Rovo Dev | `rovodev` | `.rovodev/skills/` | `~/.rovodev/skills/` |
+| Roo Code | `roo` | `.roo/skills/` | `~/.roo/skills/` |
+| Tabnine CLI | `tabnine-cli` | `.tabnine/agent/skills/` | `~/.tabnine/agent/skills/` |
+| Trae | `trae` | `.trae/skills/` | `~/.trae/skills/` |
+| Trae CN | `trae-cn` | `.trae/skills/` | `~/.trae-cn/skills/` |
+| Windsurf | `windsurf` | `.windsurf/skills/` | `~/.codeium/windsurf/skills/` |
+| Zencoder | `zencoder` | `.zencoder/skills/` | `~/.zencoder/skills/` |
+| Neovate | `neovate` | `.neovate/skills/` | `~/.neovate/skills/` |
+| Pochi | `pochi` | `.pochi/skills/` | `~/.pochi/skills/` |
+| AdaL | `adal` | `.adal/skills/` | `~/.adal/skills/` |
 
 > **Kiro CLI users:** The default agent automatically loads skills from `.kiro/skills/` and
 > `~/.kiro/skills/` with no configuration needed. For a custom agent, add skills to its
 > `resources` in `.kiro/agents/<agent>.json`:
->
 > ```json
 > { "resources": ["skill://.kiro/skills/**/SKILL.md"] }
 > ```
@@ -478,22 +477,22 @@ If none are detected, you will be prompted to select which agents to install to.
 
 ## Compatibility
 
-| Feature         | Claude Code | Cursor | Codex | Cline | OpenCode | Roo Code | Windsurf | Gemini CLI |
-| --------------- | ----------- | ------ | ----- | ----- | -------- | -------- | -------- | ---------- |
-| Basic skills    | Yes         | Yes    | Yes   | Yes   | Yes      | Yes      | Yes      | Yes        |
-| `allowed-tools` | Yes         | Yes    | Yes   | Yes   | Yes      | Yes      | Yes      | Yes        |
-| `context: fork` | Yes         | No     | No    | No    | No       | No       | No       | No         |
-| Hooks           | Yes         | No     | No    | Yes   | No       | No       | No       | No         |
+| Feature | Claude Code | Cursor | Codex | Cline | OpenCode | Roo Code | Windsurf | Gemini CLI |
+|---|---|---|---|---|---|---|---|---|
+| Basic skills | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes |
+| `allowed-tools` | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes |
+| `context: fork` | Yes | No | No | No | No | No | No | No |
+| Hooks | Yes | No | No | Yes | No | No | No | No |
 
 ---
 
 ## Environment Variables
 
-| Variable                  | Description                                                                |
-| ------------------------- | -------------------------------------------------------------------------- |
+| Variable | Description |
+|---|---|
 | `INSTALL_INTERNAL_SKILLS` | Set to `1` or `true` to show and install skills marked as `internal: true` |
-| `DISABLE_TELEMETRY`       | Set to disable anonymous usage telemetry from the `skills` CLI             |
-| `DO_NOT_TRACK`            | Alternative way to disable telemetry                                       |
+| `DISABLE_TELEMETRY` | Set to disable anonymous usage telemetry from the `skills` CLI |
+| `DO_NOT_TRACK` | Alternative way to disable telemetry |
 
 ```bash
 # Example: install including internal/preview skills
@@ -532,7 +531,6 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on adding scenarios, ant
 MCP notes, decision trees, and eval cases.
 
 Issue templates:
-
 - [Bug report](.github/ISSUE_TEMPLATE/bug_report.md)
 - [Feature request](.github/ISSUE_TEMPLATE/feature_request.md)
 

@@ -101,3 +101,22 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ### Fixed
 
 - Em dash sweep: 0 em dashes across all files (verified)
+
+## v1.4.0 (2026-05-29)
+
+### Added
+
+- Book Standard manual structure in writing-guide.md Section 20: mandatory chapter
+  list, per-chapter structure template (9 required sub-sections), role-specific reading
+  guide format, troubleshooting chapter format, glossary rules, scenario-based writing
+  format, limits/constraints table derivation, PHI/privacy section for healthcare, and
+  25-point completeness checklist
+- Book Standard declaration in SKILL.md: mandatory chapter list, split rule (3+ major
+  tasks = own chapter), scenario rule, glossary rule - all non-negotiable for every
+  generated manual
+
+### Fixed
+
+- README: all "your-org" placeholders replaced with real GitHub handle (itismowgli)
+- README: skills.sh badge now points to https://skills.sh/itismowgli/ai-doc-architect
+- README: version badge updated to v1.4.0
