@@ -1,0 +1,132 @@
+{
+  "skill_name": "ai-doc-architect",
+  "version": "1.0.0",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "We're a 6-person startup. GitHub monorepo, Notion for docs, Slack. Engineers keep shipping features but we never update the docs. Customers are confused and we're getting support tickets for things that should be self-serve. What's the simplest AI documentation system we can build in 90 days with one engineer at 10% capacity?",
+      "should_trigger": true,
+      "expected_output": "A scoped 90-day MVP plan with: 3-component pipeline (Commit Intelligence + Generator + Distribution), Supabase over RDS, Notion MCP as the distribution target, single-reviewer Slack approval, explicit list of what to skip (Knowledge Graph, Quality Agent, Audience Adapter, Elasticsearch). Should NOT recommend full 7-agent architecture.",
+      "tags": ["mvp", "startup"]
+    },
+    {
+      "id": 2,
+      "prompt": "I need to figure out which MCPs to connect for our documentation automation system. We use GitHub, Confluence, Jira, Slack, and Linear. We don't use Notion. Which MCPs do I actually need vs which ones are optional? And in what order should I connect them?",
+      "should_trigger": true,
+      "expected_output": "Prioritized MCP list: GitHub MCP (required, connect first), Atlassian MCP for Confluence+Jira (required given their stack, connect second), Slack MCP (recommended, connect third), Linear MCP (recommended, connect alongside Slack). Should explicitly say to skip Notion MCP since they don't use it. Should include required OAuth scopes for each.",
+      "tags": ["mcp", "integration"]
+    },
+    {
+      "id": 3,
+      "prompt": "We're a healthcare company - 30 engineers, GitHub Enterprise on-prem, self-hosted Confluence. HIPAA regulated and going through SOC 2. We're worried about sending our code to external LLI APIs. Can AI documentation automation work without sending code to the cloud? What are our options?",
+      "should_trigger": true,
+      "expected_output": "Two options presented: Option A (Hybrid - sanitized metadata only to Anthropic with zero-retention BAA) and Option B (Fully on-prem with Llama 70B via Ollama). Should include PHI detection/exclusion mechanism, compliance review workflow with compliance officer gate, audit logging requirements for HIPAA/SOC2, and self-hosted MCP configuration for GitHub Enterprise and Confluence Data Center.",
+      "tags": ["compliance", "enterprise", "on-prem"]
+    },
+    {
+      "id": 4,
+      "prompt": "What agents do I need for a documentation automation pipeline? We're a 15-person API company. Our only users are developers. We have a FastAPI backend with OpenAPI spec. We don't have a UI product at all.",
+      "should_trigger": true,
+      "expected_output": "Should recommend a simplified 3-component pipeline (not 7 agents): Commit Intelligence, API Schema Extractor skill module, and Distribution to GitHub Pages via GitHub Actions. Should explicitly say Audience Adapter is unnecessary (single developer audience), Knowledge Graph is unnecessary (single repo), and Figma MCP is irrelevant (no UI product). Should include the two-source approach: OpenAPI spec + code docstrings.",
+      "tags": ["agent-design", "api-docs"]
+    },
+    {
+      "id": 5,
+      "prompt": "What are the biggest mistakes teams make when they try to automate documentation with AI? We're about to start building this and I want to avoid common pitfalls.",
+      "should_trigger": true,
+      "expected_output": "Should reference the anti-patterns guide and cover at minimum: scoping too much on day one (AP-01), polling Git instead of webhooks (AP-06), generating docs for all changed files not just user-visible ones (AP-07), storing docs only in the destination platform (AP-08), no idempotency in distribution (AP-12), alerting on everything (AP-14).",
+      "tags": ["anti-pattern"]
+    },
+    {
+      "id": 6,
+      "prompt": "We have 200 engineers, 12 microservice repos on GitHub, Confluence, Jira, Slack, and Linear. We're going through SOC 2. Our 3 technical writers can't keep up. We want the full AI documentation system - all agents, knowledge graph, the works. Give us a production architecture and 12-month roadmap.",
+      "should_trigger": true,
+      "expected_output": "Full 7-agent architecture with phased 12-month roadmap. Should include: Kafka for event bus (not Redis queue), Neo4j Knowledge Graph (Phase 2, not Phase 1), Temporal for task queue, full RBAC model, SOC 2 audit logging table schema, Jira DOCS project workflow, all 4 Confluence spaces, and the recommendation that technical writers become reviewers not writers.",
+      "tags": ["enterprise", "agent-design", "compliance"]
+    },
+    {
+      "id": 7,
+      "prompt": "Should I use PostgreSQL with pgvector or a dedicated vector database like Pinecone for my documentation system? We have about 5,000 documentation pages and a team of 20 engineers.",
+      "should_trigger": true,
+      "expected_output": "Should recommend PostgreSQL + pgvector for this scale (5k pages, 20 engineers) and explicitly say a dedicated vector database is premature. Should explain the threshold at which Pinecone/Weaviate make sense (>100k pages, or when vector search is a core product feature with SLA requirements). Should mention Supabase as zero-ops option if they don't already run Postgres.",
+      "tags": ["tech-stack"]
+    },
+    {
+      "id": 8,
+      "prompt": "Can you help me write better commit messages so my documentation automatically updates? I'm using Claude to help review my GitHub PRs and I want to know what format makes it easiest for the AI to understand what changed.",
+      "should_trigger": false,
+      "expected_output": "This is about commit message formatting and PR review assistance - NOT about designing a documentation system architecture. The ai-doc-architect skill should NOT trigger. Claude should help with conventional commit format without invoking this skill.",
+      "tags": ["should-not-trigger"]
+    },
+    {
+      "id": 9,
+      "prompt": "I need to document a REST API I just built. Can you look at this OpenAPI spec and write the documentation for it?",
+      "should_trigger": false,
+      "expected_output": "This is a one-off documentation writing request for a specific API spec - NOT a request to architect a documentation automation system. The ai-doc-architect skill should NOT trigger. Claude should read the spec and write the documentation directly.",
+      "tags": ["should-not-trigger"]
+    },
+    {
+      "id": 10,
+      "prompt": "We want to set up a Notion workspace for our company docs. What's the best way to structure it?",
+      "should_trigger": false,
+      "expected_output": "This is a Notion workspace organization question, not an AI documentation automation architecture question. The ai-doc-architect skill should NOT trigger. Claude should help with Notion workspace structure directly.",
+      "tags": ["should-not-trigger"]
+    },
+    {
+      "id": 11,
+      "prompt": "I want to read our PRDs from Confluence, pull the acceptance criteria from our Linear issues, compare them against the code that shipped on GitHub, and generate a user manual in Markdown. How should I set this up?",
+      "should_trigger": true,
+      "expected_output": "The PRD-to-manual workflow: 3-source reconciliation (Confluence PRD + Linear FRs + GitHub diffs), Specification Reconciler agent, generate Markdown user manual from what shipped (not what was specified), generate a gap report for deviations, create Linear issues for each gap. Should emphasize: Markdown is the default output, document reality not spec, use Atlassian MCP for Confluence, Linear MCP for issues.",
+      "tags": ["prd-to-manual", "atlassian", "linear", "github"]
+    },
+    {
+      "id": 12,
+      "prompt": "How do I write documentation that users will actually read? My team keeps generating docs that no one reads. What are the principles for good user documentation writing?",
+      "should_trigger": true,
+      "expected_output": "Read references/writing-guide.md. Should cover: second person (write 'you' not 'the user'), task-oriented writing (steps + outcome statement), plain language principles, the seven-step process (define audience, map user journey, plan structure, write, make searchable, test with users, publish and iterate), headings as actions, numbered steps for sequences, cross-linking strategy, and how to test documentation with real users.",
+      "tags": ["writing-quality", "plain-language", "task-oriented"]
+    },
+    {
+      "id": 13,
+      "prompt": "We write PRDs in Confluence. Engineers then break them into Linear issues with acceptance criteria. When the code ships, no one updates the docs. How can ADUMAS help us close this gap automatically?",
+      "should_trigger": true,
+      "expected_output": "Full PRD-to-manual workflow: trigger on Linear epic transition to Done, fetch Confluence PRD and Linear issues, compare against GitHub PRs in the milestone, reconcile spec vs shipped behavior, generate Markdown user manual for shipped features, generate gap report for deviations, create Linear issues labeled 'docs-gap' for unshipped items. Should emphasize that Markdown is always the default output format.",
+      "tags": ["prd-to-manual", "workflow", "confluence", "linear"]
+    },
+    {
+      "id": 14,
+      "prompt": "What is the difference between plain language and dumbing things down? I want my documentation to be clear without being condescending.",
+      "should_trigger": true,
+      "expected_output": "Read references/writing-guide.md Section 9 (Plain Language Principles). Should explain: plain language means precise and efficient, not simple. Jargon table (utilize vs use, implement vs set up). Sentence length rule (under 25 words). Active voice. Defining technical terms on first use. The core principle: every word that does not help the user accomplish their goal wastes their time. Plain language respects the reader, it does not condescend to them.",
+      "tags": ["writing-quality", "plain-language"]
+    },
+    {
+      "id": 15,
+      "prompt": "I have a Confluence PRD, a set of Linear issues with acceptance criteria, and the GitHub PR that shipped the feature. Can you generate a user manual in Markdown from these?",
+      "should_trigger": true,
+      "expected_output": "Trigger the PRD-to-manual workflow. Ask for the Confluence page URL or ID, the Linear epic or issue IDs, and the GitHub PR number(s) or milestone. Fetch all three, reconcile, produce Markdown user manual and gap report. If user provides the content directly in the prompt, proceed without fetching - use what is given.",
+      "tags": ["prd-to-manual", "hands-on"]
+    },
+    {
+      "id": 16,
+      "prompt": "I have a Laravel + Vue.js clinical trial management platform. I want to generate user documentation for the drug inventory module. The codebase has DrugInventoryController, DispositionController, InventoryCheckController, and a DrugInventoryAuditController. There are Pest feature tests in tests/Feature/DrugInventory/ and no existing docs.",
+      "should_trigger": true,
+      "expected_output": "Apply the Laravel/PHP ingestion sequence from architecture.md. Identify sources: controllers, app/Services/DrugInventory/InventoryBalanceCalculator.php, Policy file, Pest feature tests (each it() block = one documented behavior). Identify audiences: site staff (dispensing), site admin (approvals, audit), sponsor (read-only). Generate per-audience Markdown files: overview.md, staff-guide.md, admin-guide.md, sponsor-guide.md. Include permissions table from Policy file. Include audit trail section (Spatie ActivityLog). Apply PHI-aware language rules (no real patient data in examples).",
+      "tags": ["laravel", "healthcare", "module-by-module", "drug-inventory"]
+    },
+    {
+      "id": 17,
+      "prompt": "Our PRD for the appointment follow-up feature is in Confluence. The Linear epic has all the acceptance criteria across 12 issues. The feature shipped last week. Fetch both and generate a user manual from the spec and the code.",
+      "should_trigger": true,
+      "expected_output": "Trigger PRD-driven mode. Step 1: fetch Confluence PRD (Atlassian MCP - ask for page ID or search by title). Step 2: fetch Linear issues for the epic (Linear MCP - extract acceptance criteria per issue). Step 3: map to AppointmentController, WorkflowSettingController, DB migration for new columns. Step 4: run Specification Reconciler. Step 5: generate Markdown user manual for what shipped. Step 6: generate gap report for unshipped items. Step 7: create Linear issues for each gap. PHI-aware: no real patient data in examples.",
+      "tags": ["prd-to-manual", "laravel", "healthcare", "appointments", "confluence", "linear"]
+    },
+    {
+      "id": 18,
+      "prompt": "Document the entire patients-api platform module by module. It is a Laravel application with modules: Patient Management, Appointments, Drug Inventory, Studies, Consults, Dynamic Forms, Pre-Screenings, Sites, Reports, Lists. Start with an overview and then do each module.",
+      "should_trigger": true,
+      "expected_output": "Apply full system scan mode. Inventory modules from routes/api.php and routes/V5/api.php. Group by controller prefix. For each module: identify controllers, services, models, policies, tests. Run ingestion sequence. Generate per-module per-audience Markdown files. Generate docs/overview.md as index. Apply healthcare-specific rules: PHI notices, role-gated content, audit trail sections, clinical terminology standards. Output file structure: docs/<module>/overview.md, staff-guide.md, admin-guide.md per module.",
+      "tags": ["laravel", "healthcare", "full-system-scan", "clinical-trial"]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+# macOS filesystem artifacts
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Linux filesystem artifacts
+.fuse_hidden*
+
+# Packaged skill file (built artifact, not source)
+*.skill
+
+# Node artifacts (if scripts are added)
+node_modules/
+
+# Python artifacts
+__pycache__/
+*.pyc
