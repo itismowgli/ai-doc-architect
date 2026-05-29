@@ -26,7 +26,7 @@ quality you want for your product, install the skill and run it.
 
 ---
 
-# Chapter 5: Teams and Members
+# Team and Member Management
 
 > **Who this chapter is for:** All users - Workspace Owners, Admins, and Members.
 >

@@ -1534,3 +1534,294 @@ unchecked item is a draft, not a deliverable.
 - [ ] No passive voice in step instructions (every step starts with a verb)
 - [ ] No "click here" link text (all links use destination title)
 - [ ] All screenshots use synthetic data, not real patient or user data
+
+---
+
+## Section 21: Critique-Proven Rules - What Separates Good from Enterprise-Grade
+
+The rules in this section come directly from real critique feedback on AI-generated
+manuals. Each rule was identified as a specific failure mode in production documentation.
+Apply every rule to every manual, with no exceptions.
+
+---
+
+### 21.1 Never Use "Chapter" - Use Descriptive Workflow Names
+
+"Chapter" sounds like a printed textbook. SaaS and enterprise documentation uses
+descriptive, action-oriented or role-oriented section names.
+
+**Never:**
+- Chapter 1: What Is [Product]?
+- Chapter 5: Creating a Case Review
+- Chapter 12: Support Requests
+
+**Always:** Use names that tell the reader what they will be able to do or understand.
+
+| Academic (never use) | Enterprise (always use) |
+|---|---|
+| Chapter 0: About This Manual | Introduction |
+| Chapter 1: What Is [Product]? | Platform Overview |
+| Chapter 2: Roles and Permissions | Roles and Access Control |
+| Chapter 3: Getting Started | Getting Started |
+| Chapter N: [Feature] | [Feature] Workflow / [Feature] Management / [Feature] Guide |
+| Chapter N: Troubleshooting | Troubleshooting |
+| Chapter N: Reference | Reference and Appendix |
+
+Use a PART structure to group sections by frequency of use (see Section 21.5).
+
+---
+
+### 21.2 Always Generate Separate Documents for Separate Audiences
+
+A single document that combines user instructions, admin configuration, and system
+internals is not a user manual. It is a specification document dressed as one.
+
+**Always produce at minimum two separate documents:**
+
+**Document 1: User Guide**
+- For end users performing daily tasks
+- Covers: what buttons do, what happens next, common workflows, errors they will see
+- Does NOT cover: configuration, admin tools, timeout internals, permission logic,
+  assignment algorithms, audit systems, dashboard analytics
+
+**Document 2: Admin and Configuration Guide**
+- For administrators, panel owners, system operators
+- Covers: configuration options, permission management, automation rules,
+  timeout settings, audit logs, dashboard analytics, assignment logic
+- References the User Guide for end-user workflows rather than repeating them
+
+If the product has a developer audience: a third document covering APIs, webhooks,
+and integration configuration.
+
+**The test:** Would a clinician on their first day need to read this section? If no,
+it belongs in the Admin Guide, not the User Guide.
+
+---
+
+### 21.3 Never Let Internal Field Names Appear in User Documentation
+
+Internal field names from the database, code, or configuration are never appropriate
+in user-facing documentation. They create cognitive load, expose implementation details,
+and signal that the document was written from code rather than from the user's perspective.
+
+**Never write:**
+- "If `prevent_non_matched_specialty` is enabled..."
+- "The `published_at` timestamp is set when..."
+- "The `timeout_urgent_hrs` value controls..."
+- "The `consultant_id` field stores..."
+- "Set `allow_any_specialty_case` to true..."
+
+**Always translate to plain language:**
+- "If the panel is configured to restrict cases to matching specialties..."
+- "When the panel is published..."
+- "The timeout period for urgent cases is configured in Panel Settings..."
+- "The assigned specialist is..."
+- "To allow cases from any specialty..."
+
+**The rule:** If a user would need to open a database client or read code to understand
+the term, rewrite it. The user guide has zero technical identifiers. The admin guide
+may have field names only in configuration reference tables, clearly labelled as such.
+
+---
+
+### 21.4 Lock Terminology Before Writing - One Noun Per Concept
+
+Inconsistent terminology is one of the most damaging quality problems in documentation.
+When the same thing is called "Case", "Consult", "Review", and "Consultation" in different
+sections, users lose confidence and search fails.
+
+**Before writing any section:**
+
+1. Identify every key concept in the product.
+2. Choose ONE term for each concept. Use the term the user sees in the UI.
+3. Document the chosen terms in the glossary first.
+4. Use only those terms throughout. No synonyms, no variation.
+
+**Terminology lock table (example):**
+
+| Concept | Chosen term | Never use |
+|---|---|---|
+| A clinical consultation request | Case | Consult, Review, Consultation, Request |
+| The person submitting the case | Clinician | Creator, Submitter, Requester |
+| The person reviewing the case | Specialist | Reviewer, Consultant, Assignee (in user-facing text) |
+| The unique identifier | Case ID | Review ID, Consult ID, Reference |
+
+Write the terminology lock table before the first section. If you find yourself reaching
+for a synonym, the terminology is not locked properly.
+
+---
+
+### 21.5 Structure by Frequency of Use - Daily Tasks Before Edge Cases
+
+Information architecture by frequency of use determines whether a user can find what
+they need in under 30 seconds. Always structure the document in this order:
+
+**PART 1 - Introduction**
+Everything a new user needs to get oriented: what the product is, quick start,
+roles and access. Maximum 3 sections. Minimum words.
+
+**PART 2 - Daily Workflows**
+The tasks a user performs every day or every week. These sections are the most read,
+must be the clearest, and must be first after the introduction. No admin content here.
+
+**PART 3 - Operational Features**
+Features used regularly but not daily: configuration tasks the admin performs weekly,
+panel management, notifications settings.
+
+**PART 4 - Analytics and Administration**
+Dashboards, reports, audit logs, and system configuration. This is where admin-only
+content lives. Users who do not have admin access skip this section entirely.
+
+**PART 5 - Troubleshooting and Reference**
+Troubleshooting (symptom-structured), glossary, limits table, system messages index,
+notifications reference. This is looked up, not read sequentially.
+
+**The test:** Could a new user on their first day skip PART 4 entirely and still use
+the product effectively? If not, something in PART 4 belongs in PART 2.
+
+---
+
+### 21.6 Always Include a Quick Start Near the Top
+
+A Quick Start section is not optional. It is the single most impactful addition to
+any user manual. Users who cannot accomplish their first task in under five minutes
+stop reading the manual and start asking colleagues.
+
+The Quick Start appears immediately after the Introduction, before any detailed sections.
+It is numbered steps only - no explanations, no prerequisites, no error states.
+Those belong in the detailed sections that follow.
+
+**Format:**
+
+```markdown
+## Quick Start
+
+Get to your first result in under 5 minutes. Detailed instructions for each step
+are in the sections below.
+
+### For [Primary Persona - e.g. Clinicians]
+
+1. Click [Product Name] in the main navigation.
+2. Click **[Primary Action]**.
+3. Search for and select the patient.
+4. Enter your clinical question.
+5. Click **Submit**.
+
+Your case is now open and the panel has been notified.
+
+### For [Secondary Persona - e.g. Specialists]
+
+1. Click [Product Name] in the main navigation.
+2. Open **[Inbox View]**.
+3. Click a case to open it.
+4. Click **Accept** to take responsibility for the review.
+5. Reply in the chat with your assessment.
+```
+
+Keep the Quick Start to 10 steps or fewer per persona. If a workflow cannot be
+summarised in 10 steps, it is not a Quick Start - it is a workflow guide. Write both.
+
+---
+
+### 21.7 Keep Standard UX Patterns Brief
+
+Not every feature requires a full task block. Standard UX interactions that users
+encounter in every SaaS product should be documented briefly, not exhaustively.
+
+**Over-document these:** (they have meaningful product-specific behavior)
+- Permission-gated actions
+- Multi-step workflows with branching paths
+- Actions with irreversible consequences
+- Actions that trigger notifications or emails
+
+**Document briefly:** (one or two sentences each)
+- Typing indicators
+- Message like / reaction buttons
+- Draft auto-save
+- Pagination and "load more"
+- Standard date pickers, dropdowns, search bars
+- Toast notifications for common success states
+
+**The test:** Does this feature work differently in this product than it does in Gmail,
+Slack, or Notion? If no, one sentence is enough. If yes, write the full task block.
+
+---
+
+### 21.8 Keep Implementation Details Out of User Documentation
+
+The following content belongs in developer documentation or admin guides, never in
+user-facing manuals:
+
+**Never include in a User Guide:**
+- Email subject line templates with placeholders (`Reminder - Case [ID] inactive for 14 days`)
+- API endpoints or HTTP methods
+- Database field names or column references
+- Cache durations or S3 URL expiry times
+- Template engine mentions (MJML, Blade, Handlebars)
+- Internal flag names or feature toggle identifiers
+- Cron job schedules or background job names
+- Deployment environment specifics
+
+**The rule:** If the content requires knowing how the system is built rather than how
+to use it, it does not belong in the User Guide. Move it to the Admin Guide under a
+"How it works" or "Configuration reference" section, clearly scoped to administrators.
+
+---
+
+### 21.9 Tone: Direct, Not Formal
+
+Enterprise documentation is clear and direct. It is not formal, legal, or academic.
+Formal tone creates distance between the user and the task. Clear tone gets them there faster.
+
+**Replace these patterns immediately:**
+
+| Formal / technical (never use) | Direct / clear (always use) |
+|---|---|
+| "The collaborator invitation expires at the same timeout horizon." | "Collaborator invitations expire after the case timeout period." |
+| "The system will process the request in an asynchronous manner." | "The request may take a few seconds to process." |
+| "Users with insufficient privileges will receive an error." | "If you see an access error, contact your administrator." |
+| "The aforementioned fields are required prior to submission." | "Fill in all required fields before submitting." |
+| "In the event that no reviewer has been assigned..." | "If no reviewer has been assigned..." |
+| "It should be noted that..." | (Delete this phrase. Say the thing.) |
+| "Please be advised that..." | (Delete this phrase. Say the thing.) |
+
+**The tone test:** Read the sentence out loud. If you would not say it in a conversation
+with a colleague, rewrite it.
+
+---
+
+### 21.10 Visual Hierarchy in Markdown
+
+Text-heavy documentation loses readers. Use visual hierarchy to break up instruction
+blocks and draw attention to important information.
+
+**Callout blocks** (use sparingly - maximum 2 per section):
+
+```markdown
+> **Note:** You can change this setting later from Panel Settings.
+
+> **Important:** Removing a member is immediate and cannot be undone.
+
+> **Data sensitivity:** This section contains protected health information (PHI).
+> All actions are logged and audited.
+```
+
+**When to use bold:** Only for UI element names (button labels, field names, tab names)
+and the first mention of a defined term. Never for emphasis. Never in step instructions.
+
+**Tables over lists:** When comparing options, roles, or states, use a table.
+When listing steps, use a numbered list. When listing items with no order, use bullets
+sparingly - if there are more than 5 bullet points, consider whether a table is clearer.
+
+**Status and workflow diagrams:** For any feature with more than 3 states, include a
+simple state diagram in Markdown:
+
+```
+Open -> Accepted -> In Progress -> Closed
+  |                     |
+  v                     v
+Rejected            Cancelled
+```
+
+This takes three lines and eliminates two paragraphs of prose explanation.
+

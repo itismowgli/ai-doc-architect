@@ -124,28 +124,103 @@ These principles come from how the best documentation teams in the industry (Str
 
 **A user manual is a book.** Not a feature dump. Not a reference list. A book.
 
-Every generated manual must meet the Book Standard defined in `references/writing-guide.md`
-Section 20. Before delivering any manual, run the completeness checklist (Section 20.9).
-A manual with any unchecked item is a draft, not a deliverable.
+Every generated manual must meet the Book Standard (Sections 20 and 21 of
+`references/writing-guide.md`) and pass the completeness checklist before delivery.
+A manual with any unchecked item is a draft.
 
-### Mandatory chapters (in order)
+### Rule 1: Never say "Chapter" - Use descriptive workflow names
 
-1. **About This Manual** - who it is for, role-specific reading guide, where to get help
-2. **What Is [Product]?** - plain-language description, full workflow overview (start to finish), key concepts defined
-3. **Roles and Permissions** - every role defined, full permission matrix, how roles are assigned
-4. **Getting Started** - prerequisites, first-task walkthrough end-to-end for the primary persona
-5. **One chapter per major feature or workflow** - not sub-sections buried inside a mega-chapter
-6. **Troubleshooting** - symptom-structured, minimum 8 entries, each with resolution steps and escalation path
-7. **Reference** - glossary, limits and constraints table, system messages index, email notifications table
+"Chapter" sounds like a textbook. Use descriptive names that tell the reader what
+they can do or understand. Use a PART structure to group sections by frequency:
 
-### Every feature chapter must contain
+```
+PART 1 - Introduction
+  Introduction
+  Quick Start          <- always second, always present
+  Roles and Access Control
 
-- Who-for preamble and outcome statement
-- Overview paragraph (narrative, not a bullet list)
-- At least one scenario in blockquote format grounding the instructions in a realistic context
+PART 2 - Daily Workflows
+  [Primary workflow 1]
+  [Primary workflow 2]
+  ...
+
+PART 3 - Operational Features
+  [Less-frequent features]
+
+PART 4 - Analytics and Administration
+  [Admin-only content]
+
+PART 5 - Troubleshooting and Reference
+  Troubleshooting
+  Reference and Appendix
+```
+
+Section naming guide: "Case Creation Workflow" not "Creating a Case Review".
+"Panel Management" not "Panels". "Roles and Access Control" not "Roles and Permissions".
+
+### Rule 2: Always generate separate documents for separate audiences
+
+One document for all audiences is a specification, not a user manual. Always produce:
+
+- **User Guide** - daily tasks, what buttons do, what happens next, common workflows.
+  Zero admin content. Zero configuration. Zero internal details.
+- **Admin and Configuration Guide** - panel settings, timeout configuration, permission
+  management, audit logs, analytics dashboards, assignment logic.
+
+The test: "Would a new end user on their first day need to read this?" If no, it belongs
+in the Admin Guide.
+
+### Rule 3: Lock terminology before writing
+
+Before the first section, create a terminology lock table. Choose one term per concept.
+Use the term that appears in the UI. Never use synonyms or alternate names.
+
+```
+| Concept | Use this | Never use |
+|---|---|---|
+| A consultation request | Case | Consult, Review, Consultation |
+| The person requesting | Clinician | Creator, Submitter, Requester |
+```
+
+If you catch yourself reaching for a synonym, the terminology is not locked. Fix it.
+
+### Rule 4: Quick Start is always the second section
+
+Immediately after the Introduction, before any detailed sections. 10 steps or fewer
+per persona. Steps only - no explanations, no prerequisites, no error states.
+
+### Rule 5: Structure by frequency of use
+
+Daily workflows first. Exceptions second. Admin operations third. Reference last.
+A new user should be able to skip PART 4 entirely and still use the product effectively.
+
+### Rule 6: No internal field names in user documentation
+
+Never let database column names, config flags, or code identifiers appear in user docs.
+Translate every technical identifier to plain language before writing.
+
+- Never: "If `prevent_non_matched_specialty` is enabled..."
+- Always: "If the panel is configured to restrict cases to matching specialties..."
+
+### Rule 7: Keep standard UX patterns brief
+
+Typing indicators, message likes, draft auto-save, pagination - one or two sentences.
+Full task blocks only for features with product-specific behavior, permission gates,
+irreversible consequences, or multi-step branching workflows.
+
+### Rule 8: No implementation details in user documentation
+
+Email subject templates, API endpoints, database field names, cache durations, template
+engine references, cron schedules - these belong in developer docs, not user manuals.
+
+### Every feature section must contain
+
+- Audience preamble (who this is for) and outcome statement
+- Overview paragraph - narrative, not a bullet list
+- At least one scenario in blockquote format
 - All core tasks: step-by-step, second-person active voice, one action per step
-- "What happens next" outcome after each task
-- "If something goes wrong" for each task
+- Outcome after each task ("What happens next")
+- Error handling for each task ("If something goes wrong")
 - Best practices (3-5 specific, actionable items)
 - Limits and constraints table
 - System messages and toasts reference table
@@ -153,22 +228,12 @@ A manual with any unchecked item is a draft, not a deliverable.
 
 ### The split rule
 
-If a section has more than 3 major tasks or its own complex permission model, it is
-its own chapter - not a sub-section. Apply this to the Care Insight example: "Case Chat",
-"Patient Profile", "Support Request", and "Impact Survey" are each their own chapter,
-not sub-sections of "Review Center".
-
-### The scenario rule
-
-Every feature chapter must open with at least one scenario that puts the user in a
-real situation before the instructions begin. A scenario establishes who the user is,
-what situation they are in, and why this feature is the right tool.
+More than 3 major tasks or its own permission model = its own section, not a sub-section.
 
 ### The glossary rule
 
-Define every product-specific term on first use AND collect all definitions in the
-Reference chapter glossary. A reader who skips to any chapter must be able to understand
-every term without reading from the beginning.
+Define every product-specific term on first use AND in the Reference glossary.
+A reader skipping to any section must understand every term without reading from the start.
 
 ---
 
