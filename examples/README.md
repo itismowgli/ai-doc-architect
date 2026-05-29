@@ -2,25 +2,42 @@
 
 These scenarios show how the `ai-doc-architect` skill adapts the ADUMAS architecture to specific real-world contexts. Each example is a complete story: who the team is, what they asked, what the skill produced, and why those specific choices were made.
 
-## How to Read These Examples
+## Start here
 
-Each example follows the same structure:
+**New to the skill?** Read [`07-book-standard-showcase.md`](./07-book-standard-showcase.md) first.
+It shows the actual output - a complete, real-looking manual chapter - so you know exactly
+what you are getting before you run anything.
 
-1. **Context** - Who is this team and what problem are they solving?
-2. **What They Asked Claude** - The actual prompt(s) the user typed.
-3. **What the Skill Produced** - The architecture and recommendations Claude gave.
-4. **Key Decisions** - Why these specific choices for this specific context.
-5. **What to Watch Out For** - Gotchas specific to this scenario.
+**Have an existing codebase with no docs?** Read [`06-existing-codebase-zero-docs.md`](./06-existing-codebase-zero-docs.md).
+It covers the universal pattern for any stack - Laravel, Django, Rails, Node, Spring.
+
+**Have PRDs and specs you want to reconcile against code?** Read [`05-prd-to-manual.md`](./05-prd-to-manual.md).
 
 ## The Examples
 
-| File | Scenario | Team Size | Key Constraint |
-|---|---|---|---|
-| [`01-startup-mvp.md`](./01-startup-mvp.md) | 6-person startup, GitHub + Notion, 90-day MVP | 6 engineers | Speed to value; minimal infra ops |
-| [`02-enterprise-full.md`](./02-enterprise-full.md) | 200-person enterprise, Confluence + Jira + Slack, full platform | Large org | RBAC, SSO, audit logging, compliance |
-| [`03-api-docs-only.md`](./03-api-docs-only.md) | API-first company, OpenAPI-driven, developer audience only | 15 engineers | Developers only; deep technical accuracy |
-| [`04-healthcare-hipaa.md`](./04-healthcare-hipaa.md) | Healthcare SaaS, HIPAA constraints, potential on-prem | 30 engineers | No PHI in docs pipeline; data residency |
+| File | What it shows | Read when |
+|---|---|---|
+| [`07-book-standard-showcase.md`](./07-book-standard-showcase.md) | Actual rendered manual output - a complete chapter with scenarios, steps, permission matrix, toasts, limits | You want to see what the output looks like before installing |
+| [`06-existing-codebase-zero-docs.md`](./06-existing-codebase-zero-docs.md) | Universal pattern for generating docs from any existing codebase with zero existing documentation | You have a product that works but has no manual |
+| [`05-prd-to-manual.md`](./05-prd-to-manual.md) | Three-source reconciliation: Confluence PRD + Linear FRs + GitHub code - gap report and manual from specs | You have specs and want to check what shipped vs what was planned |
+| [`04-healthcare-hipaa.md`](./04-healthcare-hipaa.md) | Healthcare SaaS with HIPAA constraints, PHI-aware documentation, potential on-prem deployment | Your product handles health data |
+| [`03-api-docs-only.md`](./03-api-docs-only.md) | API-first product, OpenAPI-driven, developer-only audience | You need API reference docs, not end-user guides |
+| [`02-enterprise-full.md`](./02-enterprise-full.md) | 200-person enterprise, Confluence + Jira + Slack, RBAC, SSO, compliance | You are building the full platform, not an MVP |
+| [`01-startup-mvp.md`](./01-startup-mvp.md) | 6-person startup, GitHub + Notion, 90-day MVP timeline | You want to ship something fast with minimal infrastructure |
 
-## Using Examples as Prompts
+## How to read an example
 
-You can paste any of the "What They Asked Claude" prompts directly into Claude (with this skill installed) to see the skill in action. Modify the context details to match your own situation.
+Each example either shows **actual output** (examples 06, 07) or walks through a
+**scenario with decisions** (examples 01-05). The scenario examples follow this structure:
+
+1. Context - who the team is and what problem they have
+2. What they asked - the prompt they used
+3. What was produced - the result
+4. Key decisions - why specific choices were made
+5. What to watch out for - gotchas for this scenario
+
+## Using examples as prompts
+
+The "What they asked" sections in examples 01-05 are real prompts. Paste them into
+Claude with this skill installed (adapt the context to your situation) to see the
+skill respond live.
