@@ -1,6 +1,6 @@
 {
   "skill_name": "ai-doc-architect",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "evals": [
     {
       "id": 1,
@@ -109,24 +109,24 @@
     },
     {
       "id": 16,
-      "prompt": "I have a Laravel + Vue.js clinical trial management platform. I want to generate user documentation for the drug inventory module. The codebase has DrugInventoryController, DispositionController, InventoryCheckController, and a DrugInventoryAuditController. There are Pest feature tests in tests/Feature/DrugInventory/ and no existing docs.",
+      "prompt": "I have a Laravel + Vue.js SaaS platform. I want to generate user documentation for the billing module. The codebase has BillingController, SubscriptionController, InvoiceController, and a PaymentController. There are Pest feature tests in tests/Feature/Billing/ and no existing docs.",
       "should_trigger": true,
-      "expected_output": "Apply the Laravel/PHP ingestion sequence from architecture.md. Identify sources: controllers, app/Services/DrugInventory/InventoryBalanceCalculator.php, Policy file, Pest feature tests (each it() block = one documented behavior). Identify audiences: site staff (dispensing), site admin (approvals, audit), sponsor (read-only). Generate per-audience Markdown files: overview.md, staff-guide.md, admin-guide.md, sponsor-guide.md. Include permissions table from Policy file. Include audit trail section (Spatie ActivityLog). Apply PHI-aware language rules (no real patient data in examples).",
-      "tags": ["laravel", "healthcare", "module-by-module", "drug-inventory"]
+      "expected_output": "Apply the Laravel/PHP ingestion sequence from architecture.md. Identify sources: controllers, service layer, Policy files, Pest feature tests (each it() block = one documented behavior). Identify audiences: end users (managing their plan), admins (overrides, refunds), support staff (read-only). Generate per-audience Markdown files: overview.md, user-guide.md, admin-guide.md, support-guide.md. Include permissions table from Policy files. Apply documentation standards: journey map first, section by section, what-to-do-next connectors after each completed action.",
+      "tags": ["laravel", "saas", "module-by-module", "billing"]
     },
     {
       "id": 17,
-      "prompt": "Our PRD for the appointment follow-up feature is in Confluence. The Linear epic has all the acceptance criteria across 12 issues. The feature shipped last week. Fetch both and generate a user manual from the spec and the code.",
+      "prompt": "Our PRD for the team invitation feature is in Confluence. The Linear epic has all the acceptance criteria across 8 issues. The feature shipped last week. Fetch both and generate a user manual from the spec and the code.",
       "should_trigger": true,
-      "expected_output": "Trigger PRD-driven mode. Step 1: fetch Confluence PRD (Atlassian MCP - ask for page ID or search by title). Step 2: fetch Linear issues for the epic (Linear MCP - extract acceptance criteria per issue). Step 3: map to AppointmentController, WorkflowSettingController, DB migration for new columns. Step 4: run Specification Reconciler. Step 5: generate Markdown user manual for what shipped. Step 6: generate gap report for unshipped items. Step 7: create Linear issues for each gap. PHI-aware: no real patient data in examples.",
-      "tags": ["prd-to-manual", "laravel", "healthcare", "appointments", "confluence", "linear"]
+      "expected_output": "Trigger PRD-driven mode. Step 1: fetch Confluence PRD (Atlassian MCP - ask for page ID or search by title). Step 2: fetch Linear issues for the epic (Linear MCP - extract acceptance criteria per issue). Step 3: map to InvitationController and relevant DB migrations. Step 4: run Specification Reconciler. Step 5: generate Markdown user manual for what shipped. Step 6: generate gap report for unshipped items. Step 7: create Linear issues for each gap.",
+      "tags": ["prd-to-manual", "laravel", "invitations", "confluence", "linear"]
     },
     {
       "id": 18,
-      "prompt": "Document the entire patients-api platform module by module. It is a Laravel application with modules: Patient Management, Appointments, Drug Inventory, Studies, Consults, Dynamic Forms, Pre-Screenings, Sites, Reports, Lists. Start with an overview and then do each module.",
+      "prompt": "Document an entire SaaS platform module by module. It is a Laravel application with modules: User Management, Teams, Billing, Notifications, Reports, Settings, Admin. Start with an overview and then do each module.",
       "should_trigger": true,
-      "expected_output": "Apply full system scan mode. Inventory modules from routes/api.php and routes/V5/api.php. Group by controller prefix. For each module: identify controllers, services, models, policies, tests. Run ingestion sequence. Generate per-module per-audience Markdown files. Generate docs/overview.md as index. Apply healthcare-specific rules: PHI notices, role-gated content, audit trail sections, clinical terminology standards. Output file structure: docs/<module>/overview.md, staff-guide.md, admin-guide.md per module.",
-      "tags": ["laravel", "healthcare", "full-system-scan", "clinical-trial"]
+      "expected_output": "Apply full system scan mode. Inventory modules from route files. Group by controller prefix. For each module: identify controllers, services, models, policies, tests. Run ingestion sequence. Generate per-module per-audience Markdown files. Generate docs/overview.md as index. Apply documentation standards: separate User Guide from Admin Guide, Quick Start near top, journey maps per persona, section-by-section generation. Output file structure: docs/<module>/overview.md, user-guide.md, admin-guide.md per module.",
+      "tags": ["laravel", "saas", "full-system-scan"]
     }
   ]
 }

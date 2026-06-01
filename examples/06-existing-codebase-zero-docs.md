@@ -11,7 +11,7 @@ week. The sales team cannot self-serve answers during demos. The CEO asks for a 
 manual before a key enterprise deal and nobody knows where to start.
 
 This is the starting point for most ADUMAS deployments. This example shows how to
-go from zero to a complete, Book Standard user manual for any existing codebase in a
+go from zero to a complete, production-ready user manual for any existing codebase in a
 single structured run.
 
 ---
@@ -42,19 +42,19 @@ Before writing a single word, understand what the product actually is.
 
 ```
 Read the route file(s) and group endpoints by resource or feature area.
-Each group becomes one chapter in the manual.
+each group becomes one section in the manual.
 
 Example inventory from a route file:
 
-Feature Area          Endpoints                           Chapter
+Feature Area          Endpoints                           Section
 ------------------------------------------------------------------------
-Authentication        POST /login, POST /logout,          Chapter 3: Getting Started
+Authentication        POST /login, POST /logout,          Section 3: Getting Started
                       POST /register, POST /password
-User Management       GET/POST/PUT/DELETE /users          Chapter 4: Managing Users
-Team & Members        GET/POST /teams, /invitations       Chapter 5: Teams and Members
-Billing               GET/POST /subscriptions, /invoices  Chapter 6: Billing
-Notifications         GET/PUT /notifications, /settings   Chapter 7: Notifications
-Admin                 GET /admin/*, /reports              Chapter 8: Administration
+User Management       GET/POST/PUT/DELETE /users          Section 4: Managing Users
+Team & Members        GET/POST /teams, /invitations       Section 5: Teams and Members
+Billing               GET/POST /subscriptions, /invoices  Section 6: Billing
+Notifications         GET/PUT /notifications, /settings   Section 7: Notifications
+Admin                 GET /admin/*, /reports              Section 8: Administration
 ```
 
 Treat this inventory as the manual's table of contents before writing anything.
@@ -63,7 +63,7 @@ Treat this inventory as the manual's table of contents before writing anything.
 
 The most common documentation mistake is writing steps that only some users can perform
 without saying so. Read the permission/policy layer first and build the permission matrix
-before touching feature chapters.
+before touching feature sections.
 
 ```
 For each resource in your inventory:
@@ -71,8 +71,8 @@ For each resource in your inventory:
   - Map every action: who can do it, under what conditions
   - Build one row in the permission matrix per action
 
-This matrix becomes Chapter 2 (Roles and Permissions) and informs every
-subsequent chapter - which steps to show to which audience, which warnings
+This matrix becomes Section 2 (Roles and Permissions) and informs every
+subsequent section - which steps to show to which audience, which warnings
 to include, which actions to mark as admin-only.
 ```
 
@@ -98,13 +98,13 @@ becomes a troubleshooting entry:
   Resolution: Upgrade your plan or remove an inactive member first
 ```
 
-### Step 4: Generate one chapter at a time
+### Step 4: Generate one section at a time
 
-Do not try to generate the entire manual in one pass. Generate chapter by chapter.
-Each chapter is self-contained and follows the Book Standard structure:
+Do not try to generate the entire manual in one pass. Generate section by section.
+Each section is self-contained and follows the Documentation Standards structure:
 
 ```
-For each chapter:
+For each section:
   1. Identify the relevant controllers, models, policies, and tests
   2. Read them
   3. Write: overview -> scenario -> tasks (step-by-step) -> outcomes ->
@@ -147,7 +147,7 @@ produces a gap report alongside the manual:
 ```
 docs/
   user-manual/
-    [all manual chapters]
+    [all manual sections]
   gap-report.md              <- features specified but not shipped
                              <- features shipped but not specified
                              <- terminology mismatches between spec and code
@@ -164,8 +164,8 @@ via MCP connector if configured.
 **Starting with writing instead of reading.** Read all the code first. Build the
 permission matrix. Build the feature inventory. Only then open a blank document.
 
-**Generating the whole manual at once.** One chapter at a time produces better output.
-A 10,000-word generation run loses context halfway through. A 1,000-word chapter run
+**Generating the whole manual at once.** One section at a time produces better output.
+A 10,000-word generation run loses context halfway through. A focused section run
 is focused and checkable.
 
 **Skipping the tests.** Tests are not optional reading. They contain the most precise
@@ -184,6 +184,6 @@ A manual that passes the checklist is a deliverable. A manual that does not is a
 ## See Also
 
 - `examples/05-prd-to-manual.md` - when you have specs to reconcile against code
-- `examples/07-book-standard-showcase.md` - what Book Standard output actually looks like
+- `examples/07-output-showcase.md` - what production-ready output actually looks like
 - `references/architecture.md` - Laravel/PHP-specific ingestion sequence
-- `references/writing-guide.md` - Section 20: the full Book Standard definition
+- `references/writing-guide.md` - Section 20: the full Documentation Standards definition

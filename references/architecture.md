@@ -513,15 +513,15 @@ When the source system is a Laravel (PHP) application, ADUMAS uses a specific in
 For a multi-module Laravel application, generate documentation one module at a time:
 
 ```
-Module: Drug Inventory
-  Sources: DrugInventoryController, DispositionController, InventoryCheckController,
-           DrugInventoryShipmentController, DrugInventoryAuditController
-           app/Services/DrugInventory/InventoryBalanceCalculator.php
-           tests/Feature/DrugInventory/
+Module: Billing
+  Sources: BillingController, SubscriptionController, InvoiceController,
+           PaymentController
+           app/Services/Billing/SubscriptionService.php
+           tests/Feature/Billing/
            PRD/URD: fetch from wherever the team stores specs (Linear, Confluence,
            Jira, Notion, Docmost, GitHub, etc.) using the appropriate MCP connector
-  Audiences: Site staff (receiving, dispensing), Site admin (audit, reports), Sponsor (read-only audit)
-  Output: docs/drug-inventory/overview.md, shipments.md, dispensing.md, audit.md, admin-guide.md
+  Audiences: End users (managing their plan), Admins (overrides, refunds), Support (read-only)
+  Output: docs/billing/overview.md, subscriptions.md, invoices.md, payments.md, admin-guide.md
 ```
 
 Run this pattern for every module: identify the controller cluster, the service layer, the test coverage, and any linked PRDs. Generate per-audience documents for each module before moving to the next.

@@ -1,4 +1,4 @@
-# Example 7: Book Standard Showcase
+# Example 7: Output Showcase
 
 This example shows what ADUMAS actually produces. Not a description of the process.
 The output itself.
@@ -8,7 +8,7 @@ documented here is Team and Member Management. This is one of the most universal
 features in SaaS - every product that has teams, roles, and invitations produces
 documentation that looks exactly like this.
 
-Read this to understand what the Book Standard means in practice. If this is the
+Read this to understand what the Documentation Standards mean in practice. If this is the
 quality you want for your product, install the skill and run it.
 
 ---
@@ -18,7 +18,7 @@ quality you want for your product, install the skill and run it.
 - **Routes:** 14 endpoints across `/teams`, `/members`, `/invitations`
 - **Spec source:** 1 Confluence PRD page + 8 Linear issues
 - **Tests read:** 34 Pest feature tests across 3 test files
-- **Time to generate:** One focused chapter-by-chapter run
+- **Time to generate:** One focused section-by-section run
 
 ---
 
@@ -28,7 +28,7 @@ quality you want for your product, install the skill and run it.
 
 # Team and Member Management
 
-> **Who this chapter is for:** All users - Workspace Owners, Admins, and Members.
+> **Who this is for:** All users - Workspace Owners, Admins, and Members.
 >
 > **What you will be able to do:** Create and configure teams, invite members, manage
 > roles, and handle member access across your workspace.
@@ -49,7 +49,7 @@ When you invite someone to a team, they receive an email with a link. They accep
 decline. If they accept, they join with the role you assigned. If they do not respond
 within 7 days, the invitation expires and you can resend it.
 
-Every action in this chapter is logged in the audit trail. Team owners can view the
+Every action in this section is logged in the audit trail. Team owners can view the
 full history of membership changes from the Team Settings page.
 
 ---
@@ -339,11 +339,11 @@ They cannot be reused. If someone forwards the link, the second person cannot us
 
 ## Related Topics
 
-- [Chapter 2: Roles and Permissions](./02-roles-and-permissions.md) - full workspace-level
+- [Roles and Access Control](./02-roles-and-permissions.md) - full workspace-level
   permission matrix
-- [Chapter 9: Troubleshooting](./09-troubleshooting.md) - invitation not received,
+- [Troubleshooting](./09-troubleshooting.md) - invitation not received,
   cannot remove member, role change not taking effect
-- [Chapter 10: Reference](./10-reference.md) - all team and member limits in one table
+- [Reference and Appendix](./10-reference.md) - all team and member limits in one table
 
 ---
 
@@ -368,7 +368,7 @@ Every element above came directly from the codebase and spec - nothing was inven
 | "Contributions remain, access removed" | Feature test: `it('preserves messages after member removal')` |
 | The ownership transfer note | Policy: `TeamPolicy::transferOwnership()` - only Owner can call it |
 
-**This is the Book Standard in practice.** Every section has a scenario, prerequisites,
+**This is the Documentation Standard in practice.** Every section has a scenario, prerequisites,
 numbered steps, an outcome, error states, best practices, a limits table, and a system
 messages table. Nothing is missing. A real user can follow it without asking anyone for help.
 
@@ -383,5 +383,5 @@ npx skills add itismowgli/ai-doc-architect
 ```
 
 Then describe your module, point to your spec sources and codebase, and ask for a
-Book Standard user manual. The skill reads your code, reconciles it against your specs,
+production-ready user manual. The skill reads your code, reconciles it against your specs,
 and produces output like this.

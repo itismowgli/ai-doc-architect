@@ -4,7 +4,7 @@
 > Reads PRDs from Confluence, FRs from Linear or Jira, compares against your codebase, and
 > generates Markdown user manuals automatically.
 
-[![Skill Version](https://img.shields.io/badge/skill-v1.4.0-blue)](./SKILL.md)
+[![Skill Version](https://img.shields.io/badge/skill-v2.0.0-blue)](./SKILL.md)
 [![skills.sh](https://skills.sh/b/itismowgli/ai-doc-architect)](https://skills.sh/itismowgli/ai-doc-architect)
 [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 [![Works with Claude Code](https://img.shields.io/badge/Claude%20Code-supported-blueviolet)](https://code.claude.com/docs/en/skills)

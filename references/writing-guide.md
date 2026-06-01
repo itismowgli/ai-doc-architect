@@ -1234,11 +1234,11 @@ together so the reader can find the field regardless of their language setting.
 
 ---
 
-## Section 20: The Book Standard - How Every Manual Must Be Structured
+## Section 20: Documentation Standards - How Every Manual Must Be Structured
 
 A user manual is a book. Not a reference dump, not a feature list, not a collection of
-release notes. A book has chapters that build on each other. Every chapter is
-self-contained. A reader can open any chapter and get everything they need without
+release notes. A book has sections that build on each other. Every section is
+self-contained. A reader can open any section and get everything they need without
 hunting through other sections.
 
 This section defines the mandatory structure every ADUMAS-generated manual must follow.
@@ -1246,42 +1246,46 @@ Apply it regardless of the product, platform, or audience.
 
 ---
 
-### 20.1 The Mandatory Chapter List
+### 20.1 The Mandatory Section List
 
-Every complete user manual must include these chapters, in this order:
+Every complete user manual must include these sections, in this order.
+Use descriptive names - never "Chapter N". See Section 21.1 for the naming guide.
 
-**Chapter 0: About This Manual**
+**Introduction**
 - Who this manual is for (all personas listed)
 - How to use this manual (role-specific reading guide)
-- How the product is versioned
 - Where to get help if the manual does not answer your question
 
-**Chapter 1: What Is [Product Name]?**
+**Quick Start** (always second, always present)
+- 10 steps or fewer per persona to accomplish the first meaningful task
+- Steps only - no explanations, no edge cases
+
+**Platform Overview**
 - One-paragraph plain-language description of what the product does
 - The problem it solves and for whom
 - How it fits into the broader platform or workflow
-- A "how it all fits together" overview - either a diagram or a numbered narrative of the full workflow from start to finish (e.g. case submission to impact survey)
-- Key concepts: define every term a user will encounter, in plain language, before they encounter it
+- A "how it all fits together" overview - a narrative of the full workflow from start to finish
+- Key concepts: every term a user will encounter, defined before they encounter it
 
-**Chapter 2: Roles and Permissions**
-- Every role in the system, defined in plain language
+**Roles and Access Control**
+- Every role defined in plain language
 - A permissions matrix: rows = actions, columns = roles, cells = Yes/No/Conditional
 - How roles are assigned (by whom, when, under what conditions)
 - What a user should do if their role seems wrong
 
-**Chapter 3: Getting Started**
+**Getting Started**
 - Prerequisites (access, setup, any configuration required)
 - First login or first-time access
 - A complete end-to-end walkthrough of the most common first task for the primary persona
 - Not a feature tour - a real task, from opening the app to a completed outcome
 
-**Chapter 4+: One chapter per major feature or workflow**
-See Section 20.2 for the mandatory structure of each feature chapter.
+**[One section per major feature or workflow]**
+See Section 20.2 for the mandatory structure of each section.
 
-**Penultimate chapter: Troubleshooting**
+**Troubleshooting**
 See Section 20.4 for mandatory content.
 
-**Final chapter: Reference**
+**Reference and Appendix**
 - Glossary of all terms used in the manual
 - Limits and constraints table (file sizes, counts, timeouts, etc.)
 - System messages and toast notifications index
@@ -1291,15 +1295,15 @@ See Section 20.4 for mandatory content.
 
 ---
 
-### 20.2 Mandatory Structure of Every Feature Chapter
+### 20.2 Mandatory Structure of Every Feature Section
 
-Every chapter covering a feature or workflow must have all of these sections.
-A chapter is not complete if any section is missing.
+Every section covering a feature or workflow must have all of these subsections.
+A section is not complete if any subsection is missing.
 
 ```
-# Chapter N: [Feature Name]
+# [Descriptive Workflow Name - e.g. "Case Creation Workflow"]
 
-> **Who this chapter is for:** [Persona list]
+> **Who this is for:** [Persona list]
 > **What you will be able to do:** [1-2 sentence outcome statement]
 > **Before you start:** [Prerequisites - access, prior steps, required data]
 
@@ -1340,37 +1344,39 @@ A table of every system-generated message a user will see in this feature.
 | Collaborator accepts | "[Name] accepted the collaborator invitation." | System chat message |
 
 ## Related Topics
-Links to other chapters this feature connects to.
+Links to other sections this feature connects to.
 ```
 
 ---
 
 ### 20.3 Role-Specific Reading Guide
 
-Every manual must include a reading guide at the start (Chapter 0 or as a sidebar/callout).
-Users should never have to read chapters that do not apply to them.
+Every manual must include a reading guide in the Introduction section.
+Users should never have to read sections that do not apply to them.
 
 Format:
 
 ```
 ## How to use this manual
 
-Find your role below and read the recommended chapters.
+Find your role below and start with the recommended sections.
 
 | Your role | Start here | Then read |
 |---|---|---|
-| Clinician (case creator) | Chapter 3 (Getting Started), Chapter 5 (Creating Cases) | Chapter 6 (Case Chat), Chapter 7 (Patient Data Access), Chapter 11 (Impact Survey) |
-| Specialist (reviewer) | Chapter 3 (Getting Started), Chapter 5.3 (Accepting Cases) | Chapter 6 (Case Chat), Chapter 7 (Patient Data Access), Chapter 9 (Support Request) |
-| Panel Leader | Chapter 4 (Roles), Chapter 8 (Reassigning Cases) | Chapter 10 (Panel Dashboard), Chapter 12 (Impact Summary) |
-| Panel Owner | All chapters, starting with Chapter 2 (Roles) | Chapter 13 (Panel Settings - all sections) |
-| Administrator | Chapter 2 (Roles), Chapter 15 (Activity Log) | Chapter 14 (Admin Guide) |
+| [Primary persona, e.g. End User] | Getting Started, [Core daily workflow] | [Secondary workflows relevant to this role] |
+| [Secondary persona, e.g. Admin] | Roles and Access Control, [Config section] | [All admin sections] |
+| [Power user / manager] | Getting Started, [Analytics section] | [Reporting, Admin Guide] |
 ```
+
+Replace the role names and section links with the actual roles and section names
+for the product you are documenting. Use the terminology lock table (Section 21.4)
+to ensure role names match what the product calls them.
 
 ---
 
-### 20.4 Mandatory Troubleshooting Chapter
+### 20.4 Mandatory Troubleshooting Section
 
-The troubleshooting chapter is not an FAQ. It is structured by symptom, not by question.
+The troubleshooting section is not an FAQ. It is structured by symptom, not by question.
 Every troubleshooting entry has: symptom, likely cause, resolution steps, escalation path.
 
 Required format for each entry:
@@ -1390,13 +1396,13 @@ Minimum 8 troubleshooting entries per manual. Derive them from:
 - Support tickets or known issues (if available)
 - Pest feature tests that cover error paths
 - Edge cases documented in the PRD or functional requirements
-- The "if something goes wrong" subsections in each feature chapter (consolidate here)
+- The "if something goes wrong" subsections in each feature section (consolidate here)
 
 ---
 
 ### 20.5 Glossary Requirements
 
-A glossary must appear as the first section of the Reference chapter.
+A glossary must appear as the first section of the Reference and Appendix section.
 
 Rules:
 - Define every product-specific term on its first use in the body, AND collect all definitions in the glossary.
@@ -1419,7 +1425,7 @@ Panel Leader, Panel Owner.
 
 ### 20.6 Scenario-Based Writing
 
-Every feature chapter must include at least one scenario that grounds the instructions
+Every feature section must include at least one scenario that grounds the instructions
 in a realistic clinical or operational context.
 
 A scenario is not an example input. It is a brief narrative that establishes:
@@ -1446,7 +1452,7 @@ It is set off in a blockquote so it is visually distinct from the instructions.
 
 ### 20.7 Limits, Constraints, and System Boundaries Reference
 
-Every manual must include a consolidated limits table in the Reference chapter.
+Every manual must include a consolidated limits table in the Reference and Appendix section.
 This captures all system constraints so users never discover them by hitting an error.
 
 Derive limits from:
@@ -1475,7 +1481,7 @@ Table format:
 ### 20.8 PHI and Data Privacy Section (Healthcare Platforms)
 
 Any manual for a healthcare or clinical platform must include a dedicated data privacy
-section in Chapter 1 or Chapter 2. It is not optional.
+section in the Platform Overview or Roles and Access Control section. It is not optional.
 
 Required content:
 - What data the product can display and to whom
@@ -1502,15 +1508,16 @@ Before a manual is considered complete, verify every item below. A manual with a
 unchecked item is a draft, not a deliverable.
 
 **Structure**
-- [ ] About This Manual chapter with role-specific reading guide
-- [ ] "What Is [Product]?" chapter with full workflow overview and key concepts
-- [ ] Roles and Permissions chapter with permission matrix
-- [ ] Getting Started chapter with end-to-end first-task walkthrough
-- [ ] One chapter per major feature or workflow
-- [ ] Troubleshooting chapter (minimum 8 entries, symptom-structured)
-- [ ] Reference chapter with glossary, limits table, notifications table, system messages index
+- [ ] Introduction section with role-specific reading guide
+- [ ] Quick Start section (second section, always present)
+- [ ] Platform Overview with full workflow narrative and key concepts
+- [ ] Roles and Access Control with permission matrix
+- [ ] Getting Started with end-to-end first-task walkthrough
+- [ ] One section per major feature or workflow
+- [ ] Troubleshooting (minimum 8 entries, symptom-structured)
+- [ ] Reference and Appendix with glossary, limits table, notifications table, system messages index
 
-**Every feature chapter**
+**Every feature section**
 - [ ] Who-for and what-you-will-learn preamble
 - [ ] Overview paragraph (not a bullet list)
 - [ ] At least one scenario (blockquote format)
@@ -1627,8 +1634,8 @@ may have field names only in configuration reference tables, clearly labelled as
 ### 21.4 Lock Terminology Before Writing - One Noun Per Concept
 
 Inconsistent terminology is one of the most damaging quality problems in documentation.
-When the same thing is called "Case", "Consult", "Review", and "Consultation" in different
-sections, users lose confidence and search fails.
+When the same thing is called by different names in different sections - "workspace",
+"organization", "account", "team" - users lose confidence and search fails.
 
 **Before writing any section:**
 
@@ -1641,10 +1648,14 @@ sections, users lose confidence and search fails.
 
 | Concept | Chosen term | Never use |
 |---|---|---|
-| A clinical consultation request | Case | Consult, Review, Consultation, Request |
-| The person submitting the case | Clinician | Creator, Submitter, Requester |
-| The person reviewing the case | Specialist | Reviewer, Consultant, Assignee (in user-facing text) |
-| The unique identifier | Case ID | Review ID, Consult ID, Reference |
+| A shared space for team work | Workspace | Organization, Account, Team, Project |
+| The person who owns the account | Owner | Admin, Creator, Super admin |
+| A request submitted for action | Ticket | Issue, Request, Case, Item |
+| The person assigned to act on it | Assignee | Owner, Handler, Responsible party |
+
+This table is an example. Build your own from the actual UI labels in the product
+you are documenting. Use the term the user sees on screen - never a synonym from
+the codebase or internal documents.
 
 Write the terminology lock table before the first section. If you find yourself reaching
 for a synonym, the terminology is not locked properly.
@@ -1824,4 +1835,272 @@ Rejected            Cancelled
 ```
 
 This takes three lines and eliminates two paragraphs of prose explanation.
+
+
+---
+
+## Section 22: Process-Oriented Documentation - Journeys, Not Features
+
+The single most important difference between good documentation and great documentation
+is the unit of organization. Good documentation is organized around features - what
+the product has. Great documentation is organized around user intentions - what the
+user is trying to accomplish.
+
+A user never opens a manual thinking "I want to read about the Case Creation feature."
+They open it thinking "I need to submit a question to the cardiology panel" or "my case
+has been open for 3 days and I do not know what to do next." The documentation should
+be organized around those intentions, not around the feature that happens to serve them.
+
+This is what the best SaaS documentation does - Linear, Notion, Stripe, Intercom. Every
+page flows into the next. Every completed action points forward. Every section knows why
+the user arrived there.
+
+---
+
+### 22.1 Journey Mapping - Do This Before Writing Anything
+
+Before generating any documentation section, map every primary persona's journey through
+the product from first login to their most common completed outcome. This journey map
+becomes the backbone of the documentation structure.
+
+**Journey mapping format:**
+
+```
+Persona: Clinician (Case Creator)
+Primary goal: Get a specialist's opinion on a complex patient case
+
+Journey:
+1. TRIGGER: Patient presents with complex symptoms. Clinician needs expert input.
+2. Open Care Insight for the first time.
+3. Understand the Review Center layout.
+4. Create a case: select patient, choose panel, enter clinical question.
+5. Review and confirm the AI summary.
+6. Submit the case and see it appear in "Requested by Me."
+7. Wait: track status, optionally add urgency or a collaborator.
+8. Specialist responds in chat. Clinician reads and replies.
+9. Clinician approves or denies restricted data access (if requested).
+10. Review concludes. Clinician closes the case.
+11. Impact survey appears. Clinician records the outcome.
+
+Connected journeys (where this journey leads):
+- If specialist does not respond -> Support Request workflow
+- If case needs reassignment -> Reassignment workflow (admin journey)
+- If case auto-closes due to inactivity -> understand auto-close, create new case
+```
+
+**Every persona needs a journey map.** Write the journey maps first. Each numbered step
+in the journey map becomes a page or section in the documentation. Steps that connect to
+other steps get explicit "what to do next" links.
+
+---
+
+### 22.2 Contextual "What to Do Next" Connectors
+
+Every completed action is a decision point. The user has just done something - now what?
+Feature-organized docs leave the user stranded. Process-oriented docs carry them forward.
+
+After every task completion, include a "What to do next" block that gives 2-4 forward
+paths based on what the user most commonly needs at that moment.
+
+**Format:**
+
+```markdown
+## What to do next
+
+Your case is now open and the panel has been notified.
+
+- **Check who it was assigned to:** Open the case - the assignee's name appears
+  in the case header. If it shows "Unassigned," see [Unassigned Cases].
+- **Add urgency:** If the clinical decision is time-sensitive, [mark the case urgent].
+- **Add a collaborator:** If a colleague should also see the case,
+  [invite them as a collaborator].
+- **Track the status:** The case moves through Open -> Accepted -> In Progress ->
+  Closed. The current status is always visible on your "Requested by Me" list.
+```
+
+**Rules for "What to do next" blocks:**
+
+- Always 2-4 options. Never more - choice paralysis kills momentum.
+- Link to the exact section that covers each option, not to a general page.
+- Order by frequency: the most common next action first.
+- Include the "something went wrong" path: "If nobody has responded in 24 hours, [use Support Request]."
+- Never use "What to do next" as a title if it sounds robotic for the context. Alternatives:
+  "From here you can...", "While you wait...", "Next steps", "Your case is live."
+
+---
+
+### 22.3 Entry Point Triggers - Every Section Knows Why You Are Here
+
+Every documentation section should open with a one-line trigger: the user's situation
+that brings them to this page. This orients users who arrive via search or a link from
+another page without reading the manual from the beginning.
+
+**Format:**
+
+```markdown
+> You are here because: a case was assigned to you and you need to decide
+> whether to accept it and begin the review.
+```
+
+Or embedded in the overview:
+
+```markdown
+## Specialist Review Workflow
+
+When a case is assigned to you, you receive an email notification and the case
+appears in your **Assigned to Me** list. This section covers everything from
+receiving that notification to completing the review.
+```
+
+**The entry point test:** Cover the page title and read only the first paragraph.
+Can a user who arrived from a search result immediately understand whether this is
+the right page for their situation? If not, the entry point is missing.
+
+---
+
+### 22.4 Progressive Disclosure - Simple First, Complexity Later
+
+Every section should start with the simple, common case and introduce complexity only
+after the user has completed the basic flow at least once. Do not put edge cases,
+exceptions, admin configuration, and advanced options on the same page as the basic task.
+
+**The three-layer model:**
+
+**Layer 1 - The first-time path:** The minimum a user needs to know to complete the
+task the first time. No edge cases. No options. No "if you have configured X..." Just
+the direct path from start to done.
+
+**Layer 2 - Common variations:** The 2-3 most common variations from the basic path.
+"What if I need to change the specialty?" "What if the patient isn't showing up in search?"
+
+**Layer 3 - Edge cases and admin:** Configuration, exceptions, unusual states. Link to
+the Admin Guide or a separate "Advanced" section. Do not put these in Layer 1.
+
+**Example for Case Creation:**
+
+```
+Layer 1: Select patient → choose panel → enter question → confirm AI summary → submit.
+         (8 steps. Simple. Every word needed.)
+
+Layer 2: "What if I don't see my panel?" / "What if I want to skip the AI summary?"
+         (Short answers. Link to Panel Settings if configuration is needed.)
+
+Layer 3: Auto-assignment logic, timeout configuration, specialty filtering rules.
+         (Admin Guide only. Not in the User Guide.)
+```
+
+---
+
+### 22.5 Decision Forks - "If You See X, Go to Y"
+
+At every point where users with different roles, states, or configurations see different
+screens, the documentation must fork explicitly. A user who sees something different from
+what the doc describes immediately loses trust and closes the manual.
+
+**Format for decision forks:**
+
+```markdown
+After clicking **Submit**, one of two things happens:
+
+- **If the panel has auto-assignment enabled:** The case is assigned immediately to
+  an available specialist. You see the assignee's name in the case header.
+  [Track the case status ->]
+
+- **If the panel uses manual assignment:** The case status is Open and the Reviewer
+  field shows "Unassigned." The panel leader assigns it manually, usually within
+  24 hours. [What to do if your case stays unassigned ->]
+```
+
+**When to use decision forks:**
+- When the user's role determines what they see (common in permission-heavy apps)
+- When a configuration setting changes the flow (auto-assign vs manual assign)
+- When the result of a previous step changes what happens next
+- When there are two valid ways to accomplish the same thing
+
+**Never:** Write a single set of steps that silently fail for half the audience. If
+the steps work differently for different users, fork the steps.
+
+---
+
+### 22.6 Contextual Inline Links - Woven Into Steps, Not Appended at the End
+
+Links to related content belong inside the flow of the instructions, not only in a
+"Related topics" footer. A user following a 10-step process should not have to jump
+to the end of the page to find the link they need at step 4.
+
+**Wrong - all links at the end:**
+```markdown
+1. Click **Create case review**.
+2. Select the patient.
+3. Select the panel.
+4. Enter your clinical question.
+5. Attach supporting forms.
+
+Related topics: Panel Management, Patient Records, AI Summary
+```
+
+**Right - links woven into the steps at the moment they are needed:**
+```markdown
+1. Click **Create case review**.
+2. Search for and select the patient from the dropdown.
+3. Select the panel. [Don't see your panel? You may not be a member. ->]
+4. Enter your clinical question. Be specific about what you need from the specialist.
+   [Tips for writing a good clinical question ->]
+5. Optionally attach supporting forms from the patient record.
+   [Which forms are available? ->]
+```
+
+The link appears at exactly the moment the user needs it, not after they've already
+moved past the relevant step.
+
+---
+
+### 22.7 The "Waiting State" - Document What Users Do Between Actions
+
+Most documentation covers the active steps: create, submit, complete. It ignores the
+waiting states: what the user does while waiting for a specialist to respond, waiting
+for an invitation to be accepted, waiting for a report to generate.
+
+Waiting states are where users get anxious and create support tickets. Document them.
+
+**Format:**
+
+```markdown
+## While you wait
+
+Your case is now open. The specialist typically responds within [SLA period].
+Here is what you can do in the meantime:
+
+**Check status:** Your case appears in the **Requested by Me** tab with its current
+status. Open -> Accepted means the specialist has taken responsibility for the review.
+
+**Add urgency:** If the clinical decision becomes time-sensitive, open the case and
+[mark it urgent ->]. The specialist and panel leader are notified.
+
+**Add a collaborator:** If a second colleague should also see the case and the chat,
+[invite them as a collaborator ->].
+
+**If nothing has happened after 24 hours:** The case may not have been assigned yet.
+Use the [Support Request ->] to ask the panel leader to assign it, or contact them directly.
+```
+
+---
+
+### 22.8 The Minimum Journey Standard
+
+Every generated User Guide must pass this test before delivery:
+
+Pick the primary persona (the most common user type). Read only the documentation
+for their first-time use case - not the reference sections, not the admin guide.
+
+Ask these questions:
+- [ ] Can the user complete their primary workflow from start to finish using only this documentation?
+- [ ] At every step, does the documentation tell them what to do next?
+- [ ] At every point where something might look different, does the documentation fork?
+- [ ] Is there documentation for what to do while waiting?
+- [ ] Is there documentation for the most common error they will encounter?
+- [ ] Does every page know why the user arrived there?
+
+If any answer is no, the documentation is feature-organized, not process-oriented.
+Fix it before delivering.
 

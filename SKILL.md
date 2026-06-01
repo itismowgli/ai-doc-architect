@@ -120,13 +120,65 @@ These principles come from how the best documentation teams in the industry (Str
 **Continuous improvement over perfection.** The system does not need to generate perfect documentation on day one. It needs a feedback loop: usage analytics, search gap analysis, support ticket correlation, and user ratings should continuously feed back into generation quality.
 
 
-## The Book Standard - Non-Negotiable Output Quality
+## Documentation Standards
 
-**A user manual is a book.** Not a feature dump. Not a reference list. A book.
+**A user manual is organized around user intentions, not product features.**
 
-Every generated manual must meet the Book Standard (Sections 20 and 21 of
+The difference between good documentation and great documentation is the unit of
+organization. Good docs say "here is Case Creation, here is Case Management, here is
+Reassignment." Great docs say "here is how to get a specialist's opinion on a complex
+patient case" - and every step flows into the next, every completed action points
+forward, every page knows why the user arrived there.
+
+Study how Linear (linear.app/docs), Notion, and Stripe document their products.
+Their pages follow user journeys. Sections connect. Steps link forward.
+That is the standard.
+
+Every generated manual must meet the Documentation Standards (Sections 20, 21, and 22 of
 `references/writing-guide.md`) and pass the completeness checklist before delivery.
 A manual with any unchecked item is a draft.
+
+### Rule 0: Map user journeys before writing a single section
+
+Before generating any documentation, produce a journey map for each primary persona.
+A journey map is a numbered sequence from the user's trigger (why they need the product
+today) to their completed outcome. Each step in the journey map becomes a page or section.
+Steps that connect to other steps get explicit forward links.
+
+```
+Example journey map - New team member joining a SaaS product:
+1. TRIGGER: Received invite email, needs to start contributing
+2. Accept invitation, create account or log in
+3. Understand the workspace layout and navigation
+4. Find the team they were added to
+5. WAITING STATE: understand their role and what they can do
+6. Complete their first task (varies by product)
+7. Invite a colleague to the team
+8. Manage their notification settings
+
+Each numbered step = one documentation section.
+Step 5 is a waiting state - document it explicitly.
+```
+
+Replace this example with the actual primary persona journey for the product
+you are documenting. The format stays the same for any product or industry.
+
+The journey map is the manual's spine. Write it first.
+
+### Rule 0b: Process-oriented, not feature-oriented
+
+Every section answers "what is the user trying to accomplish?" not "what does this
+feature do?" The entry point, steps, outcome, and next steps all follow from the user's
+intention, not from the feature's capabilities.
+
+**Feature-oriented (wrong):**
+> "The Reassign function allows panel leaders and case owners to transfer case
+> responsibility to another panel member."
+
+**Process-oriented (right):**
+> "You are here because a case needs to be handled by a different specialist - either
+> because the current reviewer is unavailable, or because the case requires a different
+> specialty. Here is how to reassign it and what happens next."
 
 ### Rule 1: Never say "Chapter" - Use descriptive workflow names
 
@@ -178,9 +230,12 @@ Use the term that appears in the UI. Never use synonyms or alternate names.
 ```
 | Concept | Use this | Never use |
 |---|---|---|
-| A consultation request | Case | Consult, Review, Consultation |
-| The person requesting | Clinician | Creator, Submitter, Requester |
+| A shared team space | Workspace | Organization, Account, Team |
+| The person who created it | Owner | Creator, Admin, Founder |
 ```
+
+Replace these with the actual concepts from the product you are documenting.
+Use the term visible in the UI - never a synonym from the codebase.
 
 If you catch yourself reaching for a synonym, the terminology is not locked. Fix it.
 
@@ -225,6 +280,39 @@ engine references, cron schedules - these belong in developer docs, not user man
 - Limits and constraints table
 - System messages and toasts reference table
 - Related topics links
+
+### Rule 9: "What to do next" after every completed action
+
+After every task completion, include 2-4 forward paths. Link to the exact section for
+each. Order by frequency - most common next action first. Always include the "something
+went wrong" path. This is what connects isolated pages into a flow.
+
+### Rule 10: Entry point triggers
+
+Every section opens with one sentence explaining what situation brings a user here.
+"You are here because..." or woven into the overview paragraph. A user arriving from
+search must immediately know they are in the right place.
+
+### Rule 11: Progressive disclosure
+
+Layer 1 = simple first-time path only. Layer 2 = common variations. Layer 3 = edge
+cases and admin config (Admin Guide only, never in User Guide Layer 1).
+
+### Rule 12: Decision forks at branching points
+
+When different roles or configurations produce different screens, fork the steps
+explicitly: "If you see X... / If you see Y..." Never write steps that silently fail
+for half the audience.
+
+### Rule 13: Waiting states are documented
+
+Every workflow has a waiting period. Document it. Tell the user what to do, what to
+watch for, and what to do if the wait is too long.
+
+### Rule 14: Inline links woven into steps
+
+Links belong at the moment they are needed - inside step 4, not in a "Related topics"
+footer after step 10. If a user needs a link at step 4, put it at step 4.
 
 ### The split rule
 
@@ -290,10 +378,10 @@ that matches their scope. All modes produce Markdown files as the default output
 | Mode | Trigger phrase | Example output |
 |---|---|---|
 | Full system scan | "document the entire platform", "generate all docs for this repo" | One doc per module + overview index |
-| Module-by-module | "document the drug inventory module", "generate docs for appointments" | Per-audience docs for that module |
-| Feature-by-feature | "document the export feature", "generate docs for the follow-up flow" | One feature guide + gap report |
+| Module-by-module | "document the billing module", "generate docs for user management" | Per-audience docs for that module |
+| Feature-by-feature | "document the export feature", "generate docs for the invite flow" | One feature guide + gap report |
 | PRD-driven | "read this PRD and generate docs", "compare this PRD to the code" | User manual + gap report + tracked issues |
-| Controller-grouped | "document everything under AppointmentController" | One guide covering all endpoints in that controller |
+| Controller-grouped | "document everything under PaymentController" | One guide covering all endpoints in that controller |
 
 ### Full System Scan
 
@@ -316,16 +404,16 @@ For a Python application, group by Blueprint or APIRouter.
 Use when one functional area needs complete documentation before moving to the next.
 
 ```
-Prompt: "Document the drug inventory module. Generate guides for site staff,
-         site admins, and sponsors. Output as Markdown files."
+Prompt: "Document the billing module. Generate guides for end users,
+         admins, and support staff. Output as Markdown files."
 
 Ingestion sources: controller files, service layer, models, policies, feature tests, any PRDs
 Outputs:
-  docs/drug-inventory/overview.md
-  docs/drug-inventory/staff-guide.md
-  docs/drug-inventory/admin-guide.md
-  docs/drug-inventory/sponsor-guide.md
-  docs/drug-inventory/permissions.md
+  docs/billing/overview.md
+  docs/billing/user-guide.md
+  docs/billing/admin-guide.md
+  docs/billing/support-guide.md
+  docs/billing/permissions.md
 ```
 
 ### Feature-by-Feature
@@ -333,13 +421,13 @@ Outputs:
 Use when a specific feature just shipped and needs documentation immediately.
 
 ```
-Prompt: "Document the appointment follow-up flow that just shipped.
-         The PRD is prd-612-appointment-chains-followup-view.md."
+Prompt: "Document the team invitation flow that just shipped.
+         The PRD is in Confluence. The Linear epic is INV-142."
 
-Ingestion sources: PRD file + AppointmentController + DB migration + tests
+Ingestion sources: spec from Confluence/Linear + InvitationController + DB migration + tests
 Outputs:
-  docs/appointments/follow-up-appointments.md
-  docs/appointments/gap-report-followup-v1.md
+  docs/teams/invite-members.md
+  docs/teams/gap-report-invitations-v1.md
   (Linear issues created for each gap found)
 ```
 
@@ -400,7 +488,8 @@ Step 8: Create tracked issues for each gap in the team's issue tracker
 | Plain text / paste | No MCP needed | User pastes content directly into the prompt |
 
 See `examples/05-prd-to-manual.md` for the complete PRD-to-manual workflow.
-See `examples/06-clinical-healthcare-saas.md` for a full clinical SaaS example using all four modes.
+See `examples/06-existing-codebase-zero-docs.md` for generating from any existing codebase with no docs.
+See `examples/07-output-showcase.md` for what the output actually looks like.
 
 ### Laravel / PHP Specific
 
@@ -411,74 +500,21 @@ Policy files (permission matrix), Pest feature tests (behavioral specification),
 PRD files in repo root, CLAUDE.md as domain glossary.
 
 
-## Designing the Agent System
+## Designing an ADUMAS System
 
-When helping a user design their documentation agent system, always start from the seven canonical agents and decide which ones are needed for their scope. See `references/architecture.md` for the full agent roster.
+When the user wants to design a documentation automation system (agents, pipelines,
+database schema, CI/CD integration) rather than generate documentation directly, read
+`references/architecture.md`. It covers the full agent roster, five-tier architecture,
+workflow design, version control strategy, database schema, automation pipelines, and
+the 15-section architecture document structure.
 
-For a **minimal viable system** (MVP), three agents cover 80% of the value:
+For tech stack decisions, deployment options, scalability, and the MVP vs enterprise
+breakdown, read `references/tech-stack.md`.
 
-1. **Commit Intelligence Agent** - Watches Git, understands what changed, identifies documentation impact.
-2. **Documentation Generator Agent** - Turns change manifests into draft documentation using LLM + RAG.
-3. **Distribution Agent** - Syncs approved documentation to target platforms (Notion, Confluence, GitHub Pages).
+For the MCP integration setup (GitHub, Confluence, Linear, Jira, Slack, Notion, Figma),
+read `references/mcps.md`.
 
-Add agents as the system matures:
+For common planning, build, and operations mistakes, read `references/anti-patterns.md`.
 
-- Add **Codebase Analyst Agent** when the codebase grows complex enough that ad-hoc diff analysis misses structural changes.
-- Add **Quality Agent** when documentation volume makes manual quality review impractical.
-- Add **Audience Adaptation Agent** when more than two personas need meaningfully different documentation.
-- Add **Feedback Intelligence Agent** when you have enough documentation traffic to generate meaningful analytics.
-
-
-## Designing the Workflow
-
-A documentation workflow always has three phases:
-
-**Ingestion** - Something changes (code commit, PR merge, deploy, scheduled scan). The system detects it and queues it for processing.
-
-**Processing** - Agents analyze the change, consult the Knowledge Graph, generate or update documentation drafts, score quality, and route for approval if needed.
-
-**Distribution** - Approved documentation is published to all target platforms. Platform sync is verified. Failures trigger alerts and retry logic.
-
-When designing a workflow for a user, always be explicit about:
-- What triggers the workflow (Git events, scheduled jobs, manual trigger)
-- Where human review fits in (auto-approve minor changes, require review for breaking changes)
-- What happens on failure (retry, alert, rollback)
-
-
-## Output Format Guidance
-
-When producing a full architecture document for the user, use this structure:
-
-1. Executive Summary (value propositions, core principles)
-2. Five-Tier Architecture Overview (Ingestion → Intelligence → Generation → Management → Distribution)
-3. Agent Roster (customized to their scope and team size)
-4. Skills & Modules (composable capabilities each agent can invoke)
-5. Workflow Design (primary generation, PR validation, scheduled audit, human review)
-6. Version Control Strategy (docs-as-code, SemVer, branch strategy, rollback)
-7. Documentation Intelligence (Knowledge Graph, RAG, staleness detection, proactive alerts)
-8. Database & Schema Design (tailored to their scale)
-9. Automation Pipelines (CI/CD gate, scheduled jobs, quality scoring)
-10. Integration Architecture (source systems + distribution platforms)
-11. Tech Stack Recommendations (with alternatives where relevant)
-12. Scalability & Security (appropriate to their deployment model)
-13. Enterprise Deployment Options (if relevant)
-14. Roadmap (MVP → growth → enterprise phases)
-15. MVP vs Enterprise Feature Breakdown
-
-If the user wants a Word document, invoke the `docx` skill after designing the architecture. The reference files contain the full content for all 15 sections.
-
-
-## Quick Reference: Key Design Decisions
-
-| Decision | Recommended Default | Why |
-|---|---|---|
-| Source of truth format | Markdown (MDX) | Version-controllable, renders everywhere, format-agnostic |
-| Primary database | PostgreSQL + pgvector | Relational integrity + vector search in one DB |
-| Event bus | Apache Kafka | Ordered, high-throughput, replay-capable |
-| Knowledge store | Neo4j | Native graph for feature-API-documentation relationships |
-| LLM for generation | Claude (long context) | Best for large codebase analysis and long-form writing |
-| Embedding model | text-embedding-3-large | High quality, widely supported |
-| Documentation portal | Next.js + MDX | Fast, Git-native, Markdown-first |
-| CI/CD integration | GitHub Actions / GitLab CI | Native Git integration, easy webhook setup |
-| Human review trigger | Risk-level threshold | Auto-approve patches; require review for breaking changes |
-| Versioning | SemVer (major/minor/patch) | Maps naturally to breaking changes, features, and fixes |
+For the 10 key architecture decisions (LLM choice, database, versioning strategy,
+deployment model, human review triggers), read `references/decision-guide.md`.

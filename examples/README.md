@@ -4,8 +4,8 @@ These scenarios show how the `ai-doc-architect` skill adapts the ADUMAS architec
 
 ## Start here
 
-**New to the skill?** Read [`07-book-standard-showcase.md`](./07-book-standard-showcase.md) first.
-It shows the actual output - a complete, real-looking manual chapter - so you know exactly
+**New to the skill?** Read [`07-output-showcase.md`](./07-output-showcase.md) first.
+It shows the actual output - a complete, real-looking manual section - so you know exactly
 what you are getting before you run anything.
 
 **Have an existing codebase with no docs?** Read [`06-existing-codebase-zero-docs.md`](./06-existing-codebase-zero-docs.md).
@@ -17,7 +17,7 @@ It covers the universal pattern for any stack - Laravel, Django, Rails, Node, Sp
 
 | File | What it shows | Read when |
 |---|---|---|
-| [`07-book-standard-showcase.md`](./07-book-standard-showcase.md) | Actual rendered manual output - a complete chapter with scenarios, steps, permission matrix, toasts, limits | You want to see what the output looks like before installing |
+| [`07-output-showcase.md`](./07-output-showcase.md) | Actual rendered manual output - a complete section with scenarios, steps, permission matrix, toasts, limits | You want to see what the output looks like before installing |
 | [`06-existing-codebase-zero-docs.md`](./06-existing-codebase-zero-docs.md) | Universal pattern for generating docs from any existing codebase with zero existing documentation | You have a product that works but has no manual |
 | [`05-prd-to-manual.md`](./05-prd-to-manual.md) | Three-source reconciliation: Confluence PRD + Linear FRs + GitHub code - gap report and manual from specs | You have specs and want to check what shipped vs what was planned |
 | [`04-healthcare-hipaa.md`](./04-healthcare-hipaa.md) | Healthcare SaaS with HIPAA constraints, PHI-aware documentation, potential on-prem deployment | Your product handles health data |

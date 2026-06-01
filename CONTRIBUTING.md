@@ -21,7 +21,7 @@ In rough priority order:
 ### 1. Fork and clone
 
 ```bash
-git clone https://github.com/your-org/ai-doc-architect.git
+git clone https://github.com/itismowgli/ai-doc-architect.git
 cd ai-doc-architect
 ```
 
