@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: The skill triggers incorrectly, produces wrong recommendations, or a reference file contains an error
+about: The skill triggers incorrectly, a command produces wrong output, or a file contains an error
 title: "[BUG] "
 labels: bug
 assignees: ''
@@ -8,17 +8,17 @@ assignees: ''
 
 ## What happened
 
-<!-- Describe the bug clearly and specifically. -->
+<!-- Describe the bug clearly. -->
 
 ## Expected behavior
 
 <!-- What should the skill have done instead? -->
 
-## Reproduction steps
+## Reproduction
 
-**Prompt used:**
+**Command or prompt used:**
 ```
-[Paste the exact prompt you gave Claude]
+[Paste the exact prompt]
 ```
 
 **Platform:**
@@ -30,11 +30,18 @@ assignees: ''
 
 ## Actual output
 
-<!-- What did Claude produce? Paste the relevant part of the response. -->
+<!-- Paste the relevant part of the response. -->
 
-## Which file(s) contain the error?
+## Which file contains the error?
 
 - [ ] `SKILL.md`
+- [ ] `commands/wizard.md`
+- [ ] `commands/autodoc.md`
+- [ ] `commands/generate-manual.md`
+- [ ] `commands/prd-to-manual.md`
+- [ ] `commands/scan-codebase.md`
+- [ ] `commands/gap-report.md`
+- [ ] `references/writing-guide.md`
 - [ ] `references/architecture.md`
 - [ ] `references/tech-stack.md`
 - [ ] `references/mcps.md`
@@ -42,17 +49,13 @@ assignees: ''
 - [ ] `references/anti-patterns.md`
 - [ ] `examples/`
 - [ ] `evals/evals.json`
-- [ ] Other: ___
 
 ## Bug type
 
-- [ ] Skill triggered when it shouldn't have
-- [ ] Skill didn't trigger when it should have
-- [ ] Skill produced an incorrect recommendation
-- [ ] Reference file contains factual error
+- [ ] Skill triggered when it should not have
+- [ ] Skill did not trigger when it should have
+- [ ] Command produced incorrect steps or output
+- [ ] Generated folder structure was wrong
+- [ ] Reference file contains a factual error
 - [ ] Broken link or missing reference
 - [ ] Other: ___
-
-## Additional context
-
-<!-- Anything else that would help reproduce or understand the bug. -->

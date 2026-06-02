@@ -2104,3 +2104,206 @@ Ask these questions:
 If any answer is no, the documentation is feature-organized, not process-oriented.
 Fix it before delivering.
 
+
+---
+
+## Section 23: Folder-Based Documentation Output
+
+Every generated user manual is a folder of Markdown files, not a single file. This
+section defines the structure, naming conventions, cross-linking rules, and how the
+output maps to documentation portals.
+
+---
+
+### 23.1 The Standard Folder Structure
+
+```
+docs/
+  [product-name]/
+    index.md                          <- Master TOC. Entry point for the entire manual.
+
+    01-introduction/
+      index.md                        <- Section overview + links to files in this folder
+      who-this-is-for.md             <- Role-specific reading guide
+      quick-start.md                 <- 10 steps or fewer per persona
+
+    02-[section-name]/
+      index.md
+      [workflow-1].md
+      [workflow-2].md
+
+    03-[section-name]/
+      index.md
+      [workflow].md
+
+    [n]-troubleshooting-and-reference/
+      index.md
+      troubleshooting.md
+      glossary.md
+      limits.md
+      system-messages.md
+      notifications.md
+```
+
+The folder numbers control sort order. Files within each folder are listed
+alphabetically unless the workflow has a natural sequence, in which case prefix
+them: `01-create.md`, `02-invite.md`, `03-remove.md`.
+
+---
+
+### 23.2 File Naming Rules
+
+**Folders:** `NN-descriptive-name` where NN is a two-digit zero-padded number.
+
+```
+01-introduction
+02-roles-and-access
+03-getting-started
+04-daily-workflows
+05-operational-features
+06-analytics-and-admin
+07-troubleshooting-and-reference
+```
+
+**Files:** kebab-case, task-oriented where the content is a workflow. Use nouns
+for reference content and verb phrases for workflow content.
+
+```
+Workflow files:       create-a-team.md, invite-members.md, reset-password.md
+Reference files:      glossary.md, limits.md, system-messages.md
+Overview files:       index.md (always this name)
+```
+
+Never use spaces, uppercase, or underscores in file or folder names.
+
+---
+
+### 23.3 The index.md Files
+
+Every folder has an `index.md`. There are two types:
+
+**Root index.md (master table of contents):**
+
+```markdown
+# [Product Name] Documentation
+
+Brief one-paragraph description of the product.
+
+## How to use this guide
+
+[Role-specific reading guide - link to each section by role]
+
+## Contents
+
+### Introduction
+- [Who This Guide Is For](./01-introduction/who-this-is-for.md)
+- [Quick Start](./01-introduction/quick-start.md)
+
+### [Section Name]
+- [Workflow 1](./02-section-name/workflow-1.md)
+- [Workflow 2](./02-section-name/workflow-2.md)
+
+### Troubleshooting and Reference
+- [Troubleshooting](./07-troubleshooting-and-reference/troubleshooting.md)
+- [Glossary](./07-troubleshooting-and-reference/glossary.md)
+```
+
+**Section index.md (section overview):**
+
+```markdown
+# [Section Name]
+
+One paragraph: what this section covers, who it is for, what you will be
+able to do after reading it.
+
+## In this section
+
+- [Workflow 1](./workflow-1.md) - when to use this workflow
+- [Workflow 2](./workflow-2.md) - when to use this workflow
+```
+
+---
+
+### 23.4 Cross-Linking Between Files
+
+Always use relative paths. Never use absolute URLs or anchor-only links between files.
+
+```markdown
+# Correct
+See [Invite Members](../04-daily-workflows/invite-members.md) for the full steps.
+Return to [Daily Workflows](../04-daily-workflows/index.md).
+
+# Wrong
+See [Invite Members](#invite-members)               <- broken if user opens a different file
+See [Invite Members](https://docs.example.com/...)  <- breaks when docs move
+```
+
+Every section file ends with a "Related topics" or "What to do next" block using
+relative links:
+
+```markdown
+## What to do next
+
+- [Manage member roles](./manage-roles.md)
+- [Remove a member](./remove-member.md)
+- [Return to Team Management overview](./index.md)
+```
+
+---
+
+### 23.5 How This Maps to Documentation Portals
+
+The folder structure maps directly to sidebar navigation in every major docs portal
+with zero configuration:
+
+| Portal | How it reads the folder | Result |
+|---|---|---|
+| Mintlify | Reads `docs/` folder, uses `index.md` as section pages | Sidebar built automatically |
+| Docusaurus | Reads `docs/` folder, uses numeric prefixes for ordering | Sidebar built automatically |
+| GitBook | Reads folder structure, `SUMMARY.md` or auto-discovery | Sidebar built automatically |
+| Notion | Import Markdown folder, preserves hierarchy | Page tree mirrors folder tree |
+| Confluence | Atlassian MCP can publish folder as page tree | Page hierarchy mirrors folder |
+| GitHub | Each file is browsable at its own URL | Direct linking to any section |
+
+The folder names become sidebar group headers. The file names become sidebar items.
+The `index.md` files become the section landing pages. No manual sidebar configuration required.
+
+---
+
+### 23.6 Separation: User Guide and Admin Guide
+
+Always generate as two parallel folder trees:
+
+```
+docs/
+  [product-name]/
+    user-guide/
+      index.md
+      01-introduction/
+      02-getting-started/
+      03-daily-workflows/
+      04-troubleshooting-and-reference/
+
+    admin-guide/
+      index.md
+      01-introduction/
+      02-configuration/
+      03-user-management/
+      04-analytics-and-reports/
+      05-troubleshooting-and-reference/
+```
+
+The User Guide contains zero admin content. The Admin Guide may reference the User
+Guide for end-user workflows rather than repeating them.
+
+---
+
+### 23.7 When a Single File Is Acceptable
+
+Use a single `.md` file only when:
+- The user explicitly requests it
+- The feature has fewer than 3 tasks, one audience, and no admin content
+- The output is a gap report, release note, or changelog (inherently single-document)
+
+In all other cases, use the folder structure.
+

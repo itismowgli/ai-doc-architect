@@ -1,6 +1,6 @@
 {
   "skill_name": "ai-doc-architect",
-  "version": "2.0.0",
+  "version": "2.4.0",
   "evals": [
     {
       "id": 1,
@@ -119,7 +119,13 @@
       "prompt": "Our PRD for the team invitation feature is in Confluence. The Linear epic has all the acceptance criteria across 8 issues. The feature shipped last week. Fetch both and generate a user manual from the spec and the code.",
       "should_trigger": true,
       "expected_output": "Trigger PRD-driven mode. Step 1: fetch Confluence PRD (Atlassian MCP - ask for page ID or search by title). Step 2: fetch Linear issues for the epic (Linear MCP - extract acceptance criteria per issue). Step 3: map to InvitationController and relevant DB migrations. Step 4: run Specification Reconciler. Step 5: generate Markdown user manual for what shipped. Step 6: generate gap report for unshipped items. Step 7: create Linear issues for each gap.",
-      "tags": ["prd-to-manual", "laravel", "invitations", "confluence", "linear"]
+      "tags": [
+        "prd-to-manual",
+        "laravel",
+        "invitations",
+        "confluence",
+        "linear"
+      ]
     },
     {
       "id": 18,

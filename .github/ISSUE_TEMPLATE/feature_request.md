@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest a new scenario, platform, anti-pattern, decision tree, or eval case to add
+about: Suggest a new command, example, prompt, anti-pattern, integration, or eval case to add
 title: "[FEAT] "
 labels: enhancement
 assignees: ''
@@ -8,23 +8,24 @@ assignees: ''
 
 ## What's missing
 
-<!-- Describe the scenario, platform, anti-pattern, or capability not currently covered. -->
+<!-- Describe the scenario, command, or capability not currently covered. -->
 
 ## Why it matters
 
-<!-- Who would benefit from this addition? How common is this use case? -->
+<!-- Who would benefit? How common is this use case? -->
 
 ## What you'd like to see added
 
 <!-- Be as specific as possible. If you have draft content, paste it here. -->
 
 **Type of contribution:**
-- [ ] New scenario example (`examples/`)
+- [ ] New or improved command (`commands/`)
+- [ ] New example or prompt (`examples/`)
 - [ ] New anti-pattern (`references/anti-patterns.md`)
 - [ ] New MCP integration notes (`references/mcps.md`)
 - [ ] New decision tree (`references/decision-guide.md`)
 - [ ] New eval test case (`evals/evals.json`)
-- [ ] Expansion of existing content
+- [ ] Expansion of existing reference content
 - [ ] Other: ___
 
 ## Would you like to contribute this yourself?
