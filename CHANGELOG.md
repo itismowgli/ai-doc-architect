@@ -326,7 +326,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ## [2.2.0] - 2026-06-03
 
 > Duplicate version number. Both 2.2.0 entries are development increments that
-> shipped inside the `2.4.0` tag; neither was released on its own.
+> shipped inside the `v2.4.0` tag; neither was released on its own.
 
 ### Added
 
@@ -533,26 +533,30 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## Release tags
 
-Tags are annotated, named with bare semver (no `v` prefix), and messaged `Release X.Y.Z`.
+Tags are annotated, `v`-prefixed, and messaged `Release vX.Y.Z`. Changelog headings stay
+unprefixed to match Keep a Changelog.
 
 | Version | Tag | Commit |
 |---|---|---|
-| 2.5.0 | `2.5.0` | `76753ba` |
-| 2.4.0 | `2.4.0` | `368c227` |
-| 2.3.0 - 2.1.0 | none | shipped inside `2.4.0` |
-| 2.0.0 | `2.0.0` | `58cb4a1` |
+| 2.5.0 | `v2.5.0` | resolves via the tag |
+| 2.4.0 | `v2.4.0` | `368c227` |
+| 2.3.0 - 2.1.0 | none | shipped inside `v2.4.0` |
+| 2.0.0 | `v2.0.0` | `58cb4a1` |
 | 1.4.0 and earlier | none | pre-tagging |
+
+The unprefixed tags `2.0.0`, `2.4.0`, and `2.5.0` were renamed to their `v` equivalents on
+2026-09-16. Same commits, same tagger dates; only the names changed.
 
 A version with no tag was a development increment, not a release. Release process is in
 [CONTRIBUTING.md](./CONTRIBUTING.md#releasing).
 
-[Unreleased]: https://github.com/itismowgli/ai-doc-architect/compare/2.5.0...HEAD
-[2.5.0]: https://github.com/itismowgli/ai-doc-architect/compare/2.4.0...2.5.0
-[2.4.0]: https://github.com/itismowgli/ai-doc-architect/compare/2.0.0...2.4.0
-[2.3.0]: https://github.com/itismowgli/ai-doc-architect/releases/tag/2.4.0
-[2.2.0]: https://github.com/itismowgli/ai-doc-architect/releases/tag/2.4.0
-[2.1.0]: https://github.com/itismowgli/ai-doc-architect/releases/tag/2.4.0
-[2.0.0]: https://github.com/itismowgli/ai-doc-architect/releases/tag/2.0.0
+[Unreleased]: https://github.com/itismowgli/ai-doc-architect/compare/v2.5.0...HEAD
+[2.5.0]: https://github.com/itismowgli/ai-doc-architect/compare/v2.4.0...v2.5.0
+[2.4.0]: https://github.com/itismowgli/ai-doc-architect/compare/v2.0.0...v2.4.0
+[2.3.0]: https://github.com/itismowgli/ai-doc-architect/releases/tag/v2.4.0
+[2.2.0]: https://github.com/itismowgli/ai-doc-architect/releases/tag/v2.4.0
+[2.1.0]: https://github.com/itismowgli/ai-doc-architect/releases/tag/v2.4.0
+[2.0.0]: https://github.com/itismowgli/ai-doc-architect/releases/tag/v2.0.0
 [1.2.0]: https://github.com/itismowgli/ai-doc-architect/releases
 [1.1.0]: https://github.com/itismowgli/ai-doc-architect/releases
 [1.0.0]: https://github.com/itismowgli/ai-doc-architect/releases

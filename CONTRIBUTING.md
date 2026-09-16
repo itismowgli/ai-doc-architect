@@ -143,19 +143,22 @@ Steps:
    anything relevant out of `## [Unreleased]`.
 2. Update the version badge in `README.md` and the entry in its Version history block.
 3. Commit the work.
-4. Tag it — **annotated, bare semver, no `v` prefix**, message `Release X.Y.Z`:
+4. Tag it — **annotated, `v`-prefixed**, message `Release vX.Y.Z`:
 
    ```bash
-   git tag -a 2.5.0 -m "Release 2.5.0"
+   git tag -a v2.5.0 -m "Release v2.5.0"
    ```
 
+   The `v` prefix is the convention here. Changelog headings stay unprefixed
+   (`## [2.5.0]`), matching Keep a Changelog; the tag is `v2.5.0`.
+
 5. Add the compare link at the bottom of `CHANGELOG.md`:
-   `[X.Y.Z]: .../compare/<previous tag>...X.Y.Z`
+   `[X.Y.Z]: .../compare/<previous tag>...vX.Y.Z`
 6. Push the commit and the tag to every remote:
 
    ```bash
-   git push origin main && git push origin 2.5.0
-   git push gitlab main && git push gitlab 2.5.0
+   git push origin main && git push origin v2.5.0
+   git push gitlab main && git push gitlab v2.5.0
    ```
 
 Tags are never moved or force-pushed once they exist. A tag is a claim about what a
