@@ -9,6 +9,34 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Security
+
+- **Untrusted content and prompt injection** (`references/validation.md`, Rule 18) -
+  addresses Snyk W011, third-party content exposure. Everything the skill reads in order
+  to write (Confluence and Docmost page bodies, Linear and Jira issue descriptions,
+  Notion, GitHub issue and PR text, code comments, commit messages, pasted specs) is
+  authored outside the operator's control and much of it is editable by anyone with a
+  workspace seat. It is now explicitly classified as data, never instructions, with a
+  stated trust boundary.
+
+  Nothing found inside fetched content can change the output path, the publish destination
+  or its visibility, which files are read, which URLs Playwright visits, what is filed in
+  a tracker, or a validation verdict. Widening a Docmost or Confluence share is called out
+  as the highest-impact action an injected instruction could reach, since it is immediate
+  and public.
+
+  Secrets are barred from the manual, screenshots, and all three reports, which is the
+  part people miss because the reports feel internal while being committed to the repo.
+
+  Instruction-shaped content is ignored rather than obeyed, never echoed into output where
+  it would move downstream to whoever reads the manual, and logged under
+  `Untrusted content flagged` in the inference report.
+
+  The existing validation gate is documented as the strongest mitigation: a claim only
+  becomes prose when code evidence supports it, so injected text describing a feature that
+  does not exist gets an `Unshipped` verdict and reaches the gap report rather than the
+  manual.
+
 ### Planned
 
 - `examples/09-open-source-project.md` - documentation automation for public OSS
