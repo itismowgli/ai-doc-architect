@@ -7,6 +7,21 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [Unreleased]
+
+### Planned
+
+- `examples/09-open-source-project.md` - documentation automation for public OSS
+  repositories
+- `references/observability.md` - monitoring, alerting, and debugging a running
+  documentation pipeline
+- Agent prompt templates in `scripts/prompts/` - ready-to-use LLM system prompts for
+  each of the 7 agents
+- Screenshot automation integration guide
+- Video script generation workflow example
+
+---
+
 ## [2.5.0] - 2026-09-16
 
 ### Added
@@ -178,43 +193,6 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
-## [2.2.0] - 2026-06-03
-
-### Added
-
-- **Folder-based output as the default standard** (SKILL.md `Default Output Format`) -
-  all generated documentation is now a folder of Markdown files, not a single file;
-  single-file output is the explicit fallback for short one-off requests only; includes
-  naming rules, folder structure template, cross-linking rules, comparison table
-  (single file vs folder), and portal compatibility notes for Mintlify, Docusaurus,
-  GitBook, Notion, and Confluence
-
-- **Slash commands** (SKILL.md `Slash Commands`, `commands/` folder) - four direct
-  invocation commands:
-  - `/generate-manual` - full workflow: read code + fetch specs + map journeys + output folder
-  - `/prd-to-manual` - reconcile PRD against shipped code, output manual folder + gap report
-  - `/scan-codebase` - inventory only, returns documentation plan and folder structure before writing
-  - `/gap-report` - audit existing docs against current code, produce prioritised stale/missing list
-
-- **Section 23: Folder-Based Documentation Output** (`references/writing-guide.md`) -
-  complete reference covering: standard folder structure, file naming rules, index.md
-  templates (root and section), cross-linking with relative paths, portal mapping table,
-  user-guide/admin-guide separation as parallel folder trees, and when a single file
-  is acceptable
-
-- **examples/08-folder-structure-output.md** - complete folder output showcase for a
-  generic SaaS product ("Workspace"): 26-file folder tree, actual content for 5 key
-  files (root index, section index, who-this-is-for, invite-members workflow,
-  admin roles-and-access), cross-link examples, portal sidebar mapping, and single-file
-  vs folder comparison; the "start here" example for new users
-
-### Changed
-
-- **examples/README.md** - `08-folder-structure-output.md` is now the primary "start
-  here" example; `07-output-showcase.md` listed second for single-section detail
-
----
-
 ## [2.4.0] - 2026-06-03
 
 ### Changed
@@ -309,6 +287,46 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ---
 
 ## [2.2.0] - 2026-06-03
+
+### Added
+
+- **Folder-based output as the default standard** (SKILL.md `Default Output Format`) -
+  all generated documentation is now a folder of Markdown files, not a single file;
+  single-file output is the explicit fallback for short one-off requests only; includes
+  naming rules, folder structure template, cross-linking rules, comparison table
+  (single file vs folder), and portal compatibility notes for Mintlify, Docusaurus,
+  GitBook, Notion, and Confluence
+
+- **Slash commands** (SKILL.md `Slash Commands`, `commands/` folder) - four direct
+  invocation commands:
+  - `/generate-manual` - full workflow: read code + fetch specs + map journeys + output folder
+  - `/prd-to-manual` - reconcile PRD against shipped code, output manual folder + gap report
+  - `/scan-codebase` - inventory only, returns documentation plan and folder structure before writing
+  - `/gap-report` - audit existing docs against current code, produce prioritised stale/missing list
+
+- **Section 23: Folder-Based Documentation Output** (`references/writing-guide.md`) -
+  complete reference covering: standard folder structure, file naming rules, index.md
+  templates (root and section), cross-linking with relative paths, portal mapping table,
+  user-guide/admin-guide separation as parallel folder trees, and when a single file
+  is acceptable
+
+- **examples/08-folder-structure-output.md** - complete folder output showcase for a
+  generic SaaS product ("Workspace"): 26-file folder tree, actual content for 5 key
+  files (root index, section index, who-this-is-for, invite-members workflow,
+  admin roles-and-access), cross-link examples, portal sidebar mapping, and single-file
+  vs folder comparison; the "start here" example for new users
+
+### Changed
+
+- **examples/README.md** - `08-folder-structure-output.md` is now the primary "start
+  here" example; `07-output-showcase.md` listed second for single-section detail
+
+---
+
+## [2.2.0] - 2026-06-03
+
+> Duplicate version number. Both 2.2.0 entries are development increments that
+> shipped inside the `2.4.0` tag; neither was released on its own.
 
 ### Added
 
@@ -513,15 +531,28 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
-## [Unreleased]
+## Release tags
 
-### Planned
+Tags are annotated, named with bare semver (no `v` prefix), and messaged `Release X.Y.Z`.
 
-- `examples/09-open-source-project.md` - documentation automation for public OSS
-  repositories
-- `references/observability.md` - monitoring, alerting, and debugging a running
-  documentation pipeline
-- Agent prompt templates in `scripts/prompts/` - ready-to-use LLM system prompts for
-  each of the 7 agents
-- Screenshot automation integration guide
-- Video script generation workflow example
+| Version | Tag | Commit |
+|---|---|---|
+| 2.5.0 | `2.5.0` | `76753ba` |
+| 2.4.0 | `2.4.0` | `368c227` |
+| 2.3.0 - 2.1.0 | none | shipped inside `2.4.0` |
+| 2.0.0 | `2.0.0` | `58cb4a1` |
+| 1.4.0 and earlier | none | pre-tagging |
+
+A version with no tag was a development increment, not a release. Release process is in
+[CONTRIBUTING.md](./CONTRIBUTING.md#releasing).
+
+[Unreleased]: https://github.com/itismowgli/ai-doc-architect/compare/2.5.0...HEAD
+[2.5.0]: https://github.com/itismowgli/ai-doc-architect/compare/2.4.0...2.5.0
+[2.4.0]: https://github.com/itismowgli/ai-doc-architect/compare/2.0.0...2.4.0
+[2.3.0]: https://github.com/itismowgli/ai-doc-architect/releases/tag/2.4.0
+[2.2.0]: https://github.com/itismowgli/ai-doc-architect/releases/tag/2.4.0
+[2.1.0]: https://github.com/itismowgli/ai-doc-architect/releases/tag/2.4.0
+[2.0.0]: https://github.com/itismowgli/ai-doc-architect/releases/tag/2.0.0
+[1.2.0]: https://github.com/itismowgli/ai-doc-architect/releases
+[1.1.0]: https://github.com/itismowgli/ai-doc-architect/releases
+[1.0.0]: https://github.com/itismowgli/ai-doc-architect/releases

@@ -127,6 +127,46 @@ Use the issue templates in `.github/ISSUE_TEMPLATE/`:
 
 ---
 
+## Releasing
+
+Versioning follows [Semantic Versioning](https://semver.org/). For a skill, that means:
+
+| Bump | When |
+|---|---|
+| **Major** | A rule changes meaning, or generated output changes shape in a way that breaks existing docs |
+| **Minor** | New rules, reference files, commands, or integrations. The common case |
+| **Patch** | Corrections and clarifications that do not change what the skill produces |
+
+Steps:
+
+1. Add the release section to `CHANGELOG.md` under `## [X.Y.Z] - YYYY-MM-DD`, moving
+   anything relevant out of `## [Unreleased]`.
+2. Update the version badge in `README.md` and the entry in its Version history block.
+3. Commit the work.
+4. Tag it — **annotated, bare semver, no `v` prefix**, message `Release X.Y.Z`:
+
+   ```bash
+   git tag -a 2.5.0 -m "Release 2.5.0"
+   ```
+
+5. Add the compare link at the bottom of `CHANGELOG.md`:
+   `[X.Y.Z]: .../compare/<previous tag>...X.Y.Z`
+6. Push the commit and the tag to every remote:
+
+   ```bash
+   git push origin main && git push origin 2.5.0
+   git push gitlab main && git push gitlab 2.5.0
+   ```
+
+Tags are never moved or force-pushed once they exist. A tag is a claim about what a
+version contained, and moving it makes every reference to it a lie. Correct a bad release
+with a new patch version instead.
+
+A version documented in `CHANGELOG.md` without a tag was a development increment, not a
+release. The Release tags table at the bottom of the changelog records which is which.
+
+---
+
 ## Questions
 
 Open a Discussion on GitHub or file an issue with the `question` label.
