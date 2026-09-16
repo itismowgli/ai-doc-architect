@@ -1,5 +1,11 @@
 # Decision Guide
 
+**Read when:** the user asks "should I use X or Y?" about LLM, database, destination, deployment, agent count, versioning, or MVP scope.
+**Skip if:** the decision is already made or the task is generation.
+**Cost:** ~3.7k tokens. 10 independent decision trees.
+
+---
+
 When multiple valid options exist, this guide provides decision trees and rationale to help choose the right path. Each tree ends with a clear recommendation, not "it depends."
 
 ## Table of Contents

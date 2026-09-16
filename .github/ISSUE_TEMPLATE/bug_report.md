@@ -41,6 +41,12 @@ assignees: ''
 - [ ] `commands/prd-to-manual.md`
 - [ ] `commands/scan-codebase.md`
 - [ ] `commands/gap-report.md`
+- [ ] `references/standards.md`
+- [ ] `references/plain-language.md`
+- [ ] `references/validation.md`
+- [ ] `references/healthcare.md`
+- [ ] `references/screenshots.md`
+- [ ] `references/publishing.md`
 - [ ] `references/writing-guide.md`
 - [ ] `references/architecture.md`
 - [ ] `references/tech-stack.md`

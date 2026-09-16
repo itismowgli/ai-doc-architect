@@ -1,5 +1,11 @@
 # MCP Integration Guide
 
+**Read when:** connecting or wiring a specific integration. Read the one section for that tool, not the file.
+**Skip if:** the user has not asked about integrations.
+**Cost:** ~6.6k tokens whole, ~1k per section. Sections: GitHub, Notion, Atlassian (Confluence + Jira), Docmost, Linear, Figma, Slack, plus the priority matrix and setup checklist.
+
+---
+
 This file answers the three questions that matter most when connecting MCPs to an AI documentation system:
 **Which MCPs do I need? When do I connect them? And exactly how do they fit into the architecture?**
 
@@ -26,6 +32,7 @@ Read this before connecting anything. Not every MCP is worth the integration cos
 | **GitHub MCP** | 🔴 MVP | Source of all code and commit intelligence - the system cannot work without this | You use a self-hosted Git system - use webhooks directly instead |
 | **Notion MCP** | 🟡 MVP if using Notion | Primary destination for published documentation | Your team uses Confluence instead |
 | **Atlassian MCP** (Confluence + Jira) | 🟡 MVP if using Confluence | Confluence = docs destination; Jira = create doc tickets | Your team uses Notion instead |
+| **Docmost MCP** | 🟡 MVP if using Docmost | Dual role: reads URDs, PRDs, and feature briefs; publishes the manual as a space with a page tree. Self-hosted teams get ingestion and distribution from one connection | Your specs and docs both live in Confluence or Notion |
 | **Trello MCP** | 🟢 Optional | Create documentation cards in Trello boards; track doc tasks on teams that use Trello for project management | Your team uses Linear, Jira, or Asana instead |
 | **Linear MCP** | 🟡 Recommended | Create documentation tasks, link docs to issues | Your PM workflow is entirely Jira-based |
 | **Slack MCP** | 🟡 Recommended | Notify teams on updates, staleness alerts, release notes | You use Teams - use the Teams webhook directly |
@@ -212,6 +219,88 @@ compare it against what shipped in code, and generate a user manual in Markdown.
 - Don't create a Jira ticket for every commit. Only create tickets for changes that exceed the configured staleness or coverage threshold.
 - Don't let Jira become a backlog graveyard. Close tickets automatically when the documentation is updated and published.
 - Don't document what did not ship. The user manual reflects reality; the gap report tracks the rest.
+
+---
+
+### Docmost MCP
+
+**Role in ADUMAS:** Dual. Docmost is both a **spec source** (teams keep URDs, PRDs, and feature briefs in it) and a **publishing destination** (the generated manual becomes a space with a page tree). For self-hosted teams it usually replaces both Confluence and Notion, so connecting it once covers ingestion and distribution.
+
+**Connection:**
+
+```
+MCP Server URL:  https://YOUR_DOCMOST_URL/mcp
+Auth:            OAuth (recommended) or API key
+API key header:  Authorization: Bearer YOUR_API_KEY
+```
+
+OAuth is the default and an admin can enforce it, which disables API keys entirely. Plan for OAuth in any shared or CI setup.
+
+**Licensing and permission notes, before you design around it:**
+
+- The MCP server requires a **Business or Enterprise** licence. On the community edition, fall back to the REST API.
+- **MCP respects the same permissions as the web application.** The agent sees exactly what the authorising account sees. Authorise with an account that has access to the spec space *and* write access to the docs space, or connect twice with different accounts.
+- A **read-only authorisation exposes only the read tools**, which is the right choice for a spec-source-only connection.
+- Access tokens auto-renew, but credentials unused for **30 days require re-authorisation**, and a password reset revokes every authorised application. A nightly docs pipeline will not hit the 30-day limit; a quarterly one will.
+
+**Tools available:**
+
+| Group | Tools |
+|---|---|
+| Pages | `search_pages`, `get_page`, `create_page`, `update_page`, `list_pages`, `list_child_pages`, `duplicate_page`, `copy_page_to_space`, `move_page`, `move_page_to_space` |
+| Spaces | `get_space`, `list_spaces`, `create_space`, `update_space` |
+| Comments | `get_comments`, `create_comment`, `update_comment` |
+| Other | `search_attachments`, `list_workspace_members`, `get_current_user` |
+
+**Reading specs from Docmost:**
+
+```
+1. list_spaces() → find the product or requirements space
+2. search_pages(query="URD" | "PRD" | "feature brief", spaceId=...)
+3. get_page(id) for each hit → content arrives as Markdown
+4. list_child_pages(id) → specs are usually a parent page with child sections;
+   read the children, not just the parent
+5. search_attachments() → wireframes and flow diagrams attached to the spec page
+6. Extract user-facing acceptance criteria only; discard implementation notes
+7. Validate every claim against code before writing anything (see Source Precedence and Validation in SKILL.md)
+```
+
+**Publishing the manual to Docmost:**
+
+The folder structure maps directly onto the page tree. One folder becomes one parent page; one Markdown file becomes one child page.
+
+```
+docs/[product]/user-guide/          →  Space: "[Product] User Guide"
+  index.md                          →    (space overview page)
+  01-introduction/index.md          →    Page: Introduction
+    who-this-is-for.md              →      Child: Who this guide is for
+    quick-start.md                  →      Child: Quick start
+  02-daily-workflows/index.md       →    Page: Daily Workflows
+    invite-members.md               →      Child: Invite members
+```
+
+On each approved update:
+
+```
+1. list_spaces() → resolve or create_space() for the product
+2. search_pages(title, spaceId) → find the existing page
+3. Found     → update_page(id, markdown)
+   Not found → create_page(parentId, title, markdown)
+4. Store the returned page id against the file path in documentation_nodes
+5. A file deleted from the repo does not delete the Docmost page.
+   Flag it for a human; never auto-delete published pages.
+```
+
+**Sharing the tree publicly:** share the parent page with subpages included, so one link covers the whole manual. Publish the User Guide space publicly and keep the Admin Guide space private. This is the practical reason Rule 2 (separate audiences, separate documents) exists: with one mixed tree you cannot share the user half without exposing the admin half.
+
+**Images and links:** Playwright captures are ordinary attachments. Upload them, then rewrite the relative `./img/...` paths to the returned URLs. Cross-links between files need the same treatment - `../03-daily-workflows/invite-members.md` means nothing in a page tree. Both rewrites happen in memory at publish time; the Git source keeps its relative paths. The two-pass sequence and the path-to-page-id map are in `references/publishing.md`.
+
+**What NOT to do:**
+- Don't author in Docmost and sync back to Git. Markdown in Git is the source of truth; Docmost is a render target. Two-way sync on a page tree this size produces conflicts nobody wants to resolve.
+- Don't create a new page per run. Maintain the path-to-page-id mapping, or you will generate a duplicate tree on the second publish.
+- Don't publish drafts. Only approved content reaches a shared space.
+- Don't assume the agent can see every space. It sees what the authorising account sees, and a missing space looks identical to an empty one.
+- Don't treat a Docmost URD as final truth. It states intent. Code states reality.
 
 ---
 

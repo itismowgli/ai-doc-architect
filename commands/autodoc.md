@@ -7,6 +7,16 @@ description: Point at a codebase with no specs, no context, and no prior docs. T
 You are generating documentation entirely from code - no PRD, no specs, no existing docs.
 Your job is to read what is actually built and produce accurate documentation for it.
 
+"No specs" is a conclusion you reach, never an assumption you start from. Step 0 proves it.
+
+If the sweep turns up nothing, the codebase is the only authority for both scope and
+behaviour. Terminology is then **chosen** rather than given, so every choice goes in the
+inference report where a human can correct it, and there is no gap report - a gap needs
+two sources to exist between.
+
+Validation does not relax because there is no spec. Every claim still needs code evidence
+before it is written. See `SKILL.md` Source Precedence and Validation.
+
 ## What you need from the user
 
 One thing only: where is the code?
@@ -21,6 +31,39 @@ Optionally the user may specify:
 - `--module [name]` - document one module instead of the entire codebase
 - `--audience [end users | admins | developers]` - default is all three if inferable
 - `--output [path]` - default is `docs/[inferred-product-name]/`
+
+## Step 0: Sweep for specs before assuming there are none
+
+Run this silently, every time, before reading a line of application code.
+
+**In the repo:**
+- `docs/specs/`, `docs/prd/`, `docs/requirements/`, `.planning/`
+- Files named URD, PRD, spec, requirements, brief, RFC in any format (`.md`, `.txt`, `.pdf`, `.docx`)
+- `README.md` and `CLAUDE.md` - often the only written statement of intent
+- Open pull request and issue templates that describe intended behaviour
+
+**In connected MCPs:**
+- Linear: `search_documentation` for documents, not just `list_issues`. URDs and feature briefs are Linear **documents**
+- Docmost: `list_spaces` then `search_pages` for "URD", "PRD", "brief", "requirements"
+- Confluence, Jira, Notion: the same search, if connected
+
+**If the sweep finds anything, stop and tell the user before generating:**
+
+```
+Before I generate from code alone, I found specs you did not mention:
+
+- Linear document: "[title]" (updated [date])
+- docs/specs/[filename].md
+
+These would give me scope, terminology, and personas that I would otherwise have to
+infer. Use them?
+
+A  Yes - switch to /prd-to-manual and reconcile against code (recommended)
+B  No - generate from code only, ignore these
+```
+
+Only proceed with code-only generation if the sweep is empty or the user picks B. Record
+which it was in the inference report.
 
 ## Step 1: Infer the product and its modules
 
@@ -99,7 +142,29 @@ For each module, reconstruct the user journey from the code:
 
 This sequence becomes the section structure: one file per major action.
 
-## Step 6: Generate the folder output
+## Step 6: Validate every claim against code
+
+Do not write prose yet. Code-only generation makes this step more important, not less:
+with no spec to cross-check, an inferred behaviour and an invented one look identical on
+the page.
+
+List every factual claim the manual would make - limits, timeouts, expiries, role
+restrictions, required fields, error messages, state names, defaults, orderings - and give
+each a verdict:
+
+| Verdict | What happens |
+|---|---|
+| **Verified** | A constant, config value, validation rule, policy method, or passing test proves it. Write it |
+| **Unverified** | The behaviour is visible but the value is not pinned anywhere you can cite. Never write a number or a rule. Flag it |
+
+A claim inferred from a controller with no test behind it is Unverified, not Verified.
+Say so rather than rounding up to confidence you do not have.
+
+Save the ledger as `docs/[product-name]/validation-report.md` with the commit SHA.
+
+**The gate: a section may not be written until every claim in it has a verdict.**
+
+## Step 7: Generate the folder output
 
 Create the documentation as two parallel folder trees following the standard structure:
 
@@ -138,9 +203,9 @@ docs/[inferred-product-name]/
 
 If the codebase has no admin-distinct features, generate only the `user-guide/`.
 
-## Step 7: Apply Documentation Standards to every file
+## Step 8: Apply Documentation Standards to every file
 
-Every generated file must follow the standards in `references/writing-guide.md` Sections 20-22:
+Every generated file must follow the standards in `references/standards.md` Sections 20-22:
 
 - Entry point trigger: "You are here because..."
 - Scenario in blockquote format
@@ -151,7 +216,42 @@ Every generated file must follow the standards in `references/writing-guide.md` 
 - No internal field names - translate every `snake_case` identifier to plain language
 - No implementation details - no mention of controllers, models, queues, cache keys
 
-## Step 8: Flag what could not be inferred
+## Step 9: Capture screenshots (optional, needs a running app)
+
+Only if the user can give you a URL for a running instance with seeded fixture data.
+If they cannot, skip this step and generate the manual without images. Do not ask them
+to install a browser mid-generation.
+
+Read `references/screenshots.md` for the full mechanics. In short:
+
+1. Derive a capture manifest from the journey map. One entry per step that passes the
+   four tests in `screenshots.md` Section 2: gated action, unnameable element, visual
+   outcome, or role fork. Most steps fail all four and get no image.
+2. Write `docs/[product-name]/.captures/manifest.json` and `capture.mjs`.
+3. Run the capture. Pin viewport, colour scheme, timezone, locale, and reduced motion so
+   reruns are byte-stable. Mask every element that can hold personal data.
+4. Embed each image **after** the step it confirms, with alt text describing the contents.
+   The step must read correctly with the image removed.
+5. Any shot that fails: omit the image, keep the words, log it in the inference report
+   under `Screenshots not captured`. Never emit a broken link or a placeholder.
+
+## Step 10: Run the plain-language pass
+
+Last edit before any file is saved. Read `references/plain-language.md` and apply the 28
+numbered rules to every page.
+
+Rules 1-5 justify an edit on a single sighting: not-X-but-Y contrasts, closers that
+repeat the section, sayings that sound deep, run-ups before the point, and arguments with
+no one. Then sweep for the tells that survive rewrites: stock words ("seamlessly",
+"robust", "leverage", "simply"), bold used as decoration, Title Case headings, hedged
+facts where a real number exists, and chatbot residue.
+
+What must survive: second person, bold on UI element names, entry-point triggers, outcome
+statements, "What to do next" connectors, and every limit, role restriction, error case,
+and system message. A page that reads well but lost the timeout value is worse than the
+one it replaced.
+
+## Step 11: Flag what could not be inferred
 
 After generating, produce a brief inference report:
 
@@ -164,9 +264,15 @@ After generating, produce a brief inference report:
 ### Generated with medium confidence (tests missing)
 - [module]: behavior inferred from controller code only - verify steps are correct
 
+### Specs
+- Sweep result: [none found / found and used / found and skipped at user request]
+
 ### Could not infer (needs human input)
 - [module]: no routes found pointing here - may be frontend-only or removed
 - [field]: validation rule exists but purpose is unclear from naming
+
+### Screenshots not captured
+- [shot id] on [page]: selector `[data-testid='...']` did not match - step is written in words only
 
 ### Terminology choices made
 - "workspace" used for [model name] - change in index.md to update everywhere
@@ -181,4 +287,5 @@ Report on completion:
 - Total files generated
 - Modules covered
 - Audiences detected
+- Screenshots captured, and any that failed
 - Anything flagged in the inference report

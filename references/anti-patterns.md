@@ -1,5 +1,11 @@
 # Anti-Patterns
 
+**Read when:** the user asks what to avoid, or is troubleshooting a documentation pipeline that is not working.
+**Skip if:** generating a manual. The standards already encode the fixes.
+**Cost:** ~4k tokens. 20 anti-patterns across planning, build, and operations.
+
+---
+
 Twenty documented mistakes teams make when building AI documentation systems. Organized by phase: planning, build, and operations. Each entry includes the root cause and how to fix it.
 
 ---

@@ -1,5 +1,11 @@
 # Tech Stack, Integrations, Scalability, Security & Roadmap
 
+**Read when:** choosing technology, sizing MVP vs enterprise, or answering questions about scaling, security, deployment, or the roadmap.
+**Skip if:** generating documentation, or the user already has a stack and is not asking about it.
+**Cost:** ~4k tokens.
+
+---
+
 This file covers the technology choices, integration architecture, scalability design,
 security requirements, enterprise deployment options, and the MVP vs. enterprise feature
 breakdown. Read it when the user asks about any of these areas.
@@ -55,6 +61,7 @@ breakdown. Read it when the user asks about any of these areas.
 | Observability | OpenTelemetry + Datadog or Grafana stack (Loki, Tempo, Prometheus) |
 | Secret Management | HashiCorp Vault or AWS Secrets Manager |
 | ADUMAS API Docs | OpenAPI 3.1 with Scalar or Redoc |
+| Screenshot Capture | Playwright, run from CI against a seeded fixture environment |
 
 ### Choosing an LLM Strategy
 
@@ -76,10 +83,12 @@ Use model routing in the orchestration layer to send each task to the most appro
 |---|---|---|
 | GitHub / GitLab | Webhook + REST API | Commits, PRs, releases, issues, code content |
 | Jira / Linear | REST API + Webhook | Issue descriptions, acceptance criteria, feature context |
+| Docmost | Docmost MCP (`/mcp`) | URDs, PRDs, feature briefs, and their child pages; attachments such as wireframes and flow diagrams |
 | Swagger / OpenAPI | File parse + API scan | API schemas, endpoint definitions, request/response models |
 | Figma | Figma MCP / REST API | UI component names, flow descriptions, screen annotations |
 | Application Runtime | Structured log ingestion | Feature usage patterns, error rates, user flows |
 | Database Schemas | Direct DB introspection | Table/column names, relationships, data model context |
+| Running Application UI | Playwright (headless Chromium) | Rendered screens per persona, captured as manual screenshots; dead selectors signal doc drift |
 
 ### Platform Distribution Integrations
 
@@ -87,6 +96,7 @@ Use model routing in the orchestration layer to send each task to the most appro
 |---|---|---|
 | Notion | Notion MCP / API | Create/update pages, databases, inline blocks. Two-way sync. |
 | Confluence | Confluence REST API | Create/update pages, manage spaces, attach files |
+| Docmost | Docmost MCP (`/mcp`) or REST API | Create/update pages and spaces, nested page tree, attachments, public share with subpages. Business or Enterprise licence for MCP |
 | GitHub Pages | Git push + Actions | Static site generation from Markdown, custom domain |
 | Slack | Slack API / MCP | Publish release notes, notify on stale docs, answer doc queries |
 | Linear | Linear MCP / API | Create documentation tasks, link docs to issues |

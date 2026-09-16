@@ -243,6 +243,56 @@ Translate all technical terms to plain language. No field names, no controller
 names, nothing from the code. Write as if the reader has never seen the UI.
 ```
 
+### Capture screenshots from the running app
+```
+Capture screenshots with Playwright. The app runs at http://localhost:3000,
+seed it with `npm run app:seed`. Admin login is in .env.test.
+
+Only capture steps that need visual proof: gated actions, unlabeled controls,
+visual outcomes, and role forks. Mask every element that can hold personal data.
+```
+
+### Words only, no screenshots
+```
+No screenshots. Every step must be complete in words.
+```
+
+### Run the plain-language pass on existing docs
+```
+Apply the Section 24 plain-language rules to docs/product/user-guide/.
+Do not change any fact, limit, role, or error case - only how the sentences read.
+Show me a table of what you changed and why, by rule number.
+```
+
+### Point at a Linear URD, PRD, or feature brief
+```
+/prd-to-manual
+
+Codebase: current directory
+Specs: Linear document "[URD title]" and feature brief "[title]"
+Use the specs for scope, terminology, and personas. Verify every behaviour
+against the code. Anything specified but not shipped goes in the gap report.
+Output: docs/[product-name]/
+```
+
+### Specs in Docmost
+```
+/prd-to-manual
+
+Codebase: current directory
+Specs: Docmost - space "[space name]", page "[URD title]" and its child pages
+Output: docs/[product-name]/
+```
+
+### Publish the finished manual to Docmost
+```
+After generating, publish to Docmost. Create "[Product] User Guide" and
+"[Product] Admin Guide" as separate spaces. Folders become parent pages, files
+become child pages. Upload the screenshots as attachments and rewrite the image
+paths. Share the User Guide space publicly with subpages included; keep the
+Admin Guide private. Markdown in the repo stays the source of truth.
+```
+
 ### Include a gap report alongside the manual
 ```
 After generating the manual, produce a gap-report.md listing anything in the
@@ -312,6 +362,13 @@ it before you generate anything.
 ```
 Before writing any documentation, produce a journey map for each audience you
 detect. Show me the maps and wait for my approval before writing sections.
+```
+
+### Re-capture screenshots after a UI change
+```
+The Members panel was redesigned in PR #204. Re-run the captures for
+docs/product/.captures/manifest.json, report any selector that no longer
+matches, and update the step text where the UI labels changed.
 ```
 
 ### Patch one section without regenerating everything

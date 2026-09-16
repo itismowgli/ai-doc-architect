@@ -90,21 +90,26 @@ Store: **existing_docs** - true/false, and list of files found
 ### 1f. Check which spec tools are reachable
 
 Silently check which MCP connectors are active in this session:
-- Linear MCP available?
+- Linear MCP available? If so, also check for **documents** (`search_documentation`), not just issues - URDs, PRDs, and feature briefs are usually Linear documents
+- Docmost MCP available? If so, `list_spaces()` to see which spaces the authorising account can reach
 - Confluence / Jira MCP available?
 - Notion MCP available?
 - GitHub MCP available?
 
-Store: **available_mcps[]**
+Store: **available_mcps[]**, **spec_docs_found[]**
 
-### 1g. Check for spec files in the repo
+### 1g. Check for spec files in the repo, and read them
 
 Look for:
-- Files named PRD, URD, spec, requirements in any format (`.md`, `.txt`, `.pdf`)
-- A `docs/specs/` or `docs/prd/` directory
+- Files named PRD, URD, spec, requirements, brief, RFC in any format (`.md`, `.txt`, `.pdf`, `.docx`)
+- A `docs/specs/`, `docs/prd/`, `docs/requirements/`, or `.planning/` directory
 - A `CLAUDE.md` (acts as domain glossary)
 
-Store: **spec_files[]**
+**Open what you find.** Phase 2 has to name real document titles and say what each one
+covers. "Spec files in repo: 3 found" tells the user nothing they can act on; "URD covering
+participants and queries, last updated March" tells them whether it is worth using.
+
+Store: **spec_files[]** with title, scope summary, and last-modified date
 
 ---
 
@@ -131,9 +136,16 @@ It anchors the conversation so every following question makes sense.
 | Guest | Read only | Projects (invited only) |
 
 **Spec sources found**
-- Linear MCP: connected
-- Confluence MCP: not connected
-- Spec files in repo: none
+| Source | Document | Covers | Last updated |
+|---|---|---|---|
+| Linear (document) | "Study Manager URD" | Personas, participant workflows | 12 Mar |
+| Linear (document) | "Query handling feature brief" | Queries only | 2 Aug |
+| Docmost | space "Product", 14 pages under "Specs" | Mixed | 28 Aug |
+| Repo | none found | | |
+
+If nothing is found anywhere, say so explicitly - "no URD, PRD, or feature brief found in
+the repo or in any connected tool" - rather than leaving the section blank. No spec is a
+finding, not a default.
 
 **Existing docs**
 - docs/ directory: not found
@@ -205,24 +217,35 @@ Store: **audience_strategy** (separate | combined | user-only | admin-only)
 
 **Only ask if** at least one spec source is reachable. Use the actual source names.
 
-```
-I can see [Linear is connected / spec files in your repo / both].
-Should I reconcile the documentation against your specs?
+Name what you actually found, including document titles.
 
-A  Yes - read specs, compare against code, generate the manual + a gap report 
-   showing what was specified but not shipped (recommended)
+```
+I can see [Linear is connected / Docmost space "[name]" / spec files in your repo].
+Named documents I found: [list the URD, PRD, and feature brief titles]
+
+Should I reconcile the documentation against these?
+
+A  Yes - the specs define scope, terminology, and personas; the code defines
+   behaviour. You get the manual plus a gap report of what was specified but
+   not shipped (recommended)
 B  No - generate from code only, skip the gap report
 ```
 
 If multiple sources are available:
 ```
-I found specs in multiple places. Which should I use?
+I found specs in more than one place. Which should I use?
 
-A  Linear (connected) - [N epics visible]
-B  Files in repo - [list filenames]
-C  Both
-D  Neither - code only
+A  Linear documents - [list titles: URD, PRD, feature brief]
+B  Docmost - space "[name]", [N] pages under "[parent]"
+C  Files in repo - [list filenames]
+D  All of them
+E  None - code only
 ```
+
+If the user picks several and they disagree on a user-facing behaviour, the code
+settles it and the conflict goes in the gap report. Within the spec tier: feature
+brief beats PRD beats URD for a specific feature; URD beats both for personas and
+terminology.
 
 Store: **use_specs** (true/false), **spec_sources[]**
 
@@ -273,6 +296,61 @@ B  Custom path - I'll type it
 
 Store: **output_path**
 
+Then ask whether to publish, but only if a destination MCP is reachable:
+
+```
+I can also publish the finished manual to [Docmost / Confluence / Notion].
+
+A  Yes - Markdown in the repo stays the source of truth, published as a page tree
+B  No - just write the files
+```
+
+If Docmost and they say yes, confirm the space and the sharing model:
+
+```
+Two things:
+
+1. Which space? I can create "[Product] User Guide" and "[Product] Admin Guide",
+   or publish into spaces you already have.
+2. The User Guide space can be shared publicly with subpages included, so one link
+   covers the whole manual. The Admin Guide stays private. Is that what you want?
+```
+
+Store: **publish_to**, **publish_spaces[]**, **public_share** (true/false)
+
+---
+
+### Question 6: Screenshots
+
+**Ask only if Phase 1 found a frontend** (a `package.json` with a dev server, a Blade or
+Inertia view layer, or an existing Playwright or Cypress config). Skip it for API-only and
+library repos.
+
+```
+I can capture screenshots by driving your running app with Playwright, so every image
+is regenerated by a script instead of pasted in by hand.
+
+A  Yes - the app runs at http://localhost:3000 with seeded data
+B  Yes - but at a different URL (I'll type it)
+C  No screenshots - words only
+```
+
+If A or B, also ask what you cannot infer:
+
+```
+Two things I need:
+
+1. Login for each audience I detected ([audience list]). A storageState file, test
+   credentials, or a seed command - whichever you already have.
+2. Is the data seeded and stable? Screenshots of a shared dev environment produce a
+   diff on every run, and a docs repo with noisy diffs stops getting reviewed.
+```
+
+If they have no seeded fixture environment, recommend C and move on. Capturing against
+live data is how personal information ends up in a manual.
+
+Store: **capture_url**, **capture_auth**, **capture_enabled**
+
 ---
 
 ## Phase 4: Pre-generation preview
@@ -312,6 +390,7 @@ docs/[product-name]/
     03-troubleshooting-and-reference/
       audit-log.md
 
+  validation-report.md    (every claim, its evidence, its verdict, the commit SHA)
   inference-report.md     (confidence flags and terminology choices)
   gap-report.md           (only if spec reconciliation was selected)
 
@@ -337,16 +416,35 @@ Only proceed when the user confirms A.
 ## Phase 5: Generate
 
 Generate the documentation following the folder structure shown in the preview.
-Apply Documentation Standards (writing-guide.md Sections 20-22) to every file.
+Apply Documentation Standards (`references/standards.md` Sections 20-22) to every file.
 
-Generate in this order:
+**Before writing any prose, run the validation pass.** List every factual claim the manual
+would make and give each a verdict against code (`SKILL.md` Source Precedence and
+Validation). Save it as `validation-report.md` with the commit SHA. A section may not be
+written until every claim in it has a verdict. Verified claims become prose; Contradicted
+claims become prose describing the code plus a gap report row; Unshipped and Unverified
+claims never become prose.
+
+Then generate in this order:
 1. Root `index.md` (master TOC - can be written now since we know the full structure)
 2. `01-introduction/` files (quick start, who-this-is-for)
 3. Each module section, highest confidence first
 4. Troubleshooting and reference files
 5. Admin guide (if separate)
-6. `inference-report.md`
-7. `gap-report.md` (if spec reconciliation was selected)
+6. Screenshots, if **capture_enabled** - build `.captures/manifest.json` from the journey
+   map, run the capture, embed each image after the step it confirms
+   (see `references/screenshots.md`)
+7. The plain-language pass over every file (`references/plain-language.md`) - this is the
+   last edit before saving
+8. `validation-report.md` and `inference-report.md`
+9. `gap-report.md` (if spec reconciliation was selected)
+10. Publish to **publish_to**, if set. Follow the two-pass transform in
+    `references/publishing.md`: create every page first (parents before children),
+    upload attachments, then rewrite cross-links, image paths, and callouts in memory
+    and push content. One pass leaves dead links wherever a link points at a page
+    created later in the walk. Persist the path-to-page-id map to
+    `.publish/[destination].json` or the next run builds a duplicate tree. Never
+    auto-delete a published page that no longer has a file.
 
 Report progress as you go:
 ```
@@ -364,6 +462,11 @@ Generated: 02-user-management/ (4 files)
 
 Generated [N] files in [output_path]
 
+### Validation
+- [N] claims checked against commit [sha]
+- Verified: [N] | Contradicted: [N] | Unshipped: [N] | Unverified: [N]
+- Unverified claims were left out of the manual and listed in the inference report
+
 ### High confidence
 - User Management: routes, tests, and policies all present
 - Billing: routes and tests present
@@ -371,12 +474,19 @@ Generated [N] files in [output_path]
 ### Flagged for review
 - Notifications: no tests found - verify steps are accurate
 
+### Screenshots
+- Captured: [N] images across [M] pages
+- Failed: [shot id] on [page] - selector did not match, step is written in words only
+
 ### Terminology used
 - "workspace" for [model: Organization] - update in index.md if incorrect
 - "owner" for [role: ROLE_ADMIN] - verify this matches your UI labels
 
 ### Next steps
+- Open docs/[product-name]/validation-report.md first - it shows what was left out and why
 - Open docs/[product-name]/user-guide/index.md to review
 - Run /gap-report if specs change in future to catch drift
 - Commit docs/ folder alongside code so they version together
+- Wire docs/[product-name]/.captures/capture.mjs into CI so a UI change fails the build
+  instead of leaving a stale screenshot behind
 ```

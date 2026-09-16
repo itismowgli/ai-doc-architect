@@ -1,5 +1,11 @@
 # Architecture Reference
 
+**Read when:** designing the system - agents, pipelines, workflows, DB schemas, CI/CD, knowledge graph, or Laravel/PHP ingestion.
+**Skip if:** the task is writing or generating a manual. None of this is needed to produce documentation.
+**Cost:** ~8k tokens. Sections are independent; the Agent Roster and Laravel ingestion are the two most requested.
+
+---
+
 This file is the primary architectural reference for ADUMAS. Read the section(s) relevant to the user's question.
 
 ## Table of Contents
@@ -38,11 +44,11 @@ ADUMAS is organized into five tiers that together form an end-to-end documentati
 
 | Tier | Name | Role |
 |---|---|---|
-| 1 | Ingestion Layer | Collects raw signals: source code, Git history, API schemas, UI flows, commit messages, PR diffs, release notes, runtime logs |
+| 1 | Ingestion Layer | Collects raw signals: source code, Git history, API schemas, UI flows and rendered screens (Playwright), commit messages, PR diffs, release notes, runtime logs |
 | 2 | Intelligence Layer | AI agents analyze ingested signals, extract meaning, detect changes, understand business logic, build knowledge graph |
 | 3 | Generation Layer | Transforms structured knowledge into documentation artifacts: manuals, guides, SOPs, API refs, FAQs, changelogs |
 | 4 | Management Layer | Versioning, approval workflows, quality scoring, audience adaptation, translation, lifecycle management |
-| 5 | Distribution Layer | Publishes and syncs documentation to all target platforms: Notion, Confluence, Slack, GitHub Pages, in-app widgets |
+| 5 | Distribution Layer | Publishes and syncs documentation to all target platforms: Notion, Confluence, Docmost, Slack, GitHub Pages, in-app widgets |
 
 **Data flow:**
 
@@ -143,6 +149,16 @@ from a different perspective before a final consolidation pass produces the publ
 - **Outputs:** Documentation gap report, prioritized improvement recommendations.
 - **Trigger:** Continuous streaming; weekly batch summarization.
 - **MVP needed?** Add when you have enough documentation traffic to generate meaningful analytics.
+
+### Agent 8: Screenshot Capture Agent
+- **Purpose:** Drives the running application with Playwright and produces the images that a generated manual embeds, so every screenshot is an artifact of a repeatable script rather than a pasted file.
+- **Capabilities:** Derives a capture manifest from the journey map, authenticates as each persona, navigates to each documented step, crops by selector, masks personal data before capture, pins viewport and locale for byte-stable reruns, reports dead selectors.
+- **Inputs:** Journey map from the Documentation Generator, a running app URL with seeded fixture data, per-persona auth state.
+- **Outputs:** PNG files under `img/` beside each Markdown page, plus a failure list of shots that could not be captured.
+- **Trigger:** After generation, before the plain-language pass. In CI, on every pull request that touches frontend source.
+- **MVP needed?** No. Add once the manual is stable and the UI has stopped moving weekly. Capturing against a UI in flux produces churn, not documentation.
+- **Failure mode it removes:** the stale screenshot. A dead selector fails the build on the PR that changed the UI, instead of surfacing six months later in a support ticket.
+- **Detail:** `references/screenshots.md`
 
 ---
 

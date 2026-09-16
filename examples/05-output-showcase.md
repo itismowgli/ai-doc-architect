@@ -28,13 +28,32 @@ docs/workspace/user-guide/
     invite-members.md         ← shown in full below
     assign-tasks.md
     manage-notifications.md
+    img/
+      invite-members-01-members-panel.png
+      invite-members-02-invite-dialog.png
+      invite-members-03-pending-state.png
   04-troubleshooting-and-reference/
     index.md
     troubleshooting.md
     glossary.md
     limits.md
     system-messages.md
+
+docs/workspace/.captures/
+  manifest.json               ← one entry per screenshot, derived from the journey map
+  capture.mjs                 ← regenerates every image above
+  auth/
+    member.json
+    admin.json
+
+docs/workspace/
+  validation-report.md        ← every claim, its evidence, its verdict, the commit SHA
+  inference-report.md         ← what could not be verified, and why
+  gap-report.md               ← specified but not shipped
 ```
+
+Three images for a whole workflow, not one per step. Every other step is complete in
+words, which is the test a step has to pass before it is allowed a picture.
 
 ---
 
@@ -48,12 +67,12 @@ in one place.
 
 ## How to use this guide
 
-**New to Workspace:** Start with [Who This Guide Is For](./01-introduction/who-this-is-for.md),
-then follow the [Quick Start](./01-introduction/quick-start.md). You will be set
+**New to Workspace:** Start with [Who this guide is for](./01-introduction/who-this-is-for.md),
+then follow the [Quick start](./01-introduction/quick-start.md). You will be set
 up in under five minutes.
 
 **Just got invited to a workspace:** Go straight to
-[Create Your First Project](./02-getting-started/create-your-first-project.md).
+[Create your first project](./02-getting-started/create-your-first-project.md).
 
 **Looking for something specific:** Use the contents below or your portal's
 search bar.
@@ -61,23 +80,26 @@ search bar.
 ## Contents
 
 ### Introduction
-- [Who This Guide Is For](./01-introduction/who-this-is-for.md)
-- [Quick Start](./01-introduction/quick-start.md)
+- [Who this guide is for](./01-introduction/who-this-is-for.md)
+- [Quick start](./01-introduction/quick-start.md)
 
-### Getting Started
-- [Create Your First Project](./02-getting-started/create-your-first-project.md)
+### Getting started
+- [Create your first project](./02-getting-started/create-your-first-project.md)
 
 ### Daily Workflows
-- [Invite Members](./03-daily-workflows/invite-members.md)
-- [Assign Tasks](./03-daily-workflows/assign-tasks.md)
-- [Manage Notifications](./03-daily-workflows/manage-notifications.md)
+- [Invite members](./03-daily-workflows/invite-members.md)
+- [Assign tasks](./03-daily-workflows/assign-tasks.md)
+- [Manage notifications](./03-daily-workflows/manage-notifications.md)
 
-### Troubleshooting and Reference
+### Reference
 - [Troubleshooting](./04-troubleshooting-and-reference/troubleshooting.md)
 - [Glossary](./04-troubleshooting-and-reference/glossary.md)
-- [Limits and Constraints](./04-troubleshooting-and-reference/limits.md)
-- [System Messages](./04-troubleshooting-and-reference/system-messages.md)
+- [Limits and constraints](./04-troubleshooting-and-reference/limits.md)
+- [System messages](./04-troubleshooting-and-reference/system-messages.md)
 ```
+
+Headings are sentence case (Section 24, rule 21). The product name and the fixed PART
+names keep their capitals; nothing else does.
 
 ---
 
@@ -86,7 +108,7 @@ search bar.
 This is one complete workflow file. Every required element is present.
 
 ```markdown
-# Invite Members
+# Invite members
 
 You are here because you want to bring a colleague into a project so they can
 see tasks, contribute work, or be assigned items.
@@ -119,14 +141,22 @@ addresses work but are not recommended for team projects.
 
 1. Open the project you want to add them to.
 2. Select **Members** in the left sidebar.
+
+   ![The Members panel showing the current member list and the Invite member button in the top right](./img/invite-members-01-members-panel.png)
+
 3. Select **Invite member**.
 4. Enter the person's email address in the **Email** field.
 5. Choose their role: **Contributor** (can create and edit tasks) or **Viewer**
    (read-only access).
+
+   ![The invite dialog with an email field, a role dropdown set to Contributor, and a Send invitation button](./img/invite-members-02-invite-dialog.png)
+
 6. Select **Send invitation**.
 
 **What happens next:** An invitation email is sent immediately. It expires after
 7 days. The person appears in your member list as **Pending** until they accept.
+
+![The Members list with a new row marked Pending and a resend icon](./img/invite-members-03-pending-state.png)
 
 **If something goes wrong:**
 
@@ -238,6 +268,124 @@ translated result appears in the output.
 
 ---
 
+## `docs/workspace/validation-report.md`
+
+Written before a word of the manual existed. Every claim above traces to a row here.
+
+```markdown
+# Validation Report
+
+Validated against: `a4f9c21` on 2026-09-14
+Specs read: Linear document "Workspace URD" (+ 4 child pages),
+            Linear document "Invitations feature brief"
+
+| Claim | Source | Code evidence | Verdict |
+|---|---|---|---|
+| Invitations expire after 7 days | PRD §4.2 | config/invitation.php:12 | Verified |
+| 20 pending invitations per project | (none) | InvitationPolicy.php:41 | Verified |
+| 50 members per project | URD §2.4 | ProjectPolicy.php:18 | Verified |
+| 10 invitations per hour | (none) | InvitationController.php:9 throttle | Verified |
+| Roles are Contributor and Viewer | URD §2.4 | MemberRole enum:3 | Verified |
+| One active invite link per project | (none) | InviteLink migration: unique index | Verified |
+| Owners can bulk-invite by CSV | URD §3.1 | no route, no controller | Unshipped |
+| Invite emails retry 3 times | brief §2 | SendInvite.php:28 retries twice | Contradicted |
+| Invite links expire | (none) | no expiry constant, no test | Unverified |
+
+## What this produced
+
+- **Verified (6)** → written as prose in the manual
+- **Contradicted (1)** → the manual says the retry behaviour the code implements;
+  the conflict is row 1 of the gap report
+- **Unshipped (1)** → CSV bulk invite appears nowhere in the manual. Gap report only,
+  tracked as WS-402
+- **Unverified (1)** → the manual says invite links can be revoked, and says nothing
+  about them expiring. Listed in the inference report for a human to pin down
+```
+
+Look at the last two rows, because they are the ones that decide whether the manual can be trusted.
+
+The URD promised CSV bulk invite. It reads like a shipped feature and it would have written itself into a clean, plausible section. No route implements it, so it does not exist in the manual at all — a reader who followed it would have hunted for a button that was never built.
+
+Invite link expiry is subtler. Nothing in the code pins it. The tempting sentence is "invite links expire after a period of time", which reads like documentation and tells the reader nothing they can plan around. It is not written. It is flagged, and a human decides whether the answer is "they don't" or "nobody implemented it yet."
+
+---
+
+## The manifest that produced those three images
+
+`docs/workspace/.captures/manifest.json`, abbreviated to the first shot:
+
+```json
+{
+  "baseUrl": "http://localhost:3000",
+  "viewport": { "width": 1280, "height": 800 },
+  "deviceScaleFactor": 2,
+  "theme": "light",
+  "personas": {
+    "owner": { "storageState": ".captures/auth/admin.json" }
+  },
+  "shots": [
+    {
+      "id": "invite-members-01-members-panel",
+      "page": "03-daily-workflows/invite-members.md",
+      "persona": "owner",
+      "step": 2,
+      "alt": "The Members panel showing the current member list and the Invite member button in the top right",
+      "goto": "/projects/seed-project/members",
+      "clip": { "selector": "[data-testid='members-panel']" },
+      "mask": ["[data-testid='member-email']", "[data-testid='avatar']"]
+    }
+  ]
+}
+```
+
+Two things are doing the real work here.
+
+`mask` blacks out the email column and the avatars before the pixels are written. A
+writer would never type a real address into a manual; a capture script will photograph
+one without noticing.
+
+`clip.selector` crops to the members panel rather than the full 1280x800 window. When the
+sidebar gets a new item next quarter, this image does not change, so it does not appear
+in the diff, so nobody has to review it.
+
+The whole run is reproducible: `node docs/workspace/.captures/capture.mjs`. Wired into CI
+on every frontend change, a renamed `data-testid` fails the build on the pull request
+that renamed it. That is the entire point. The stale screenshot is the most common defect
+in software documentation and the only one that never announces itself.
+
+Full mechanics: `references/screenshots.md`.
+
+---
+
+## The plain-language pass
+
+The draft that came out of generation was complete and unreadable. Section 24 is the
+last edit before a file is saved. Here is what it changed on this page.
+
+| Rule | Draft | Shipped |
+|---|---|---|
+| 13 Inflated significance | "Inviting members is a crucial part of your Workspace journey, unlocking seamless collaboration across your team." | Deleted. The page now opens with why the reader is here |
+| 4 Run-up before the point | "Let's dive into the two ways you can bring someone onboard!" | "Inviting a member sends them an email with a link to join the project." |
+| 12 Stock words | "Simply enter their email and Workspace will effortlessly handle the rest." | "Enter the person's email address in the **Email** field." |
+| 9 Stacked qualifiers | "The invitation will typically expire after approximately a week or so." | "It expires after 7 days." |
+| 19 Bold as decoration | "The **invitation** is sent to their **email address** and expires after **7 days**." | Bold kept only on **Email**, **Send invitation**, **Pending** - the things on screen |
+| 26 Heading repeated in first sentence | "## Invite a member by email" + "This section explains how to invite a member by email." | The heading does the work; the section starts at **Before you begin** |
+| 2 Closer that repeats | "And that's all there is to inviting a member!" | Ends on the **What to do next** links |
+| 25 Knowledge-limit disclaimer | "While the exact limit is unclear, there appears to be a cap on pending invitations." | "20" in the limits table, read from `InvitationPolicy.php` |
+
+Rule 9 and rule 25 are the two that matter most. Both are the same failure: a number the
+generator did not look up, written as prose so the gap does not show. "Approximately a
+week" reads like documentation and tells the reader nothing they can plan around. If the
+value cannot be found in the source, it belongs in the inference report where a human
+will see it, never in the manual dressed as a fact.
+
+What survived the pass is as important as what went. Second person, bold on every UI
+label, the entry-point trigger at the top, an outcome statement after each task, every
+error case, every limit, and the "What to do next" connectors. A page that reads well but
+lost the 7-day expiry is worse than the draft it replaced.
+
+---
+
 ## How this renders in a docs portal
 
 The folder structure maps to sidebar navigation automatically:
@@ -245,19 +393,19 @@ The folder structure maps to sidebar navigation automatically:
 ```
 Workspace User Guide
   Introduction
-    Who This Guide Is For
-    Quick Start
-  Getting Started
-    Create Your First Project
+    Who this guide is for
+    Quick start
+  Getting started
+    Create your first project
   Daily Workflows
-    Invite Members          ← the file above
-    Assign Tasks
-    Manage Notifications
-  Troubleshooting and Reference
+    Invite members          ← the file above
+    Assign tasks
+    Manage notifications
+  Reference
     Troubleshooting
     Glossary
-    Limits and Constraints
-    System Messages
+    Limits and constraints
+    System messages
 ```
 
 Mintlify, Docusaurus, GitBook, and Confluence all read the folder structure and

@@ -22,7 +22,7 @@ to do, not by command name. Most people copy a prompt from here and go.
 | [02-autodoc.md](./02-autodoc.md) | `/autodoc` with no specs: what it ingests, what it generates, what the inference report looks like |
 | [03-prd-to-manual.md](./03-prd-to-manual.md) | `/prd-to-manual`: fetching from Confluence + Linear, three-source reconciliation, gap report output |
 | [04-gap-report.md](./04-gap-report.md) | `/gap-report`: six PRs shipped, what drifted, how to patch specific files |
-| [05-output-showcase.md](./05-output-showcase.md) | What the generated files actually look like — a complete workflow section rendered in full |
+| [05-output-showcase.md](./05-output-showcase.md) | What the generated files actually look like: a complete workflow rendered in full, the Playwright manifest behind its screenshots, and every plain-language edit made to the draft |
 
 ---
 
@@ -42,6 +42,14 @@ See `03-prd-to-manual.md` for the reconciliation flow and gap report.
 
 **Docs exist but might be stale?**
 See `04-gap-report.md` — what a sprint's worth of drift looks like and how to fix it.
+
+**Want screenshots in the manual?**
+See the manifest and embedding rules in `05-output-showcase.md`, then
+`references/screenshots.md` for the capture mechanics and CI wiring.
+
+**Want to know why generated docs read badly, and what fixes it?**
+`05-output-showcase.md` has the before/after table. The rules themselves are
+`references/plain-language.md`.
 
 **Want to understand every question the wizard asks?**
 Read `01-wizard-walkthrough.md` — the full dialogue from scan to 43 generated files.
