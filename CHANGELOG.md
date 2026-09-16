@@ -9,6 +9,21 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Planned
+
+- `examples/09-open-source-project.md` - documentation automation for public OSS
+  repositories
+- `references/observability.md` - monitoring, alerting, and debugging a running
+  documentation pipeline
+- Agent prompt templates in `scripts/prompts/` - ready-to-use LLM system prompts for
+  each of the 7 agents
+- Screenshot automation integration guide
+- Video script generation workflow example
+
+---
+
+## [2.5.1] - 2026-09-17
+
 ### Security
 
 - **Untrusted content and prompt injection** (`references/validation.md`, Rule 18) -
@@ -37,16 +52,15 @@ Versioning follows [Semantic Versioning](https://semver.org/).
   does not exist gets an `Unshipped` verdict and reaches the gap report rather than the
   manual.
 
-### Planned
+### Added
 
-- `examples/09-open-source-project.md` - documentation automation for public OSS
-  repositories
-- `references/observability.md` - monitoring, alerting, and debugging a running
-  documentation pipeline
-- Agent prompt templates in `scripts/prompts/` - ready-to-use LLM system prompts for
-  each of the 7 agents
-- Screenshot automation integration guide
-- Video script generation workflow example
+- **Release publishing step** (`CONTRIBUTING.md`) - a tag is not a release. GitHub and
+  GitLab both layer a separate Release object on top of a tag and neither creates one
+  automatically, which left three tagged versions with an empty releases page. Documents
+  `gh release create` and `glab release create`, notes taken verbatim from the version's
+  `CHANGELOG.md` section, plus the three traps: `--verify-tag` on `gh` (without it a
+  missing tag is silently created), `< /dev/null` on `glab` (it drops into an interactive
+  prompt and hangs with no output), and the flag differences between the two CLIs.
 
 ---
 
@@ -566,7 +580,8 @@ unprefixed to match Keep a Changelog.
 
 | Version | Tag | Commit |
 |---|---|---|
-| 2.5.0 | `v2.5.0` | resolves via the tag |
+| 2.5.1 | `v2.5.1` | resolves via the tag |
+| 2.5.0 | `v2.5.0` | `7aa8b00` |
 | 2.4.0 | `v2.4.0` | `368c227` |
 | 2.3.0 - 2.1.0 | none | shipped inside `v2.4.0` |
 | 2.0.0 | `v2.0.0` | `58cb4a1` |
@@ -581,7 +596,8 @@ A version with no tag was a development increment, not a release. Release proces
 Every tagged version also has a published Release on **both** GitHub and GitLab, with
 notes taken from its section of this file. A tag alone does not create one on either host.
 
-[Unreleased]: https://github.com/itismowgli/ai-doc-architect/compare/v2.5.0...HEAD
+[Unreleased]: https://github.com/itismowgli/ai-doc-architect/compare/v2.5.1...HEAD
+[2.5.1]: https://github.com/itismowgli/ai-doc-architect/compare/v2.5.0...v2.5.1
 [2.5.0]: https://github.com/itismowgli/ai-doc-architect/compare/v2.4.0...v2.5.0
 [2.4.0]: https://github.com/itismowgli/ai-doc-architect/compare/v2.0.0...v2.4.0
 [2.3.0]: https://github.com/itismowgli/ai-doc-architect/releases/tag/v2.4.0
