@@ -161,6 +161,27 @@ Steps:
    git push gitlab main && git push gitlab v2.5.0
    ```
 
+7. **Publish the release on both hosts.** A tag is not a release. Pushing a tag creates a
+   tag and nothing else — GitHub and GitLab both layer a separate Release object on top,
+   and neither creates one for you. Skip this step and the repo sidebar reads
+   "N tags / Create a new release" with an empty releases page.
+
+   ```bash
+   # extract this version's section from CHANGELOG.md into notes.md first
+   gh   release create v2.5.0 --title "v2.5.0 — <short summary>" \
+        --notes-file notes.md --verify-tag --latest
+
+   glab release create v2.5.0 --name "v2.5.0 — <short summary>" \
+        --notes-file notes.md
+   ```
+
+   `--verify-tag` matters: without it `gh` will silently create a tag that does not exist
+   rather than failing, which is how a release ends up pointing at a tag nobody meant to
+   make.
+
+   Release notes come from the version's `CHANGELOG.md` section verbatim, so the releases
+   page and the changelog cannot drift apart.
+
 Tags are never moved or force-pushed once they exist. A tag is a claim about what a
 version contained, and moving it makes every reference to it a lie. Correct a bad release
 with a new patch version instead.
