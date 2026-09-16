@@ -172,15 +172,25 @@ Steps:
         --notes-file notes.md --verify-tag --latest
 
    glab release create v2.5.0 --name "v2.5.0 — <short summary>" \
-        --notes-file notes.md
+        --notes-file notes.md --no-update < /dev/null
    ```
 
-   `--verify-tag` matters: without it `gh` will silently create a tag that does not exist
-   rather than failing, which is how a release ends up pointing at a tag nobody meant to
-   make.
+   Three things that are easy to get wrong:
+
+   - **`--verify-tag` on `gh`.** Without it, `gh` silently creates a tag that does not
+     exist instead of failing, which is how a release ends up pointing at a tag nobody
+     meant to make.
+   - **`< /dev/null` on `glab`.** It drops into an interactive prompt in some conditions
+     and hangs indefinitely with no output, even with `--notes-file` supplied. Closing
+     stdin turns the hang into an immediate error.
+   - **The flags differ.** `gh` uses `--title`, `glab` uses `--name`. `glab` has no
+     `--latest`; GitLab treats the newest release as current on its own. `glab release
+     update` does not take `--name` — re-run `glab release create` without `--no-update`
+     to edit an existing release.
 
    Release notes come from the version's `CHANGELOG.md` section verbatim, so the releases
-   page and the changelog cannot drift apart.
+   page and the changelog cannot drift apart. Publish to both hosts in the same sitting,
+   or they diverge and nobody notices until someone links the wrong one.
 
 Tags are never moved or force-pushed once they exist. A tag is a claim about what a
 version contained, and moving it makes every reference to it a lie. Correct a bad release

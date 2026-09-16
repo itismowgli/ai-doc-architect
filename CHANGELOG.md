@@ -550,8 +550,8 @@ The unprefixed tags `2.0.0`, `2.4.0`, and `2.5.0` were renamed to their `v` equi
 A version with no tag was a development increment, not a release. Release process is in
 [CONTRIBUTING.md](./CONTRIBUTING.md#releasing).
 
-Every tagged version also has a published Release on GitHub, with notes taken from its
-section of this file. A tag alone does not create one.
+Every tagged version also has a published Release on **both** GitHub and GitLab, with
+notes taken from its section of this file. A tag alone does not create one on either host.
 
 [Unreleased]: https://github.com/itismowgli/ai-doc-architect/compare/v2.5.0...HEAD
 [2.5.0]: https://github.com/itismowgli/ai-doc-architect/compare/v2.4.0...v2.5.0
